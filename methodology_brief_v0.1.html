@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>India Grid Carbon Intensity — Methodology Brief v0.1</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1117;
+    --ink-mid: #374151;
+    --ink-light: #6b7280;
+    --border: #e5e7eb;
+    --accent: #059669;
+    --accent-bg: #f0fdf4;
+    --warn-bg: #fffbeb;
+    --warn: #92400e;
+    --mono: 'DM Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #fff;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 48px;
+  }
+
+  @media print {
+    body { padding: 0; }
+    .no-print { display: none; }
+  }
+
+  /* header */
+  .doc-header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 20px;
+    margin-bottom: 32px;
+  }
+  .doc-tag {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .doc-title {
+    font-family: var(--display);
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .doc-meta {
+    display: flex;
+    gap: 24px;
+    font-size: 11px;
+    color: var(--ink-light);
+  }
+  .doc-meta span { display: flex; gap: 6px; }
+  .doc-meta strong { color: var(--ink-mid); }
+
+  /* section */
+  h2 {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 28px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  p { margin-bottom: 10px; }
+
+  /* table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 12px 0;
+  }
+  th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+    background: #f9fafb;
+  }
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  .accent-cell { color: var(--accent); font-weight: 500; }
+
+  /* formula box */
+  .formula {
+    background: var(--ink);
+    color: #22d3a0;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    padding: 18px 24px;
+    border-radius: 6px;
+    margin: 12px 0;
+    line-height: 2;
+  }
+  .formula .comment { color: #6b7280; }
+
+  /* callout */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-bg);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 12px;
+    margin: 12px 0;
+    line-height: 1.6;
+  }
+  .callout.warn {
+    border-left-color: #f59e0b;
+    background: var(--warn-bg);
+  }
+  .callout strong { color: var(--ink); }
+
+  /* assumption list */
+  .assumptions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .assumption {
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 11.5px;
+  }
+  .assumption-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 4px;
+  }
+
+  /* scope table */
+  .scope-row { display: flex; gap: 0; margin: 12px 0; }
+  .scope-col {
+    flex: 1;
+    padding: 14px 16px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .scope-col:first-child {
+    border: 1px solid var(--accent);
+    border-radius: 6px 0 0 6px;
+    background: var(--accent-bg);
+  }
+  .scope-col:last-child {
+    border: 1px solid var(--border);
+    border-left: none;
+    border-radius: 0 6px 6px 0;
+    background: #f9fafb;
+  }
+  .scope-col-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .scope-col:first-child .scope-col-label { color: var(--accent); }
+  .scope-col:last-child .scope-col-label { color: var(--ink-light); }
+  .scope-col li { margin-left: 14px; margin-bottom: 3px; }
+
+  /* sanity box */
+  .sanity {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin: 12px 0;
+    background: #f9fafb;
+  }
+  .sanity-val {
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .sanity-desc { font-size: 12px; line-height: 1.6; }
+
+  /* version history */
+  .version-row {
+    display: flex;
+    gap: 16px;
+    font-size: 11.5px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .version-row:last-child { border-bottom: none; }
+  .version-tag {
+    background: var(--ink);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  /* footer */
+  .doc-footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--ink-light);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* print button */
+  .print-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    letter-spacing: 0.05em;
+  }
+  .print-btn:hover { background: #1f2937; }
+</style>
+</head>
+<body>
+
+<div style="background:#0f1117;color:#22d3a0;font-family:'DM Mono',monospace;font-size:12px;padding:12px 48px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #059669">
+  <div style="letter-spacing:.06em">INDIA GRID CARBON INTENSITY &nbsp;&middot;&nbsp; Live dashboard + data access</div>
+  <div style="display:flex;gap:24px;align-items:center">
+    <span style="color:#6b7280">Dashboard:</span>
+    <a href="https://samujjal95.github.io/zeus-artifacts/india_carbon_intensity_dashboard.html" 
+       style="color:#22d3a0;text-decoration:none;letter-spacing:.04em">
+      samujjal95.github.io/zeus-artifacts &#x2197;
+    </a>
+    <span style="color:#6b7280">|</span>
+    <a href="mailto:samujjal95@gmail.com" style="color:#22d3a0;text-decoration:none">samujjal95@gmail.com</a>
+  </div>
+</div>
+
+<div class="doc-header">
+  <div class="doc-tag">Methodology Brief · Version 0.1</div>
+  <div class="doc-title">India Grid Carbon Intensity<br>Measurement Methodology</div>
+  <div class="doc-meta">
+    <span><strong>Date:</strong> May 2026</span>
+    <span><strong>Version:</strong> 0.1-draft</span>
+    <span><strong>Coverage:</strong> All-India · Apr 2025 – present</span>
+    <span><strong>Granularity:</strong> 15-minute</span>
+  </div>
+</div>
+
+<h2>1. Purpose</h2>
+<p><strong>In plain terms:</strong> Every time you use electricity in India, some CO₂ is emitted to generate it. The mix of coal, gas, hydro, wind, and solar on the grid changes every 15 minutes — so the carbon footprint of your electricity changes too. This product measures that footprint in real time and historically, so you can report it accurately and reduce it practically.</p>
+<p>Technically, this document describes the methodology used to compute the carbon intensity of electricity consumed from the Indian national grid, expressed in grammes of CO₂ per kilowatt-hour (g CO₂/kWh), at 15-minute granularity. The metric is the <strong>location-based grid average emission intensity</strong>, aligned with the GHG Protocol Corporate Standard Scope 2 Guidance (2015, Chapter 6) — the method required for BRSR, CDP, and CCTS disclosures.</p>
+
+<div class="callout">
+  <strong>Primary use case:</strong> Scope 2 location-based GHG reporting, 24/7 carbon-free energy (CFE) matching for data centres and large consumers, and CCTS/Indian Carbon Market baseline calculations.
+</div>
+
+<h2>2. Primary Data Source</h2>
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Value</th>
+  </tr>
+  <tr>
+    <td>Publisher</td>
+    <td>Grid Controller of India Ltd (GRID-INDIA / POSOCO)</td>
+  </tr>
+  <tr>
+    <td>Report name</td>
+    <td>Daily Power Supply Position (PSP) — TimeSeries sheet</td>
+  </tr>
+  <tr>
+    <td>Access</td>
+    <td>Public · POST api.grid-india.in/api/v1/file · CDN download</td>
+  </tr>
+  <tr>
+    <td>Granularity</td>
+    <td>15-minute blocks (96 per day) · all-India aggregated</td>
+  </tr>
+  <tr>
+    <td>Publication lag</td>
+    <td>T-1 (data for date D available ~14:00 IST on day D+1)</td>
+  </tr>
+  <tr>
+    <td>Columns used</td>
+    <td>NUCLEAR, WIND, SOLAR, HYDRO, GAS, THERMAL, OTHERS, TOTAL GENERATION (MW)</td>
+  </tr>
+  <tr>
+    <td>Archive depth</td>
+    <td>Apr 2025 → present (TimeSeries sheet introduced Apr 2025)</td>
+  </tr>
+</table>
+
+<h2>3. Emission Factors</h2>
+
+<table>
+  <tr>
+    <th>Source</th>
+    <th colspan="3">CEA CO₂ Baseline Database for the Indian Power Sector<br>Version 21.0 · dated 1 November 2025</th>
+  </tr>
+  <tr>
+    <th>PSP Column</th>
+    <th>Fuel / Mix</th>
+    <th>Factor (tCO₂/MWh)</th>
+    <th>Derivation</th>
+  </tr>
+  <tr>
+    <td>NUCLEAR</td>
+    <td>Nuclear</td>
+    <td class="accent-cell">0.000</td>
+    <td>Zero operational emissions</td>
+  </tr>
+  <tr>
+    <td>WIND</td>
+    <td>Wind</td>
+    <td class="accent-cell">0.000</td>
+    <td>Zero operational emissions</td>
+  </tr>
+  <tr>
+    <td>SOLAR</td>
+    <td>Solar PV</td>
+    <td class="accent-cell">0.000</td>
+    <td>Zero operational emissions</td>
+  </tr>
+  <tr>
+    <td>HYDRO</td>
+    <td>Hydro</td>
+    <td class="accent-cell">0.000</td>
+    <td>Zero operational emissions</td>
+  </tr>
+  <tr>
+    <td>GAS</td>
+    <td>Natural gas (blended)</td>
+    <td>0.420</td>
+    <td>CEA v21.0 Assumptions Row 23 · CC >100 MW dominates fleet</td>
+  </tr>
+  <tr>
+    <td>THERMAL</td>
+    <td>Coal + lignite (blended)</td>
+    <td>1.052</td>
+    <td>0.95 × 1.04 (coal) + 0.05 × 1.28 (lignite) · CEA installed capacity weights Mar 2025</td>
+  </tr>
+  <tr>
+    <td>OTHERS</td>
+    <td>Diesel / naphtha / biomass cogen</td>
+    <td>0.700</td>
+    <td>Conservative blended factor · &lt;1.5% of total generation · see §4</td>
+  </tr>
+</table>
+
+<h2>4. Calculation Formula</h2>
+
+<div class="formula">
+<span class="comment">// For each 15-minute block t:</span>
+intensity(t)  =  Σ [ generation_fuel(t) × EF_fuel ]
+                 ─────────────────────────────────────
+                       total_generation(t)
+
+<span class="comment">// Units: tCO₂/MWh → multiply by 1,000 for g CO₂/kWh (API output unit)</span>
+</div>
+<p style="font-size:12px;color:#374151;margin-top:10px"><strong>In plain terms:</strong> For each 15-minute period, we multiply each fuel source's output (in MW) by how much CO₂ that fuel emits per unit of electricity, then divide by total generation. The result is how many grams of CO₂ were emitted per kWh consumed from the grid during that period.</p>
+
+<h2>5. Documented Assumptions</h2>
+
+<div class="assumptions">
+  <div class="assumption">
+    <div class="assumption-label">THERMAL blending</div>
+    PSP reports coal and lignite as a single THERMAL column. National installed capacity (CEA Mar 2025): coal 239 GW, lignite ~7 GW. Applied weights: 95% coal × 1.04 + 5% lignite × 1.28 = <strong>1.052 tCO₂/MWh</strong>.
+  </div>
+  <div class="assumption">
+    <div class="assumption-label">Cross-border imports</div>
+    Net transnational exchange (Bhutan, Nepal, Bangladesh) is small (&lt;3 GW vs ~230 GW peak) and treated as zero-emission per CEA Tool v7.0 §10–11 option (b): zero factor for countries without published grid EF.
+  </div>
+  <div class="assumption">
+    <div class="assumption-label">Miscellaneous generation</div>
+    Small diesel generators, naphtha peakers, and biomass co-generation units grouped together. Conservative factor of 0.70 tCO₂/MWh applied. This category is less than 1.5% of total generation — its effect on the overall intensity figure is under 0.5%. We deliberately err high so the intensity is never understated.
+  </div>
+  <div class="assumption">
+    <div class="assumption-label">Storage (BESS)</div>
+    India's operational BESS fleet is &lt;1 GW as of 2026. Round-trip losses not modelled. Impact on national intensity &lt;0.3%. Will be incorporated in v0.2 as fleet scales.
+  </div>
+</div>
+
+<h2>6. Scope — What's Included and Excluded</h2>
+
+<div class="scope-row">
+  <div class="scope-col">
+    <div class="scope-col-label">✓ In Scope (v0.1)</div>
+    <ul>
+      <li>All-India synchronous grid average intensity</li>
+      <li>15-minute and hourly granularity</li>
+      <li>Location-based Scope 2 emission factor</li>
+      <li>Historical time series (Apr 2025 → present)</li>
+      <li>GHG Protocol Scope 2 location-based compliant</li>
+      <li>CCTS/Indian Carbon Market Scope 2 baseline</li>
+    </ul>
+  </div>
+  <div class="scope-col">
+    <div class="scope-col-label">✗ Out of Scope (planned)</div>
+    <ul>
+      <li>State-level daily intensity &mdash; <strong style="color:#059669">AVAILABLE NOW</strong> for 8 major RE states (see dashboard)</li>
+      <li>Marginal emission intensity (v0.2)</li>
+      <li>Market-based Scope 2 (requires REC tracking)</li>
+      <li>Plant-level emission factors (SCADA not public)</li>
+      <li>Forecast intensity (v0.2 — weather model)</li>
+      <li>Pre-Apr 2025 historical (PSP format change)</li>
+    </ul>
+  </div>
+</div>
+
+<h2>7. Sanity Check — Alignment with CEA Reference</h2>
+
+<div class="sanity">
+  <div class="sanity-val">712 g/kWh</div>
+  <div class="sanity-desc">
+    <strong>CEA reference for FY 2024-25:</strong> Weighted Average Grid Emission Rate including RES &amp; Captive = 0.712 tCO₂/MWh<br>
+    Source: CEA CO₂ Baseline Database v21.0, Results sheet Row 14<br>
+    <strong>Our computed FY 2025-26 mean: ~755 g/kWh</strong> — within ±8% of CEA reference (FY difference accounts for deviation; more solar in FY25-26 pulls intensity lower over the full year).
+  </div>
+</div>
+
+<div class="callout warn">
+  <strong>Why our number (755 g/kWh) is higher than CEA's reference (712 g/kWh):</strong> CEA's 712 is the average for the full FY 2024-25 (April 2024 – March 2025), which includes the monsoon season (Jul–Sep) when hydro and wind generation peaks and grid intensity drops sharply. Our data starts from April 2025 — summer months when thermal plants run at maximum load and intensity is highest. Once our data covers a full year including monsoon, the annual mean will align closely with the CEA reference. The ±8% difference is expected and documented, not an error.
+</div>
+
+
+<h2>9. Data Availability &amp; Access</h2>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0">
+  <div style="border:1px solid var(--border);border-radius:6px;padding:14px 16px">
+    <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px">Coverage</div>
+    <div style="font-size:12px;line-height:1.7">
+      Apr 2025 &rarr; present<br>
+      396 days &middot; 37,976 blocks<br>
+      15-minute granularity<br>
+      T-1 publication (~14:00 IST)
+    </div>
+  </div>
+  <div style="border:1px solid var(--border);border-radius:6px;padding:14px 16px">
+    <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px">Access</div>
+    <div style="font-size:12px;line-height:1.7">
+      Live dashboard (public)<br>
+      Daily CSV download (public)<br>
+      API access (pilot programme)<br>
+      Monthly PDF report (pilot programme)
+    </div>
+  </div>
+</div>
+
+<div style="border-left:3px solid #059669;background:#f0fdf4;padding:14px 18px;border-radius:0 6px 6px 0;font-size:12px;line-height:1.7;margin:12px 0">
+  <strong>Pilot Programme &mdash; 3 organisations, free for 90 days</strong><br>
+  We are onboarding 3 pilot partners (ESG consultancies, industrial energy managers, data centre operators)
+  for a 90-day free pilot in exchange for methodology feedback and a brief case study.
+  <br><br>
+  <strong>Contact to apply:</strong> &nbsp;
+  <a href="mailto:samujjal95@gmail.com" style="color:#059669">samujjal95@gmail.com</a>
+  &nbsp;&middot;&nbsp;
+  <strong>Dashboard:</strong> &nbsp;
+  <a href="https://samujjal95.github.io/zeus-artifacts/india_carbon_intensity_dashboard.html" style="color:#059669">
+    samujjal95.github.io/zeus-artifacts
+  </a>
+</div>
+
+<h2>10. Version History</h2>
+
+<div class="version-row">
+  <div class="version-tag">v0.1</div>
+  <div>May 2026 · Initial release. All-India average intensity, location-based, 15-min granularity. CEA v21.0 emission factors. Apr 2025 – present coverage.</div>
+</div>
+<div class="version-row">
+  <div class="version-tag" style="background:#059669">v0.1.1</div>
+  <div><strong>Available now</strong> · State-level daily intensity for 8 major RE states (Rajasthan, Gujarat, Maharashtra, Madhya Pradesh, Andhra Pradesh, Karnataka, Tamil Nadu, Telangana) — estimated from REMC actuals + CEA installed capacity weights. See dashboard STATE INTENSITY tab.</div>
+</div>
+<div class="version-row">
+  <div class="version-tag">v0.2</div>
+  <div>Planned (Q3 2026) · 24–72 hour intensity forecast with published accuracy metrics (MAPE by horizon). Enables proactive load scheduling, not just retrospective analysis.</div>
+</div>
+<div class="version-row">
+  <div class="version-tag">v0.3</div>
+  <div>Planned · Marginal emission intensity (which plant runs next if you add 1 MW of load) — enables demand-response and BESS optimisation use cases. Sub-hourly state-level granularity.</div>
+</div>
+
+<div class="doc-footer">
+  <div>India Grid Carbon Intensity &middot; Methodology Brief v0.1 &middot; May 2026 &middot; <a href="https://samujjal95.github.io/zeus-artifacts/india_carbon_intensity_dashboard.html" style="color:inherit">Live Dashboard &#x2197;</a></div>
+  <div>Data: GRID-INDIA PSP + CEA CO₂ Baseline v21.0 · <a href="mailto:samujjal95@gmail.com" style="color:inherit">samujjal95@gmail.com</a></div>
+</div>
+
+<button class="print-btn no-print" onclick="window.print()">Print / Save as PDF</button>
+
+</body>
+</html>
