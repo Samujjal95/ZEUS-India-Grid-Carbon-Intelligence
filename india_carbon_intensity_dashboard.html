@@ -9,33 +9,15 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#06080d;
-  --s1:#0d1117;
-  --s2:#161b22;
-  --s3:#21262d;
-  --bd:#30363d;
-  --tx:#e6edf3;
-  --mu:#7d8590;
-  --mu2:#484f58;
-  --ac:#00e5a0;
-  --ac2:#00b87a;
-  --ac-dim:rgba(0,229,160,0.08);
-  --ac-glow:rgba(0,229,160,0.15);
-  --am:#f0a500;
-  --re:#f85149;
-  --bl:#58a6ff;
-  --pu:#bc8cff;
-  --body:'Space Grotesk',sans-serif;
-  --display:'Bebas Neue',sans-serif;
-  --mono:'JetBrains Mono',monospace;
+  --bg:#06080d;--s1:#0d1117;--s2:#161b22;--s3:#21262d;
+  --bd:#30363d;--tx:#e6edf3;--mu:#7d8590;--mu2:#484f58;
+  --ac:#00e5a0;--ac2:#00b87a;--ac-dim:rgba(0,229,160,0.08);--ac-glow:rgba(0,229,160,0.15);
+  --am:#f0a500;--re:#f85149;--bl:#58a6ff;
+  --body:'Space Grotesk',sans-serif;--display:'Bebas Neue',sans-serif;--mono:'JetBrains Mono',monospace;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--tx);font-family:var(--body);font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden}
-
-/* Grid texture overlay */
 body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.02) 1px,transparent 0);background-size:32px 32px;pointer-events:none;z-index:0}
-
-/* ── HEADER ── */
 header{position:sticky;top:0;z-index:100;background:rgba(6,8,13,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 32px}
 .header-inner{max-width:1400px;margin:0 auto;height:60px;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:16px}
@@ -47,13 +29,10 @@ header{position:sticky;top:0;z-index:100;background:rgba(6,8,13,0.92);backdrop-f
 .header-right{display:flex;align-items:center;gap:24px}
 .hlink{font-size:12px;color:var(--mu);cursor:pointer;letter-spacing:.04em;transition:color .15s;text-decoration:none;font-family:var(--mono)}
 .hlink:hover{color:var(--ac)}
-
-/* ── HERO INTENSITY DISPLAY ── */
 .hero{position:relative;z-index:1;background:linear-gradient(180deg,var(--s1) 0%,var(--bg) 100%);border-bottom:1px solid var(--bd);padding:40px 32px 32px}
 .hero-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center}
-.hero-left{}
 .hero-label{font-family:var(--mono);font-size:11px;color:var(--mu);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
-.hero-number{font-family:var(--display);font-size:108px;line-height:.9;letter-spacing:-.01em;color:var(--tx);margin-bottom:8px}
+.hero-number{font-family:var(--display);font-size:108px;line-height:.9;color:var(--tx);margin-bottom:8px}
 .hero-number .unit{font-family:var(--mono);font-size:20px;color:var(--mu);letter-spacing:.04em;vertical-align:middle;margin-left:8px}
 .hero-meta{font-family:var(--mono);font-size:11px;color:var(--mu);display:flex;gap:24px;flex-wrap:wrap}
 .hero-meta span{display:flex;align-items:center;gap:6px}
@@ -62,23 +41,16 @@ header{position:sticky;top:0;z-index:100;background:rgba(6,8,13,0.92);backdrop-f
 .hero-stat{background:var(--s2);padding:20px 24px}
 .hs-label{font-family:var(--mono);font-size:10px;color:var(--mu);letter-spacing:.10em;text-transform:uppercase;margin-bottom:6px}
 .hs-value{font-family:var(--display);font-size:32px;letter-spacing:.02em;color:var(--ac)}
-.hs-value.n{color:var(--tx)}
-.hs-value.am{color:var(--am)}
+.hs-value.n{color:var(--tx)}.hs-value.am{color:var(--am)}
 .hs-sub{font-family:var(--mono);font-size:10px;color:var(--mu);margin-top:4px}
-
-/* ── MAIN NAV TABS ── */
 .tab-bar{position:sticky;top:60px;z-index:99;background:rgba(6,8,13,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd)}
 .tab-bar-inner{max-width:1400px;margin:0 auto;padding:0 32px;display:flex;gap:0}
 .tab{padding:14px 20px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;color:var(--mu);border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap}
 .tab.active{color:var(--ac);border-bottom-color:var(--ac)}
 .tab:hover:not(.active){color:var(--tx)}
 .tab-badge{display:inline-block;background:var(--ac);color:#000;font-size:8px;padding:1px 5px;border-radius:3px;margin-left:6px;vertical-align:middle;font-weight:700}
-
-/* ── PANELS ── */
 .panel{display:none}.panel.active{display:block}
 main{max-width:1400px;margin:0 auto;padding:32px;position:relative;z-index:1}
-
-/* ── CHART CONTAINERS ── */
 .section{margin-bottom:28px}
 .section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
 .section-title{font-family:var(--display);font-size:18px;letter-spacing:.06em;color:var(--tx)}
@@ -86,41 +58,25 @@ main{max-width:1400px;margin:0 auto;padding:32px;position:relative;z-index:1}
 .card{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:24px;position:relative;overflow:hidden}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bd),transparent)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
 .cw{position:relative}
-
-/* ── INSIGHT BAND ── */
 .insight{background:var(--ac-dim);border:1px solid var(--ac-glow);border-radius:8px;padding:12px 18px;font-size:12px;color:var(--mu);margin-top:14px;line-height:1.7;font-family:var(--mono)}
-.insight strong{color:var(--tx)}
-.insight .highlight{color:var(--ac);font-weight:600}
-
-/* ── OVERLAY KPI STRIP ── */
+.insight strong{color:var(--tx)}.insight .highlight{color:var(--ac);font-weight:600}
 .kstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:20px}
 .ksk{background:var(--s2);padding:20px 24px}
 .kkl{font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
 .kkv{font-family:var(--display);font-size:30px;letter-spacing:.02em;color:var(--ac)}
 .kks{font-family:var(--mono);font-size:10px;color:var(--mu);margin-top:4px}
-
-/* ── TABLES ── */
 .tbl{width:100%;border-collapse:collapse;font-size:13px}
 .tbl th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);padding:10px 14px;border-bottom:1px solid var(--bd);background:var(--s2)}
 .tbl td{padding:10px 14px;border-bottom:1px solid rgba(48,54,61,0.5)}
-.tbl tr:last-child td{border-bottom:none}
-.tbl tr:hover td{background:var(--s2)}
-.vc{color:var(--ac);font-family:var(--mono);font-weight:500}
-.cc{color:var(--mu2);font-size:11px;font-family:var(--mono)}
+.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:var(--s2)}
+.vc{color:var(--ac);font-family:var(--mono);font-weight:500}.cc{color:var(--mu2);font-size:11px;font-family:var(--mono)}
 .rt{width:100%;border-collapse:collapse;font-size:13px;margin-top:14px}
 .rt th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);padding:8px 12px;border-bottom:1px solid var(--bd);background:var(--s2)}
 .rt td{padding:10px 12px;border-bottom:1px solid rgba(48,54,61,0.4)}
 .rt tr:last-child td{border-bottom:none}
-
-/* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--ac);color:#000;border:none;padding:10px 20px;font-family:var(--mono);font-size:12px;font-weight:600;border-radius:8px;cursor:pointer;letter-spacing:.04em;transition:background .15s}
 .btn:hover{background:var(--ac2)}
-.btn-ghost{background:transparent;border:1px solid var(--bd);color:var(--mu)}
-.btn-ghost:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-dim)}
-
-/* ── CALCULATOR ── */
 .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
 .calc-card{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:28px}
 .field-label{font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
@@ -135,12 +91,6 @@ main{max-width:1400px;margin:0 auto;padding:32px;position:relative;z-index:1}
 .rc-sub{font-family:var(--mono);font-size:10px;color:var(--mu);margin-top:6px;line-height:1.5}
 .calc-exp{font-family:var(--mono);font-size:12px;color:var(--mu);margin-top:16px;padding:16px 20px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;line-height:1.7}
 .calc-exp strong{color:var(--tx)}
-
-/* ── IMPACT INSIGHTS ── */
-.ii-card{background:linear-gradient(135deg,var(--s1) 0%,rgba(0,229,160,0.04) 100%);border:1px solid var(--ac-glow);border-radius:12px;padding:28px;margin-top:20px}
-.ii-title{font-family:var(--display);font-size:20px;letter-spacing:.06em;color:var(--ac);margin-bottom:4px}
-.ii-subtitle{font-family:var(--mono);font-size:11px;color:var(--mu);margin-bottom:24px}
-.ii-inputs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
 .ii-out{display:none;margin-top:20px}
 .ii-out-header{background:var(--ac);color:#000;padding:14px 20px;border-radius:8px 8px 0 0;font-family:var(--display);font-size:16px;letter-spacing:.04em}
 .ii-out-body{background:var(--s2);border:1px solid var(--bd);border-top:none;border-radius:0 0 8px 8px}
@@ -153,10 +103,9 @@ main{max-width:1400px;margin:0 auto;padding:32px;position:relative;z-index:1}
 .ii-best-label{font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:10px}
 .ii-best-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:4px 0}
 .badge{display:inline-block;font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:3px;letter-spacing:.05em;font-weight:600}
-.badge.g{background:rgba(0,229,160,0.15);color:var(--ac)}
-.badge.r{background:rgba(248,81,73,0.15);color:var(--re)}
-
-/* ── METHODOLOGY ── */
+.badge.g{background:rgba(0,229,160,0.15);color:var(--ac)}.badge.r{background:rgba(248,81,73,0.15);color:var(--re)}
+.state-select{background:var(--s2);border:1px solid var(--bd);color:var(--tx);font-family:var(--mono);font-size:13px;padding:10px 16px;border-radius:8px;cursor:pointer;outline:none;transition:border-color .15s}
+.state-select:focus{border-color:var(--ac)}
 .method-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .mc{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:22px 24px}
 .mt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:12px}
@@ -166,8 +115,7 @@ main{max-width:1400px;margin:0 auto;padding:32px;position:relative;z-index:1}
 .ef{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
 .ef th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:7px 10px;border-bottom:1px solid var(--bd)}
 .ef td{padding:8px 10px;border-bottom:1px solid rgba(48,54,61,0.4);font-family:var(--mono);font-size:12px}
-.ef tr:last-child td{border-bottom:none}
-.z{color:var(--ac)}
+.ef tr:last-child td{border-bottom:none}.z{color:var(--ac)}
 .sanity-box{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:20px 24px;display:flex;align-items:flex-start;gap:24px;margin-top:16px}
 .sanity-num{font-family:var(--display);font-size:48px;color:var(--ac);line-height:1;white-space:nowrap}
 .sanity-text{font-size:13px;line-height:1.7}
@@ -176,77 +124,47 @@ main{max-width:1400px;margin:0 auto;padding:32px;position:relative;z-index:1}
 .rm-row{display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(48,54,61,0.4)}
 .rm-row:last-child{border-bottom:none}
 .rm-tag{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:4px;white-space:nowrap;margin-top:2px;letter-spacing:.04em;font-weight:600}
-.rm-live{background:var(--ac);color:#000}
-.rm-next{background:var(--am);color:#000}
-.rm-plan{background:var(--s3);color:var(--mu)}
+.rm-live{background:var(--ac);color:#000}.rm-next{background:var(--am);color:#000}.rm-plan{background:var(--s3);color:var(--mu)}
 .rm-text{font-size:13px;line-height:1.6}
-
-/* ── STATE CHART ── */
-.state-select{background:var(--s2);border:1px solid var(--bd);color:var(--tx);font-family:var(--mono);font-size:13px;padding:10px 16px;border-radius:8px;cursor:pointer;outline:none;transition:border-color .15s}
-.state-select:focus{border-color:var(--ac)}
-.state-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
-
-/* ── FOOTER ── */
+.live-strip{background:linear-gradient(135deg,#0d1117 0%,rgba(0,229,160,0.06) 100%);border-bottom:1px solid rgba(0,229,160,0.2);position:relative;z-index:1}.live-inner{max-width:1400px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:32px}.live-left{flex:1}.live-tag{font-family:var(--mono);font-size:10px;color:var(--ac);letter-spacing:.10em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}.live-kpis{display:flex;align-items:center}.live-kpi{padding:0 18px;text-align:center}.live-kpi:first-child{padding-left:0}.live-kpi-label{font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:3px}.live-kpi-val{font-family:var(--display);font-size:20px;line-height:1}.live-kpi-sub{font-family:var(--mono);font-size:9px;color:var(--mu);margin-top:2px}.live-sep{width:1px;height:28px;background:var(--bd);flex-shrink:0}.live-right{width:260px;flex-shrink:0}.live-spark-label{font-family:var(--mono);font-size:9px;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}.live-spark{display:flex;align-items:flex-end;gap:1px;height:40px}.live-spark-sub{font-family:var(--mono);font-size:9px;color:var(--mu);margin-top:5px}.live-note{font-family:var(--mono);font-size:10px;color:var(--mu2);padding:7px 32px;border-top:1px solid rgba(48,54,61,0.4)}
 footer{border-top:1px solid var(--bd);padding:20px 32px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--mu);position:relative;z-index:1}
 </style>
 </head>
 <body>
-
 <header>
   <div class="header-inner">
     <div class="brand">
-      <div>
-        <div class="brand-name">ZEUS</div>
-        <div class="brand-sub">India Grid Carbon Intelligence</div>
-      </div>
+      <div><div class="brand-name">ZEUS</div><div class="brand-sub">India Grid Carbon Intelligence</div></div>
       <div class="live-pill"><div class="pulse"></div>T-1 LIVE</div>
     </div>
     <div class="header-right">
       <a class="hlink" onclick="switchTab('factors')">DAILY FACTORS</a>
       <a class="hlink" onclick="switchTab('methodology')">METHODOLOGY</a>
-      <a class="hlink" href="mailto:samujjal95@gmail.com" style="background:var(--ac-dim);border:1px solid var(--ac-glow);border-radius:6px;padding:6px 14px;color:var(--ac)">REQUEST ACCESS &rarr;</a>
+      <a class="hlink" href="mailto:your@email.com" style="background:var(--ac-dim);border:1px solid var(--ac-glow);border-radius:6px;padding:6px 14px;color:var(--ac)">REQUEST ACCESS &rarr;</a>
     </div>
   </div>
 </header>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-left">
       <div class="hero-label">Current Grid Carbon Intensity &mdash; All India</div>
-      <div class="hero-number">827<span class="unit">g CO&#x2082;/kWh</span></div>
+      <div class="hero-number">812<span class="unit">g CO&#x2082;/kWh</span></div>
       <div class="hero-meta">
-        <span><span class="dot" style="background:var(--mu)"></span>2026-05-04 &middot; latest published block</span>
+        <span><span class="dot" style="background:var(--mu)"></span>2026-05-03 &middot; T-1 latest block</span>
         <span><span class="dot" style="background:var(--ac)"></span>21.9% zero-carbon</span>
         <span><span class="dot" style="background:var(--am)"></span>Source: GRID-INDIA PSP</span>
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-stat">
-        <div class="hs-label">FY 2025-26 Mean</div>
-        <div class="hs-value n">756.2</div>
-        <div class="hs-sub">g CO&#x2082;/kWh &middot; 396 days</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hs-label">CEA Reference</div>
-        <div class="hs-value">712</div>
-        <div class="hs-sub">g/kWh &middot; FY 2024-25</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hs-label">Price&ndash;Carbon Corr.</div>
-        <div class="hs-value n">0.772</div>
-        <div class="hs-sub">r &middot; last 30 days</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hs-label">Optimal Load Window</div>
-        <div class="hs-value" style="font-size:20px;padding-top:6px">13:00 IST</div>
-        <div class="hs-sub">lowest price + carbon</div>
-      </div>
+      <div class="hero-stat"><div class="hs-label">FY 2025-26 Mean</div><div class="hs-value n">756.3</div><div class="hs-sub">g CO&#x2082;/kWh &middot; 395 days</div></div>
+      <div class="hero-stat"><div class="hs-label">CEA Reference</div><div class="hs-value">712</div><div class="hs-sub">g/kWh &middot; FY 2024-25</div></div>
+      <div class="hero-stat"><div class="hs-label">Price&ndash;Carbon Corr.</div><div class="hs-value n">0.886</div><div class="hs-sub">r &middot; last 30 days</div></div>
+      <div class="hero-stat"><div class="hs-label">Optimal Load Window</div><div class="hs-value" style="font-size:20px;padding-top:6px">13:00 IST</div><div class="hs-sub">lowest price + carbon</div></div>
     </div>
   </div>
 </div>
 
-<!-- TAB BAR -->
 <div class="tab-bar">
   <div class="tab-bar-inner">
     <button class="tab active" onclick="switchTab('charts')">CHARTS</button>
@@ -259,207 +177,134 @@ footer{border-top:1px solid var(--bd);padding:20px 32px;display:flex;justify-con
 </div>
 
 <main>
-
-<!-- CHARTS -->
 <div id="panel-charts" class="panel active">
   <div class="section">
-    <div class="section-header">
-      <div class="section-title">Last 30 Days</div>
-      <div class="section-sub">Hourly carbon intensity &middot; g CO&#x2082;/kWh &middot; GRID-INDIA PSP &middot; 2025-04-01 &rarr; 2026-05-04</div>
-    </div>
-    <div class="card">
-      <div class="cw" style="height:220px"><canvas id="c30"></canvas></div>
-    </div>
-    <div class="insight">
-      <strong>Reading this:</strong> Each dip = solar window 10:00&ndash;14:00 IST reducing intensity by ~150 g/kWh.
-      Night peaks (900+ g/kWh) = coal/gas baseload with no solar.
-      <span class="highlight">Best time for flexible loads: 11:00&ndash;13:00 IST.</span>
-    </div>
+    <div class="section-header"><div class="section-title">Last 30 Days</div><div class="section-sub">Hourly &middot; g CO&#x2082;/kWh &middot; GRID-INDIA PSP &middot; 2025-04-01 &rarr; 2026-05-03</div></div>
+    <div class="card"><div class="cw" style="height:220px"><canvas id="c30"></canvas></div></div>
+    <div class="insight"><strong>Reading this:</strong> Each dip = solar window 10:00&ndash;14:00 IST. Night peaks = thermal baseload. <span class="highlight">Best time for flexible loads: 11:00&ndash;13:00 IST.</span></div>
   </div>
   <div class="two">
     <div class="section">
-      <div class="section-header">
-        <div class="section-title">Seasonal Pattern</div>
-        <div class="section-sub">Monthly avg &middot; 396 days</div>
-      </div>
-      <div class="card">
-        <div class="cw" style="height:240px"><canvas id="cM"></canvas></div>
-      </div>
-      <div class="insight">
-        <strong>Monsoon drop (Jul&ndash;Sep):</strong> ~100 g/kWh as hydro + wind surge.
-        <span class="highlight">Winter peak: 816 g/kWh</span> — solar low, max thermal.
-      </div>
+      <div class="section-header"><div class="section-title">Seasonal Pattern</div><div class="section-sub">Monthly avg &middot; 395 days</div></div>
+      <div class="card"><div class="cw" style="height:240px"><canvas id="cM"></canvas></div></div>
+      <div class="insight"><strong>Monsoon (Jul&ndash;Sep):</strong> ~100 g/kWh drop as hydro + wind surge. <span class="highlight">Winter peak: 816 g/kWh.</span></div>
     </div>
     <div class="section">
-      <div class="section-header">
-        <div class="section-title">Daily Pattern</div>
-        <div class="section-sub">Avg by time-of-day across all 396 days</div>
-      </div>
-      <div class="card">
-        <div class="cw" style="height:240px"><canvas id="cD"></canvas></div>
-      </div>
-      <div class="insight">
-        <strong>Solar window:</strong> Grid is <span class="highlight">248 g/kWh cleaner at 13:00</span> vs midnight.
-        Weight 24/7 CFE schedules toward 09:00&ndash;15:00 IST.
-      </div>
+      <div class="section-header"><div class="section-title">Daily Pattern</div><div class="section-sub">Avg by time-of-day &middot; all 395 days</div></div>
+      <div class="card"><div class="cw" style="height:240px"><canvas id="cD"></canvas></div></div>
+      <div class="insight"><strong>Solar window:</strong> Grid is <span class="highlight">273 g/kWh cleaner at 13:00</span> vs midnight. Weight CFE schedules toward 09:00&ndash;15:00 IST.</div>
     </div>
   </div>
 </div>
 
-<!-- PRICE + CARBON -->
 <div id="panel-overlay" class="panel">
   <div class="kstrip">
-    <div class="ksk"><div class="kkl">Price&ndash;Carbon Correlation</div><div class="kkv">0.772</div><div class="kks">DAM vs intensity &middot; 30 days</div></div>
-    <div class="ksk"><div class="kkl">Avg DAM Price</div><div class="kkv" style="color:var(--am)">&#x20b9;5,141</div><div class="kks">per MWh &middot; last 30 days</div></div>
+    <div class="ksk"><div class="kkl">Price&ndash;Carbon Correlation</div><div class="kkv">0.886</div><div class="kks">DAM vs intensity &middot; 30 days</div></div>
+    <div class="ksk"><div class="kkl">Avg DAM Price</div><div class="kkv" style="color:var(--am)">&#x20b9;5,586</div><div class="kks">per MWh &middot; last 30 days</div></div>
     <div class="ksk"><div class="kkl">Optimal Window</div><div class="kkv" style="font-size:20px;padding-top:8px">10:00&ndash;14:00</div><div class="kks">IST &middot; cheapest + cleanest</div></div>
     <div class="ksk"><div class="kkl">Worst Window</div><div class="kkv" style="font-size:20px;color:var(--re);padding-top:8px">18:00&ndash;22:00</div><div class="kks">IST &middot; most expensive + dirty</div></div>
   </div>
   <div class="section">
-    <div class="card">
-      <div style="margin-bottom:16px">
-        <div style="font-family:var(--mono);font-size:11px;color:var(--mu);margin-bottom:4px">DAM &#x20b9;/MWh (left) &middot; Carbon Intensity g/kWh (right) &middot; Hourly &middot; IEX + GRID-INDIA PSP</div>
-      </div>
-      <div class="cw" style="height:280px"><canvas id="cOL"></canvas></div>
-    </div>
-    <div class="insight">
-      <strong>Correlation 0.772:</strong> Price spikes and carbon spikes share the same root cause &mdash; thermal plants at full load.
-      The solar window is simultaneously <span class="highlight">cheapest and cleanest</span>.
-      <strong>This correlation is unpublished for the Indian grid.</strong>
-    </div>
+    <div class="card"><div class="cw" style="height:280px"><canvas id="cOL"></canvas></div></div>
+    <div class="insight"><strong>Correlation 0.886:</strong> Price and carbon spike together &mdash; thermal plants at full load. Solar window is simultaneously <span class="highlight">cheapest and cleanest</span>. Unpublished for the Indian grid.</div>
   </div>
   <div class="two">
-    <div>
-      <div class="section-header" style="border-color:rgba(248,81,73,0.3)">
-        <div class="section-title" style="color:var(--re)">Worst Blocks</div>
-        <div class="section-sub">High cost + high carbon</div>
-      </div>
-      <div class="card">
-        <table class="rt"><thead><tr><th>Date / Time</th><th>&#x20b9;/MWh</th><th>g CO&#x2082;/kWh</th><th>Score</th></tr></thead>
-        <tbody><tr><td>2026-04-20 04:00</td><td style='color:var(--re)'>10,000</td><td style='color:var(--re)'>913</td><td style='color:var(--re)'>9,131</td></tr><tr><td>2026-04-20 05:00</td><td style='color:var(--re)'>10,000</td><td style='color:var(--re)'>912</td><td style='color:var(--re)'>9,118</td></tr><tr><td>2026-04-20 06:00</td><td style='color:var(--re)'>10,000</td><td style='color:var(--re)'>909</td><td style='color:var(--re)'>9,093</td></tr></tbody></table>
-      </div>
-    </div>
-    <div>
-      <div class="section-header" style="border-color:rgba(0,229,160,0.3)">
-        <div class="section-title" style="color:var(--ac)">Best Blocks</div>
-        <div class="section-sub">Low cost + low carbon</div>
-      </div>
-      <div class="card">
-        <table class="rt"><thead><tr><th>Date / Time</th><th>&#x20b9;/MWh</th><th>g CO&#x2082;/kWh</th><th>Score</th></tr></thead>
-        <tbody><tr><td>2026-04-12 12:00</td><td style='color:var(--ac)'>200</td><td style='color:var(--ac)'>581</td><td style='color:var(--ac)'>116</td></tr><tr><td>2026-04-12 11:00</td><td style='color:var(--ac)'>201</td><td style='color:var(--ac)'>585</td><td style='color:var(--ac)'>117</td></tr><tr><td>2026-04-12 13:00</td><td style='color:var(--ac)'>200</td><td style='color:var(--ac)'>595</td><td style='color:var(--ac)'>119</td></tr></tbody></table>
-      </div>
-    </div>
+    <div><div class="section-header" style="border-color:rgba(248,81,73,0.3)"><div class="section-title" style="color:var(--re)">Worst Blocks</div><div class="section-sub">High cost + high carbon</div></div>
+    <div class="card"><table class="rt"><thead><tr><th>Date / Time</th><th>&#x20b9;/MWh</th><th>g CO&#x2082;/kWh</th><th>Score</th></tr></thead><tbody><tr><td>2026-04-28 04:45</td><td style='color:var(--re)'>10,000</td><td style='color:var(--re)'>880</td><td style='color:var(--re)'>8,796</td></tr>
+<tr><td>2026-04-28 05:30</td><td style='color:var(--re)'>10,000</td><td style='color:var(--re)'>880</td><td style='color:var(--re)'>8,800</td></tr>
+<tr><td>2026-04-28 05:15</td><td style='color:var(--re)'>10,000</td><td style='color:var(--re)'>881</td><td style='color:var(--re)'>8,806</td></tr>
+</tbody></table></div></div>
+    <div><div class="section-header" style="border-color:rgba(0,229,160,0.3)"><div class="section-title" style="color:var(--ac)">Best Blocks</div><div class="section-sub">Low cost + low carbon</div></div>
+    <div class="card"><table class="rt"><thead><tr><th>Date / Time</th><th>&#x20b9;/MWh</th><th>g CO&#x2082;/kWh</th><th>Score</th></tr></thead><tbody><tr><td>2026-04-30 13:00</td><td style='color:var(--ac)'>1,515</td><td style='color:var(--ac)'>569</td><td style='color:var(--ac)'>862</td></tr>
+<tr><td>2026-04-30 12:00</td><td style='color:var(--ac)'>1,503</td><td style='color:var(--ac)'>575</td><td style='color:var(--ac)'>864</td></tr>
+<tr><td>2026-04-30 12:45</td><td style='color:var(--ac)'>1,515</td><td style='color:var(--ac)'>572</td><td style='color:var(--ac)'>866</td></tr>
+</tbody></table></div></div>
   </div>
-  <div class="insight" style="margin-top:16px"><strong>Score</strong> = Price &times; Intensity &divide; 1000. Lower = better (cheap AND clean). Use to rank procurement windows for flexible industrial loads, EV charging, data centre batch jobs, BESS charging.</div>
+  <div class="insight" style="margin-top:16px"><strong>Score</strong> = Price &times; Intensity &divide; 1000. Lower = better. Use to rank procurement windows.</div>
 </div>
 
-<!-- STATE INTENSITY -->
 <div id="panel-states" class="panel">
-  <div class="insight" style="margin-bottom:20px">
-    <strong>Methodology (v0.1 estimate):</strong> State RE generation is exact (REMC daily actuals).
-    State thermal estimated proportionally from CEA March 2025 installed capacity.
-    Hydro not modelled &mdash; conservative bias for hydro-rich states (Karnataka, AP).
-    Daily granularity only.
-  </div>
+  <div class="insight" style="margin-bottom:20px"><strong>Methodology (v0.1):</strong> State RE generation = exact REMC actuals. State thermal = estimated from CEA March 2025 capacity weights. Hydro not modelled (conservative). Daily granularity.</div>
   <div class="section">
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-        <div>
-          <div class="section-title" id="stitle">Select a state</div>
-          <div style="font-family:var(--mono);font-size:11px;color:var(--mu);margin-top:4px">Daily g CO&#x2082;/kWh vs national average</div>
-        </div>
-        <select id="ssel" class="state-select" onchange="updateState()">
-          <option value="">-- Select state --</option>
-          <option value="Andhra Pradesh">Andhra Pradesh</option><option value="Gujarat">Gujarat</option><option value="Karnataka">Karnataka</option><option value="Madhya Pradesh">Madhya Pradesh</option><option value="Maharashtra">Maharashtra</option><option value="Rajasthan">Rajasthan</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Telengana">Telengana</option>
-        </select>
+        <div><div class="section-title" id="stitle">Select a state</div><div style="font-family:var(--mono);font-size:11px;color:var(--mu);margin-top:4px">Daily g CO&#x2082;/kWh vs national average</div></div>
+        <select id="ssel" class="state-select" onchange="updateState()"><option value="">-- Select state --</option><option value="Andhra Pradesh">Andhra Pradesh</option>
+<option value="Gujarat">Gujarat</option>
+<option value="Karnataka">Karnataka</option>
+<option value="Madhya Pradesh">Madhya Pradesh</option>
+<option value="Maharashtra">Maharashtra</option>
+<option value="Rajasthan">Rajasthan</option>
+<option value="Tamil Nadu">Tamil Nadu</option>
+<option value="Telengana">Telengana</option></select>
       </div>
       <div class="cw" style="height:260px"><canvas id="cSt"></canvas></div>
     </div>
   </div>
   <div id="skpis" style="display:none" class="kstrip">
     <div class="ksk"><div class="kkl">State Mean</div><div class="kkv" id="sk1">-</div><div class="kks">g CO&#x2082;/kWh</div></div>
-    <div class="ksk"><div class="kkl">vs National (756.2)</div><div class="kkv" id="sk2">-</div><div class="kks">g/kWh diff</div></div>
+    <div class="ksk"><div class="kkl">vs National (756.3)</div><div class="kkv" id="sk2">-</div><div class="kks">g/kWh diff</div></div>
     <div class="ksk"><div class="kkl">Latest RE Share</div><div class="kkv" id="sk3">-</div><div class="kks">% of generation</div></div>
     <div class="ksk"><div class="kkl">Latest Date</div><div class="kkv" style="font-size:16px;padding-top:8px" id="sk4">-</div><div class="kks">last REMC report</div></div>
   </div>
   <div class="section">
-    <div class="section-header">
-      <div class="section-title">All States &mdash; Ranking</div>
-      <div class="section-sub">Cleanest &rarr; dirtiest &middot; period mean</div>
-    </div>
-    <div class="card">
-      <table class="tbl">
-        <thead><tr><th>State</th><th>Mean g CO&#x2082;/kWh</th><th>vs National</th><th>Latest RE Share</th><th>Latest Date</th></tr></thead>
-        <tbody><tr><td>Karnataka</td><td style='color:#22d3a0'>608.6</td><td style='color:#22d3a0'>-147.6</td><td>44.2%</td><td style='color:#6b7280'>2026-04-29</td></tr>
-<tr><td>Gujarat</td><td style='color:#22d3a0'>614.7</td><td style='color:#22d3a0'>-141.5</td><td>45.9%</td><td style='color:#6b7280'>2026-04-29</td></tr>
-<tr><td>Rajasthan</td><td style='color:#22d3a0'>674.5</td><td style='color:#22d3a0'>-81.7</td><td>38.3%</td><td style='color:#6b7280'>2026-04-29</td></tr>
-<tr><td>Tamil Nadu</td><td style='color:#22d3a0'>750.2</td><td style='color:#f59e0b'>-6.0</td><td>33.3%</td><td style='color:#6b7280'>2026-04-29</td></tr>
-<tr><td>Andhra Pradesh</td><td style='color:#22d3a0'>802.8</td><td style='color:#f59e0b'>+46.6</td><td>22.8%</td><td style='color:#6b7280'>2026-04-29</td></tr>
-<tr><td>Madhya Pradesh</td><td style='color:#22d3a0'>836.7</td><td style='color:#f87171'>+80.5</td><td>24.8%</td><td style='color:#6b7280'>2026-04-29</td></tr>
-<tr><td>Maharashtra</td><td style='color:#22d3a0'>891.7</td><td style='color:#f87171'>+135.5</td><td>17.5%</td><td style='color:#6b7280'>2026-04-29</td></tr>
-<tr><td>Telengana</td><td style='color:#22d3a0'>922.5</td><td style='color:#f87171'>+166.3</td><td>12.7%</td><td style='color:#6b7280'>2026-04-29</td></tr>
-</tbody>
-      </table>
-    </div>
+    <div class="section-header"><div class="section-title">All States &mdash; Ranking</div><div class="section-sub">Cleanest &rarr; dirtiest &middot; period mean</div></div>
+    <div class="card"><table class="tbl"><thead><tr><th>State</th><th>Mean g CO&#x2082;/kWh</th><th>vs National</th><th>Latest RE Share</th><th>Latest Date</th></tr></thead><tbody><tr><td>Karnataka</td><td style='color:#00e5a0'>608.6</td><td style='color:#00e5a0'>-147.7</td><td>44.2%</td><td style='color:#7d8590'>2026-04-29</td></tr>
+<tr><td>Gujarat</td><td style='color:#00e5a0'>614.7</td><td style='color:#00e5a0'>-141.6</td><td>45.9%</td><td style='color:#7d8590'>2026-04-29</td></tr>
+<tr><td>Rajasthan</td><td style='color:#00e5a0'>674.5</td><td style='color:#00e5a0'>-81.8</td><td>38.3%</td><td style='color:#7d8590'>2026-04-29</td></tr>
+<tr><td>Tamil Nadu</td><td style='color:#00e5a0'>750.2</td><td style='color:#f0a500'>-6.1</td><td>33.3%</td><td style='color:#7d8590'>2026-04-29</td></tr>
+<tr><td>Andhra Pradesh</td><td style='color:#00e5a0'>802.8</td><td style='color:#f0a500'>+46.5</td><td>22.8%</td><td style='color:#7d8590'>2026-04-29</td></tr>
+<tr><td>Madhya Pradesh</td><td style='color:#00e5a0'>836.7</td><td style='color:#f85149'>+80.4</td><td>24.8%</td><td style='color:#7d8590'>2026-04-29</td></tr>
+<tr><td>Maharashtra</td><td style='color:#00e5a0'>891.7</td><td style='color:#f85149'>+135.4</td><td>17.5%</td><td style='color:#7d8590'>2026-04-29</td></tr>
+<tr><td>Telengana</td><td style='color:#00e5a0'>922.5</td><td style='color:#f85149'>+166.2</td><td>12.7%</td><td style='color:#7d8590'>2026-04-29</td></tr>
+</tbody></table></div>
   </div>
-  <div class="insight"><strong>Why this matters:</strong> A data centre in Hyderabad (Telangana, ~920 g/kWh) faces
-  51% higher Scope 2 intensity than one in Bengaluru (Karnataka, ~610 g/kWh).
-  CEA&rsquo;s one all-India annual number hides this difference entirely.
-  <span class="highlight">First published state-level grid intensity for India.</span></div>
+  <div class="insight"><strong>Why this matters:</strong> Telangana (~920 g/kWh) faces 51% higher Scope 2 than Karnataka (~610 g/kWh). <span class="highlight">First published state-level grid intensity for India.</span></div>
 </div>
 
-<!-- DAILY FACTORS -->
 <div id="panel-factors" class="panel">
   <div class="section">
-    <div class="section-header">
-      <div class="section-title">Daily Emission Factors</div>
-      <div class="section-sub">Last 30 days &middot; use for Scope 2 &middot; BRSR &middot; CCTS &middot; GHG Protocol</div>
-    </div>
+    <div class="section-header"><div class="section-title">Daily Emission Factors</div><div class="section-sub">Last 30 days &middot; Scope 2 &middot; BRSR &middot; CCTS &middot; GHG Protocol</div></div>
     <div class="card">
-      <button class="btn" onclick="dlCSV()" style="margin-bottom:20px">&#x2193; Download Full Dataset (396 days CSV)</button>
-      <table class="tbl">
-        <thead><tr><th>Date</th><th>g CO&#x2082;/kWh</th><th>tCO&#x2082;/MWh</th><th>Ready-to-cite reference</th></tr></thead>
-        <tbody id="ftb"><tr><td>2026-05-04</td><td class='vc'>740.2</td><td>0.7402</td><td class='cc'>India Grid Carbon Intensity API · 2026-05-04 · 740.2 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-05-03</td><td class='vc'>729.3</td><td>0.7293</td><td class='cc'>India Grid Carbon Intensity API · 2026-05-03 · 729.3 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-05-02</td><td class='vc'>732.1</td><td>0.7321</td><td class='cc'>India Grid Carbon Intensity API · 2026-05-02 · 732.1 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-05-01</td><td class='vc'>736.0</td><td>0.7360</td><td class='cc'>India Grid Carbon Intensity API · 2026-05-01 · 736.0 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-30</td><td class='vc'>743.6</td><td>0.7436</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-30 · 743.6 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-29</td><td class='vc'>754.4</td><td>0.7544</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-29 · 754.4 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-28</td><td class='vc'>758.9</td><td>0.7589</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-28 · 758.9 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-27</td><td class='vc'>764.3</td><td>0.7643</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-27 · 764.3 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-26</td><td class='vc'>777.7</td><td>0.7777</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-26 · 777.7 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-25</td><td class='vc'>783.3</td><td>0.7833</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-25 · 783.3 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-24</td><td class='vc'>774.7</td><td>0.7747</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-24 · 774.7 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-23</td><td class='vc'>768.8</td><td>0.7688</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-23 · 768.8 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-22</td><td class='vc'>770.2</td><td>0.7702</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-22 · 770.2 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-21</td><td class='vc'>772.7</td><td>0.7727</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-21 · 772.7 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-20</td><td class='vc'>785.6</td><td>0.7856</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-20 · 785.6 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-19</td><td class='vc'>778.3</td><td>0.7783</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-19 · 778.3 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-18</td><td class='vc'>783.7</td><td>0.7837</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-18 · 783.7 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-17</td><td class='vc'>784.4</td><td>0.7844</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-17 · 784.4 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-16</td><td class='vc'>785.2</td><td>0.7852</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-16 · 785.2 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-15</td><td class='vc'>776.4</td><td>0.7764</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-15 · 776.4 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-14</td><td class='vc'>773.8</td><td>0.7738</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-14 · 773.8 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-13</td><td class='vc'>768.9</td><td>0.7689</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-13 · 768.9 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-12</td><td class='vc'>772.3</td><td>0.7723</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-12 · 772.3 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-11</td><td class='vc'>771.2</td><td>0.7712</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-11 · 771.2 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-10</td><td class='vc'>771.2</td><td>0.7712</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-10 · 771.2 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-09</td><td class='vc'>775.1</td><td>0.7751</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-09 · 775.1 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-08</td><td class='vc'>757.4</td><td>0.7574</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-08 · 757.4 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-07</td><td class='vc'>749.9</td><td>0.7499</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-07 · 749.9 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-06</td><td class='vc'>752.5</td><td>0.7525</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-06 · 752.5 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-<tr><td>2026-04-05</td><td class='vc'>762.1</td><td>0.7621</td><td class='cc'>India Grid Carbon Intensity API · 2026-04-05 · 762.1 g CO₂/kWh · CEA Baseline v21.0 · GHG Protocol Scope 2</td></tr>
-</tbody>
-      </table>
+      <button class="btn" onclick="dlCSV()" style="margin-bottom:20px">&#x2193; Download Full Dataset (395 days CSV)</button>
+      <table class="tbl"><thead><tr><th>Date</th><th>g CO&#x2082;/kWh</th><th>tCO&#x2082;/MWh</th><th>Ready-to-cite reference</th></tr></thead><tbody id="ftb"><tr><td>2026-05-03</td><td class='vc'>729.3</td><td>0.7293</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-05-03 \u00b7 729.3 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-05-02</td><td class='vc'>732.1</td><td>0.7321</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-05-02 \u00b7 732.1 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-05-01</td><td class='vc'>736.0</td><td>0.7360</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-05-01 \u00b7 736.0 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-30</td><td class='vc'>743.6</td><td>0.7436</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-30 \u00b7 743.6 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-29</td><td class='vc'>754.4</td><td>0.7544</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-29 \u00b7 754.4 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-28</td><td class='vc'>758.9</td><td>0.7589</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-28 \u00b7 758.9 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-27</td><td class='vc'>764.3</td><td>0.7643</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-27 \u00b7 764.3 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-26</td><td class='vc'>777.7</td><td>0.7777</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-26 \u00b7 777.7 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-25</td><td class='vc'>783.3</td><td>0.7833</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-25 \u00b7 783.3 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-24</td><td class='vc'>774.7</td><td>0.7747</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-24 \u00b7 774.7 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-23</td><td class='vc'>768.8</td><td>0.7688</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-23 \u00b7 768.8 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-22</td><td class='vc'>770.2</td><td>0.7702</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-22 \u00b7 770.2 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-21</td><td class='vc'>772.7</td><td>0.7727</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-21 \u00b7 772.7 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-20</td><td class='vc'>785.6</td><td>0.7856</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-20 \u00b7 785.6 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-19</td><td class='vc'>778.3</td><td>0.7783</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-19 \u00b7 778.3 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-18</td><td class='vc'>783.7</td><td>0.7837</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-18 \u00b7 783.7 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-17</td><td class='vc'>784.4</td><td>0.7844</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-17 \u00b7 784.4 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-16</td><td class='vc'>785.2</td><td>0.7852</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-16 \u00b7 785.2 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-15</td><td class='vc'>776.4</td><td>0.7764</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-15 \u00b7 776.4 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-14</td><td class='vc'>773.8</td><td>0.7738</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-14 \u00b7 773.8 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-13</td><td class='vc'>768.9</td><td>0.7689</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-13 \u00b7 768.9 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-12</td><td class='vc'>772.3</td><td>0.7723</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-12 \u00b7 772.3 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-11</td><td class='vc'>771.2</td><td>0.7712</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-11 \u00b7 771.2 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-10</td><td class='vc'>771.2</td><td>0.7712</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-10 \u00b7 771.2 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-09</td><td class='vc'>775.1</td><td>0.7751</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-09 \u00b7 775.1 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-08</td><td class='vc'>757.4</td><td>0.7574</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-08 \u00b7 757.4 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-07</td><td class='vc'>749.9</td><td>0.7499</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-07 \u00b7 749.9 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-06</td><td class='vc'>752.5</td><td>0.7525</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-06 \u00b7 752.5 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-05</td><td class='vc'>762.1</td><td>0.7621</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-05 \u00b7 762.1 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+<tr><td>2026-04-04</td><td class='vc'>779.8</td><td>0.7798</td><td class='cc'>India Grid Carbon Intensity API \u00b7 2026-04-04 \u00b7 779.8 g CO\u2082/kWh \u00b7 CEA Baseline v21.0 \u00b7 GHG Protocol Scope 2</td></tr>
+</tbody></table>
     </div>
-    <div class="insight"><strong>How to use:</strong> kWh &times; factor &divide; 1,000,000 = tCO&#x2082;.
-    Citation column is pre-formatted for BRSR / ESG disclosures.</div>
+    <div class="insight"><strong>How to use:</strong> kWh &times; factor &divide; 1,000,000 = tCO&#x2082;. Citation column pre-formatted for BRSR / ESG disclosures.</div>
   </div>
 </div>
 
-<!-- IMPACT CALCULATOR -->
 <div id="panel-calculator" class="panel">
   <div class="calc-grid">
-    <!-- Scope 2 Calculator -->
     <div class="calc-card">
       <div class="section-title" style="margin-bottom:4px">Scope 2 Calculator</div>
       <div style="font-family:var(--mono);font-size:11px;color:var(--mu);margin-bottom:24px">How much CO&#x2082; is your electricity use?</div>
@@ -468,44 +313,34 @@ footer{border-top:1px solid var(--bd);padding:20px 32px;display:flex;justify-con
       <div class="field-hint">Enter kWh/month</div>
       <div id="cres" style="display:none;margin-top:20px">
         <div class="results-strip">
-          <div class="result-cell"><div class="rc-label">Your Scope 2</div><div class="rc-val" id="r1">-</div><div class="rc-sub">tCO&#x2082;/month<br>May 2026 (734.4 g/kWh)</div></div>
+          <div class="result-cell"><div class="rc-label">Your Scope 2</div><div class="rc-val" id="r1">-</div><div class="rc-sub">tCO&#x2082;/month<br>732.4 g/kWh</div></div>
           <div class="result-cell"><div class="rc-label">vs CEA Avg</div><div class="rc-val am" id="r2">-</div><div class="rc-sub">difference<br>CEA = 712 g/kWh</div></div>
           <div class="result-cell"><div class="rc-label">Solar Saving</div><div class="rc-val" id="r3">-</div><div class="rc-sub">tCO&#x2082;/month<br>if shifted 10&ndash;14h</div></div>
-          <div class="result-cell"><div class="rc-label">Annual Saving</div><div class="rc-val am" id="r4">-</div><div class="rc-sub">tCO&#x2082;/year<br>Scope 2 reduction</div></div>
+          <div class="result-cell"><div class="rc-label">Annual Saving</div><div class="rc-val am" id="r4">-</div><div class="rc-sub">tCO&#x2082;/year</div></div>
         </div>
         <div class="calc-exp" id="cexp"></div>
       </div>
     </div>
-
-    <!-- Load Shift Calculator -->
     <div class="calc-card" style="border-color:var(--ac-glow);background:linear-gradient(135deg,var(--s1) 0%,rgba(0,229,160,0.04) 100%)">
       <div class="section-title" style="margin-bottom:4px;color:var(--ac)">&#x26A1; Load Shift Opportunity</div>
       <div style="font-family:var(--mono);font-size:11px;color:var(--mu);margin-bottom:24px">How much can you save by timing your loads?</div>
-      <div class="ii-inputs">
-        <div>
-          <div class="field-label">Shiftable load (MW)</div>
-          <input class="field-input" id="iimw" type="number" min="0.1" step="0.1" placeholder="e.g. 5" oninput="calcII()">
-          <div class="field-hint">Cooling, pumping, EV, BESS</div>
-        </div>
-        <div>
-          <div class="field-label">Hours/day shiftable</div>
-          <input class="field-input" id="iihrs" type="number" min="1" max="12" placeholder="e.g. 4" oninput="calcII()">
-          <div class="field-hint">To 1,065h IST window</div>
-        </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <div><div class="field-label">Shiftable load (MW)</div><input class="field-input" id="iimw" type="number" min="0.1" step="0.1" placeholder="e.g. 5" oninput="calcII()"><div class="field-hint">Cooling, pumping, EV, BESS</div></div>
+        <div><div class="field-label">Hours/day shiftable</div><input class="field-input" id="iihrs" type="number" min="1" max="12" placeholder="e.g. 4" oninput="calcII()"><div class="field-hint">To 13:00h IST window</div></div>
       </div>
       <div class="ii-out" id="iiout">
         <div class="ii-out-header" id="iihdr">Your Shift Opportunity</div>
         <div class="ii-out-body">
-          <div class="ii-metric"><div class="ii-ml">Window: 19:00 &rarr; 13:00 IST &nbsp;<span class="badge g">optimal</span></div><div style="font-family:var(--mono);font-size:11px;color:var(--mu)">&#x20b9;1,065 vs &#x20b9;8,921/MWh avg</div></div>
+          <div class="ii-metric"><div class="ii-ml">Window: 19:00 &rarr; 13:00 IST &nbsp;<span class="badge g">optimal</span></div><div style="font-family:var(--mono);font-size:11px;color:var(--mu)">&#x20b9;1,743 vs &#x20b9;10,000/MWh avg</div></div>
           <div class="ii-metric"><div class="ii-ml">Monthly cost saving</div><div class="ii-mv" id="iicost">-</div></div>
           <div class="ii-metric"><div class="ii-ml">Monthly carbon saving</div><div class="ii-mv" id="iico2">-</div></div>
           <div class="ii-metric"><div class="ii-ml">Annual cost saving</div><div class="ii-mv am" id="iiyr">-</div></div>
           <div class="ii-metric"><div class="ii-ml">Annual Scope 2 reduction</div><div class="ii-mv" id="iis2">-</div></div>
           <div class="ii-best-bar">
-            <div class="ii-best-label">Best vs worst day (last 30 days) for your load</div>
-            <div class="ii-best-row"><span><span class="badge g">Best &nbsp;</span> &nbsp;2026-05-04</span><span style="color:var(--ac);font-family:var(--mono)" id="iibestv">-</span></div>
-            <div class="ii-best-row" style="margin-top:6px"><span><span class="badge r">Worst</span> &nbsp;2026-04-27</span><span style="color:var(--re);font-family:var(--mono)" id="iiworstv">-</span></div>
-            <div style="font-family:var(--mono);font-size:10px;color:var(--mu);margin-top:10px">Price gap: <strong style="color:var(--tx)">&#x20b9;7,856/MWh</strong> &nbsp;&middot;&nbsp; Intensity gap: <strong style="color:var(--tx)">248 g CO&#x2082;/kWh</strong></div>
+            <div class="ii-best-label">Best vs worst day (last 30 days)</div>
+            <div class="ii-best-row"><span><span class="badge g">Best &nbsp;</span>&nbsp;2026-05-03</span><span style="color:var(--ac);font-family:var(--mono)" id="iibestv">-</span></div>
+            <div class="ii-best-row" style="margin-top:6px"><span><span class="badge r">Worst</span>&nbsp; 2026-04-27</span><span style="color:var(--re);font-family:var(--mono)" id="iiworstv">-</span></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--mu);margin-top:10px">Price gap: <strong style="color:var(--tx)">&#x20b9;8,257/MWh</strong> &middot; Intensity gap: <strong style="color:var(--tx)">273 g/kWh</strong></div>
           </div>
         </div>
       </div>
@@ -513,252 +348,184 @@ footer{border-top:1px solid var(--bd);padding:20px 32px;display:flex;justify-con
   </div>
 </div>
 
-<!-- METHODOLOGY -->
 <div id="panel-methodology" class="panel">
-  <div class="insight" style="margin-bottom:20px;font-size:13px">
-    <strong>In plain terms:</strong> Every time you use electricity in India, some CO&#x2082; is emitted to generate it.
-    The mix of coal, gas, hydro, wind, and solar changes every 15 minutes &mdash; so the carbon footprint changes too.
-    This product measures that footprint in real time, so you can report it accurately and reduce it practically.
-  </div>
+  <div class="insight" style="margin-bottom:20px;font-size:13px"><strong>In plain terms:</strong> Every time you use electricity in India, some CO&#x2082; is emitted. The mix of coal, gas, hydro, wind, and solar changes every 15 minutes &mdash; so the carbon footprint changes too. This product measures that footprint in real time so you can report it accurately and reduce it practically.</div>
   <div class="method-grid">
-    <div class="mc">
-      <div class="mt">1. Primary Data Source</div>
-      <div class="mb"><strong>GRID-INDIA PSP TimeSeries</strong><br>Publisher: Grid Controller of India Ltd<br>Granularity: 15-min (96/day), all-India<br>Publication: T-1, ~14:00 IST<br>Coverage: 2025-04-01 &rarr; 2026-05-04<br>(396 days &middot; 37,976 blocks)<br><br><strong>Columns used:</strong><br>NUCLEAR &middot; WIND &middot; SOLAR &middot; HYDRO<br>GAS &middot; THERMAL &middot; OTHERS &middot; TOTAL GENERATION</div>
-    </div>
-    <div class="mc">
-      <div class="mt">2. Emission Factors &mdash; CEA v21.0 (Nov 2025)</div>
-      <div class="mb"><table class="ef"><tr><th>Fuel</th><th>tCO&#x2082;/MWh</th></tr><tr><td>Nuclear / Wind / Solar / Hydro</td><td class="z">0.000</td></tr><tr><td>Gas (combined-cycle)</td><td>0.420</td></tr><tr><td>Thermal (95% coal + 5% lignite)</td><td>1.052</td></tr><tr><td>Misc. (diesel/naphtha/biomass)</td><td>0.700</td></tr></table><br>CEA CO&#x2082; Baseline Database v21.0 &middot; Assumptions sheet Row 23 &middot; ACM0002 / UNFCCC Tool v7.0</div>
-    </div>
-    <div class="mc">
-      <div class="mt">3. Formula</div>
-      <div class="mb"><div class="fml"><span class="c">// Per 15-min block t:</span>
+    <div class="mc"><div class="mt">1. Primary Data Source</div><div class="mb"><strong>GRID-INDIA PSP TimeSeries</strong><br>Publisher: Grid Controller of India Ltd<br>Granularity: 15-min (96/day), all-India<br>Publication: T-1, ~14:00 IST<br>Coverage: 2025-04-01 &rarr; 2026-05-03<br>(395 days &middot; 37,880 blocks)</div></div>
+    <div class="mc"><div class="mt">2. Emission Factors &mdash; CEA v21.0</div><div class="mb"><table class="ef"><tr><th>Fuel</th><th>tCO&#x2082;/MWh</th></tr><tr><td>Nuclear/Wind/Solar/Hydro</td><td class="z">0.000</td></tr><tr><td>Gas (combined-cycle)</td><td>0.420</td></tr><tr><td>Thermal (95% coal+5% lignite)</td><td>1.052</td></tr><tr><td>Misc. (diesel/naphtha/biomass)</td><td>0.700</td></tr></table></div></div>
+    <div class="mc"><div class="mt">3. Formula</div><div class="mb"><div class="fml"><span class="c">// Per 15-min block t:</span>
 intensity(t) =
   &Sigma;[gen_fuel(t) &times; EF_fuel]
-  &#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;
+  &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
       total_generation(t)
 <span class="c">// &times; 1000 &rarr; g CO&#x2082;/kWh</span></div>
-<div style="font-size:12px;color:var(--mu);margin-top:10px;line-height:1.7"><strong style="color:var(--tx)">In plain terms:</strong> For each 15-min period, multiply each fuel&rsquo;s output (MW) by its CO&#x2082; factor, divide by total generation. Result = grams of CO&#x2082; per kWh consumed.</div></div>
-    </div>
-    <div class="mc">
-      <div class="mt">4. Scope &amp; Assumptions</div>
-      <div class="mb"><strong style="color:var(--ac)">In scope:</strong> All-India average &middot; Location-based Scope 2 &middot; GHG Protocol &middot; BRSR &middot; CCTS &middot; 15-min granularity &middot; State-level intensity (8 states) <span style="color:var(--ac);font-size:11px">&#x2713; AVAILABLE NOW</span><br><br><strong style="color:var(--mu)">Assumptions:</strong> THERMAL = 95% coal + 5% lignite &middot; Imports = zero (CEA Tool v7.0 &sect;10) &middot; BESS &lt;1 GW, not modelled &middot; Misc. generation = 0.70 tCO&#x2082;/MWh<br><br><strong style="color:var(--mu)">Not yet:</strong> Marginal intensity &middot; Forecast &middot; Market-based Scope 2</div>
-    </div>
+<div style="font-size:12px;color:var(--mu);margin-top:10px;line-height:1.7"><strong style="color:var(--tx)">In plain terms:</strong> Multiply each fuel's output (MW) by its CO&#x2082; factor, divide by total generation. Result = grams of CO&#x2082; per kWh consumed.</div></div></div>
+    <div class="mc"><div class="mt">4. Scope &amp; Sanity Check</div><div class="mb"><strong style="color:var(--ac)">In scope:</strong> All-India avg &middot; Location-based Scope 2 &middot; GHG Protocol &middot; BRSR &middot; CCTS &middot; State-level 8 states <span style="color:var(--ac)">&#x2713; NOW</span><br><br><strong style="color:var(--mu)">Assumptions:</strong> THERMAL = 95% coal+5% lignite &middot; Imports = zero &middot; BESS not modelled<br><br><strong style="color:var(--mu)">Sanity:</strong> FY25-26 mean = 756.3 g/kWh vs CEA FY24-25 = 712 (&plusmn;8% &#x2713;)</div></div>
   </div>
   <div class="sanity-box">
     <div class="sanity-num">712</div>
-    <div class="sanity-text">
-      <strong>CEA reference (FY 2024-25)</strong> &mdash; Weighted Average Grid Emission Rate including RES &amp; Captive &middot; CEA CO&#x2082; Baseline Database v21.0, Results sheet Row 14<br>
-      <strong>Our FY 2025-26 mean: 756.2 g/kWh</strong> &mdash; within &plusmn;8% &#x2713;<br><br>
-      <span style="color:var(--mu)"><strong style="color:var(--tx)">Why the difference?</strong> CEA&rsquo;s 712 includes the monsoon season (Jul&ndash;Sep) when intensity drops sharply. Our data starts April 2025 &mdash; summer months when thermal load peaks. Once our dataset covers a full year including monsoon, the mean will align closely. The gap is expected and documented, not an error.</span>
-    </div>
+    <div class="sanity-text"><strong>CEA reference (FY 2024-25)</strong> &mdash; CEA CO&#x2082; Baseline Database v21.0<br><strong>Our FY 2025-26 mean: 756.3 g/kWh</strong> &mdash; within &plusmn;8% &#x2713;<br><br><span style="color:var(--mu)"><strong style="color:var(--tx)">Why the difference?</strong> CEA's 712 includes monsoon (Jul&ndash;Sep) when intensity drops sharply. Our data starts Apr 2025 &mdash; summer months when thermal load peaks. The gap is expected and documented.</span></div>
   </div>
   <div class="roadmap">
     <div class="roadmap-title">Roadmap</div>
-    <div class="rm-row"><div class="rm-tag rm-live">v0.1 LIVE</div><div class="rm-text">All-India 15-min average intensity &middot; CEA-aligned &middot; 396 days &middot; State-level intensity for 8 major RE states &middot; Price&ndash;carbon correlation &middot; Load shift calculator</div></div>
-    <div class="rm-row"><div class="rm-tag rm-next">v0.2 Q3 2026</div><div class="rm-text">24&ndash;72 hour intensity forecast with published accuracy metrics (MAPE by horizon) &middot; Enables proactive load scheduling, not just retrospective analysis</div></div>
-    <div class="rm-row"><div class="rm-tag rm-plan">v0.3 2027</div><div class="rm-text">Marginal emission intensity (which plant runs if you add 1 MW) &middot; Sub-hourly state-level &middot; Demand-response and BESS optimisation use cases</div></div>
+    <div class="rm-row"><div class="rm-tag rm-live">v0.1 LIVE</div><div class="rm-text">All-India 15-min avg intensity &middot; CEA-aligned &middot; 395 days &middot; State-level 8 states &middot; Price&ndash;carbon correlation &middot; Load shift calculator</div></div>
+    <div class="rm-row"><div class="rm-tag rm-next">v0.2 Q3 2026</div><div class="rm-text">24&ndash;72h intensity forecast with published accuracy metrics &middot; Enables proactive load scheduling</div></div>
+    <div class="rm-row"><div class="rm-tag rm-plan">v0.3 2027</div><div class="rm-text">Marginal emission intensity &middot; Sub-hourly state-level &middot; Demand-response and BESS optimisation</div></div>
   </div>
 </div>
-
 </main>
 
 <footer>
   <div>ZEUS &mdash; India Grid Carbon Intelligence &middot; GRID-INDIA PSP + CEA Baseline v21.0 &middot; Methodology v0.1</div>
-  <div>2025-04-01 &rarr; 2026-05-04 &middot; 37,976 data points &middot; <a href="mailto:samujjal95@gmail.com" style="color:var(--mu)">samujjal95@gmail.com</a></div>
+  <div>2025-04-01 &rarr; 2026-05-03 &middot; 37,880 data points &middot; <a href="mailto:your@email.com" style="color:var(--mu)">your@email.com</a></div>
 </footer>
 
 <script>
-const L30  = ["2026-04-05T00:00", "2026-04-05T01:00", "2026-04-05T02:00", "2026-04-05T03:00", "2026-04-05T04:00", "2026-04-05T05:00", "2026-04-05T06:00", "2026-04-05T07:00", "2026-04-05T08:00", "2026-04-05T09:00", "2026-04-05T10:00", "2026-04-05T11:00", "2026-04-05T12:00", "2026-04-05T13:00", "2026-04-05T14:00", "2026-04-05T15:00", "2026-04-05T16:00", "2026-04-05T17:00", "2026-04-05T18:00", "2026-04-05T19:00", "2026-04-05T20:00", "2026-04-05T21:00", "2026-04-05T22:00", "2026-04-05T23:00", "2026-04-06T00:00", "2026-04-06T01:00", "2026-04-06T02:00", "2026-04-06T03:00", "2026-04-06T04:00", "2026-04-06T05:00", "2026-04-06T06:00", "2026-04-06T07:00", "2026-04-06T08:00", "2026-04-06T09:00", "2026-04-06T10:00", "2026-04-06T11:00", "2026-04-06T12:00", "2026-04-06T13:00", "2026-04-06T14:00", "2026-04-06T15:00", "2026-04-06T16:00", "2026-04-06T17:00", "2026-04-06T18:00", "2026-04-06T19:00", "2026-04-06T20:00", "2026-04-06T21:00", "2026-04-06T22:00", "2026-04-06T23:00", "2026-04-07T00:00", "2026-04-07T01:00", "2026-04-07T02:00", "2026-04-07T03:00", "2026-04-07T04:00", "2026-04-07T05:00", "2026-04-07T06:00", "2026-04-07T07:00", "2026-04-07T08:00", "2026-04-07T09:00", "2026-04-07T10:00", "2026-04-07T11:00", "2026-04-07T12:00", "2026-04-07T13:00", "2026-04-07T14:00", "2026-04-07T15:00", "2026-04-07T16:00", "2026-04-07T17:00", "2026-04-07T18:00", "2026-04-07T19:00", "2026-04-07T20:00", "2026-04-07T21:00", "2026-04-07T22:00", "2026-04-07T23:00", "2026-04-08T00:00", "2026-04-08T01:00", "2026-04-08T02:00", "2026-04-08T03:00", "2026-04-08T04:00", "2026-04-08T05:00", "2026-04-08T06:00", "2026-04-08T07:00", "2026-04-08T08:00", "2026-04-08T09:00", "2026-04-08T10:00", "2026-04-08T11:00", "2026-04-08T12:00", "2026-04-08T13:00", "2026-04-08T14:00", "2026-04-08T15:00", "2026-04-08T16:00", "2026-04-08T17:00", "2026-04-08T18:00", "2026-04-08T19:00", "2026-04-08T20:00", "2026-04-08T21:00", "2026-04-08T22:00", "2026-04-08T23:00", "2026-04-09T00:00", "2026-04-09T01:00", "2026-04-09T02:00", "2026-04-09T03:00", "2026-04-09T04:00", "2026-04-09T05:00", "2026-04-09T06:00", "2026-04-09T07:00", "2026-04-09T08:00", "2026-04-09T09:00", "2026-04-09T10:00", "2026-04-09T11:00", "2026-04-09T12:00", "2026-04-09T13:00", "2026-04-09T14:00", "2026-04-09T15:00", "2026-04-09T16:00", "2026-04-09T17:00", "2026-04-09T18:00", "2026-04-09T19:00", "2026-04-09T20:00", "2026-04-09T21:00", "2026-04-09T22:00", "2026-04-09T23:00", "2026-04-10T00:00", "2026-04-10T01:00", "2026-04-10T02:00", "2026-04-10T03:00", "2026-04-10T04:00", "2026-04-10T05:00", "2026-04-10T06:00", "2026-04-10T07:00", "2026-04-10T08:00", "2026-04-10T09:00", "2026-04-10T10:00", "2026-04-10T11:00", "2026-04-10T12:00", "2026-04-10T13:00", "2026-04-10T14:00", "2026-04-10T15:00", "2026-04-10T16:00", "2026-04-10T17:00", "2026-04-10T18:00", "2026-04-10T19:00", "2026-04-10T20:00", "2026-04-10T21:00", "2026-04-10T22:00", "2026-04-10T23:00", "2026-04-11T00:00", "2026-04-11T01:00", "2026-04-11T02:00", "2026-04-11T03:00", "2026-04-11T04:00", "2026-04-11T05:00", "2026-04-11T06:00", "2026-04-11T07:00", "2026-04-11T08:00", "2026-04-11T09:00", "2026-04-11T10:00", "2026-04-11T11:00", "2026-04-11T12:00", "2026-04-11T13:00", "2026-04-11T14:00", "2026-04-11T15:00", "2026-04-11T16:00", "2026-04-11T17:00", "2026-04-11T18:00", "2026-04-11T19:00", "2026-04-11T20:00", "2026-04-11T21:00", "2026-04-11T22:00", "2026-04-11T23:00", "2026-04-12T00:00", "2026-04-12T01:00", "2026-04-12T02:00", "2026-04-12T03:00", "2026-04-12T04:00", "2026-04-12T05:00", "2026-04-12T06:00", "2026-04-12T07:00", "2026-04-12T08:00", "2026-04-12T09:00", "2026-04-12T10:00", "2026-04-12T11:00", "2026-04-12T12:00", "2026-04-12T13:00", "2026-04-12T14:00", "2026-04-12T15:00", "2026-04-12T16:00", "2026-04-12T17:00", "2026-04-12T18:00", "2026-04-12T19:00", "2026-04-12T20:00", "2026-04-12T21:00", "2026-04-12T22:00", "2026-04-12T23:00", "2026-04-13T00:00", "2026-04-13T01:00", "2026-04-13T02:00", "2026-04-13T03:00", "2026-04-13T04:00", "2026-04-13T05:00", "2026-04-13T06:00", "2026-04-13T07:00", "2026-04-13T08:00", "2026-04-13T09:00", "2026-04-13T10:00", "2026-04-13T11:00", "2026-04-13T12:00", "2026-04-13T13:00", "2026-04-13T14:00", "2026-04-13T15:00", "2026-04-13T16:00", "2026-04-13T17:00", "2026-04-13T18:00", "2026-04-13T19:00", "2026-04-13T20:00", "2026-04-13T21:00", "2026-04-13T22:00", "2026-04-13T23:00", "2026-04-14T00:00", "2026-04-14T01:00", "2026-04-14T02:00", "2026-04-14T03:00", "2026-04-14T04:00", "2026-04-14T05:00", "2026-04-14T06:00", "2026-04-14T07:00", "2026-04-14T08:00", "2026-04-14T09:00", "2026-04-14T10:00", "2026-04-14T11:00", "2026-04-14T12:00", "2026-04-14T13:00", "2026-04-14T14:00", "2026-04-14T15:00", "2026-04-14T16:00", "2026-04-14T17:00", "2026-04-14T18:00", "2026-04-14T19:00", "2026-04-14T20:00", "2026-04-14T21:00", "2026-04-14T22:00", "2026-04-14T23:00", "2026-04-15T00:00", "2026-04-15T01:00", "2026-04-15T02:00", "2026-04-15T03:00", "2026-04-15T04:00", "2026-04-15T05:00", "2026-04-15T06:00", "2026-04-15T07:00", "2026-04-15T08:00", "2026-04-15T09:00", "2026-04-15T10:00", "2026-04-15T11:00", "2026-04-15T12:00", "2026-04-15T13:00", "2026-04-15T14:00", "2026-04-15T15:00", "2026-04-15T16:00", "2026-04-15T17:00", "2026-04-15T18:00", "2026-04-15T19:00", "2026-04-15T20:00", "2026-04-15T21:00", "2026-04-15T22:00", "2026-04-15T23:00", "2026-04-16T00:00", "2026-04-16T01:00", "2026-04-16T02:00", "2026-04-16T03:00", "2026-04-16T04:00", "2026-04-16T05:00", "2026-04-16T06:00", "2026-04-16T07:00", "2026-04-16T08:00", "2026-04-16T09:00", "2026-04-16T10:00", "2026-04-16T11:00", "2026-04-16T12:00", "2026-04-16T13:00", "2026-04-16T14:00", "2026-04-16T15:00", "2026-04-16T16:00", "2026-04-16T17:00", "2026-04-16T18:00", "2026-04-16T19:00", "2026-04-16T20:00", "2026-04-16T21:00", "2026-04-16T22:00", "2026-04-16T23:00", "2026-04-17T00:00", "2026-04-17T01:00", "2026-04-17T02:00", "2026-04-17T03:00", "2026-04-17T04:00", "2026-04-17T05:00", "2026-04-17T06:00", "2026-04-17T07:00", "2026-04-17T08:00", "2026-04-17T09:00", "2026-04-17T10:00", "2026-04-17T11:00", "2026-04-17T12:00", "2026-04-17T13:00", "2026-04-17T14:00", "2026-04-17T15:00", "2026-04-17T16:00", "2026-04-17T17:00", "2026-04-17T18:00", "2026-04-17T19:00", "2026-04-17T20:00", "2026-04-17T21:00", "2026-04-17T22:00", "2026-04-17T23:00", "2026-04-18T00:00", "2026-04-18T01:00", "2026-04-18T02:00", "2026-04-18T03:00", "2026-04-18T04:00", "2026-04-18T05:00", "2026-04-18T06:00", "2026-04-18T07:00", "2026-04-18T08:00", "2026-04-18T09:00", "2026-04-18T10:00", "2026-04-18T11:00", "2026-04-18T12:00", "2026-04-18T13:00", "2026-04-18T14:00", "2026-04-18T15:00", "2026-04-18T16:00", "2026-04-18T17:00", "2026-04-18T18:00", "2026-04-18T19:00", "2026-04-18T20:00", "2026-04-18T21:00", "2026-04-18T22:00", "2026-04-18T23:00", "2026-04-19T00:00", "2026-04-19T01:00", "2026-04-19T02:00", "2026-04-19T03:00", "2026-04-19T04:00", "2026-04-19T05:00", "2026-04-19T06:00", "2026-04-19T07:00", "2026-04-19T08:00", "2026-04-19T09:00", "2026-04-19T10:00", "2026-04-19T11:00", "2026-04-19T12:00", "2026-04-19T13:00", "2026-04-19T14:00", "2026-04-19T15:00", "2026-04-19T16:00", "2026-04-19T17:00", "2026-04-19T18:00", "2026-04-19T19:00", "2026-04-19T20:00", "2026-04-19T21:00", "2026-04-19T22:00", "2026-04-19T23:00", "2026-04-20T00:00", "2026-04-20T01:00", "2026-04-20T02:00", "2026-04-20T03:00", "2026-04-20T04:00", "2026-04-20T05:00", "2026-04-20T06:00", "2026-04-20T07:00", "2026-04-20T08:00", "2026-04-20T09:00", "2026-04-20T10:00", "2026-04-20T11:00", "2026-04-20T12:00", "2026-04-20T13:00", "2026-04-20T14:00", "2026-04-20T15:00", "2026-04-20T16:00", "2026-04-20T17:00", "2026-04-20T18:00", "2026-04-20T19:00", "2026-04-20T20:00", "2026-04-20T21:00", "2026-04-20T22:00", "2026-04-20T23:00", "2026-04-21T00:00", "2026-04-21T01:00", "2026-04-21T02:00", "2026-04-21T03:00", "2026-04-21T04:00", "2026-04-21T05:00", "2026-04-21T06:00", "2026-04-21T07:00", "2026-04-21T08:00", "2026-04-21T09:00", "2026-04-21T10:00", "2026-04-21T11:00", "2026-04-21T12:00", "2026-04-21T13:00", "2026-04-21T14:00", "2026-04-21T15:00", "2026-04-21T16:00", "2026-04-21T17:00", "2026-04-21T18:00", "2026-04-21T19:00", "2026-04-21T20:00", "2026-04-21T21:00", "2026-04-21T22:00", "2026-04-21T23:00", "2026-04-22T00:00", "2026-04-22T01:00", "2026-04-22T02:00", "2026-04-22T03:00", "2026-04-22T04:00", "2026-04-22T05:00", "2026-04-22T06:00", "2026-04-22T07:00", "2026-04-22T08:00", "2026-04-22T09:00", "2026-04-22T10:00", "2026-04-22T11:00", "2026-04-22T12:00", "2026-04-22T13:00", "2026-04-22T14:00", "2026-04-22T15:00", "2026-04-22T16:00", "2026-04-22T17:00", "2026-04-22T18:00", "2026-04-22T19:00", "2026-04-22T20:00", "2026-04-22T21:00", "2026-04-22T22:00", "2026-04-22T23:00", "2026-04-23T00:00", "2026-04-23T01:00", "2026-04-23T02:00", "2026-04-23T03:00", "2026-04-23T04:00", "2026-04-23T05:00", "2026-04-23T06:00", "2026-04-23T07:00", "2026-04-23T08:00", "2026-04-23T09:00", "2026-04-23T10:00", "2026-04-23T11:00", "2026-04-23T12:00", "2026-04-23T13:00", "2026-04-23T14:00", "2026-04-23T15:00", "2026-04-23T16:00", "2026-04-23T17:00", "2026-04-23T18:00", "2026-04-23T19:00", "2026-04-23T20:00", "2026-04-23T21:00", "2026-04-23T22:00", "2026-04-23T23:00", "2026-04-24T00:00", "2026-04-24T01:00", "2026-04-24T02:00", "2026-04-24T03:00", "2026-04-24T04:00", "2026-04-24T05:00", "2026-04-24T06:00", "2026-04-24T07:00", "2026-04-24T08:00", "2026-04-24T09:00", "2026-04-24T10:00", "2026-04-24T11:00", "2026-04-24T12:00", "2026-04-24T13:00", "2026-04-24T14:00", "2026-04-24T15:00", "2026-04-24T16:00", "2026-04-24T17:00", "2026-04-24T18:00", "2026-04-24T19:00", "2026-04-24T20:00", "2026-04-24T21:00", "2026-04-24T22:00", "2026-04-24T23:00", "2026-04-25T00:00", "2026-04-25T01:00", "2026-04-25T02:00", "2026-04-25T03:00", "2026-04-25T04:00", "2026-04-25T05:00", "2026-04-25T06:00", "2026-04-25T07:00", "2026-04-25T08:00", "2026-04-25T09:00", "2026-04-25T10:00", "2026-04-25T11:00", "2026-04-25T12:00", "2026-04-25T13:00", "2026-04-25T14:00", "2026-04-25T15:00", "2026-04-25T16:00", "2026-04-25T17:00", "2026-04-25T18:00", "2026-04-25T19:00", "2026-04-25T20:00", "2026-04-25T21:00", "2026-04-25T22:00", "2026-04-25T23:00", "2026-04-26T00:00", "2026-04-26T01:00", "2026-04-26T02:00", "2026-04-26T03:00", "2026-04-26T04:00", "2026-04-26T05:00", "2026-04-26T06:00", "2026-04-26T07:00", "2026-04-26T08:00", "2026-04-26T09:00", "2026-04-26T10:00", "2026-04-26T11:00", "2026-04-26T12:00", "2026-04-26T13:00", "2026-04-26T14:00", "2026-04-26T15:00", "2026-04-26T16:00", "2026-04-26T17:00", "2026-04-26T18:00", "2026-04-26T19:00", "2026-04-26T20:00", "2026-04-26T21:00", "2026-04-26T22:00", "2026-04-26T23:00", "2026-04-27T00:00", "2026-04-27T01:00", "2026-04-27T02:00", "2026-04-27T03:00", "2026-04-27T04:00", "2026-04-27T05:00", "2026-04-27T06:00", "2026-04-27T07:00", "2026-04-27T08:00", "2026-04-27T09:00", "2026-04-27T10:00", "2026-04-27T11:00", "2026-04-27T12:00", "2026-04-27T13:00", "2026-04-27T14:00", "2026-04-27T15:00", "2026-04-27T16:00", "2026-04-27T17:00", "2026-04-27T18:00", "2026-04-27T19:00", "2026-04-27T20:00", "2026-04-27T21:00", "2026-04-27T22:00", "2026-04-27T23:00", "2026-04-28T00:00", "2026-04-28T01:00", "2026-04-28T02:00", "2026-04-28T03:00", "2026-04-28T04:00", "2026-04-28T05:00", "2026-04-28T06:00", "2026-04-28T07:00", "2026-04-28T08:00", "2026-04-28T09:00", "2026-04-28T10:00", "2026-04-28T11:00", "2026-04-28T12:00", "2026-04-28T13:00", "2026-04-28T14:00", "2026-04-28T15:00", "2026-04-28T16:00", "2026-04-28T17:00", "2026-04-28T18:00", "2026-04-28T19:00", "2026-04-28T20:00", "2026-04-28T21:00", "2026-04-28T22:00", "2026-04-28T23:00", "2026-04-29T00:00", "2026-04-29T01:00", "2026-04-29T02:00", "2026-04-29T03:00", "2026-04-29T04:00", "2026-04-29T05:00", "2026-04-29T06:00", "2026-04-29T07:00", "2026-04-29T08:00", "2026-04-29T09:00", "2026-04-29T10:00", "2026-04-29T11:00", "2026-04-29T12:00", "2026-04-29T13:00", "2026-04-29T14:00", "2026-04-29T15:00", "2026-04-29T16:00", "2026-04-29T17:00", "2026-04-29T18:00", "2026-04-29T19:00", "2026-04-29T20:00", "2026-04-29T21:00", "2026-04-29T22:00", "2026-04-29T23:00", "2026-04-30T00:00", "2026-04-30T01:00", "2026-04-30T02:00", "2026-04-30T03:00", "2026-04-30T04:00", "2026-04-30T05:00", "2026-04-30T06:00", "2026-04-30T07:00", "2026-04-30T08:00", "2026-04-30T09:00", "2026-04-30T10:00", "2026-04-30T11:00", "2026-04-30T12:00", "2026-04-30T13:00", "2026-04-30T14:00", "2026-04-30T15:00", "2026-04-30T16:00", "2026-04-30T17:00", "2026-04-30T18:00", "2026-04-30T19:00", "2026-04-30T20:00", "2026-04-30T21:00", "2026-04-30T22:00", "2026-04-30T23:00", "2026-05-01T00:00", "2026-05-01T01:00", "2026-05-01T02:00", "2026-05-01T03:00", "2026-05-01T04:00", "2026-05-01T05:00", "2026-05-01T06:00", "2026-05-01T07:00", "2026-05-01T08:00", "2026-05-01T09:00", "2026-05-01T10:00", "2026-05-01T11:00", "2026-05-01T12:00", "2026-05-01T13:00", "2026-05-01T14:00", "2026-05-01T15:00", "2026-05-01T16:00", "2026-05-01T17:00", "2026-05-01T18:00", "2026-05-01T19:00", "2026-05-01T20:00", "2026-05-01T21:00", "2026-05-01T22:00", "2026-05-01T23:00", "2026-05-02T00:00", "2026-05-02T01:00", "2026-05-02T02:00", "2026-05-02T03:00", "2026-05-02T04:00", "2026-05-02T05:00", "2026-05-02T06:00", "2026-05-02T07:00", "2026-05-02T08:00", "2026-05-02T09:00", "2026-05-02T10:00", "2026-05-02T11:00", "2026-05-02T12:00", "2026-05-02T13:00", "2026-05-02T14:00", "2026-05-02T15:00", "2026-05-02T16:00", "2026-05-02T17:00", "2026-05-02T18:00", "2026-05-02T19:00", "2026-05-02T20:00", "2026-05-02T21:00", "2026-05-02T22:00", "2026-05-02T23:00", "2026-05-03T00:00", "2026-05-03T01:00", "2026-05-03T02:00", "2026-05-03T03:00", "2026-05-03T04:00", "2026-05-03T05:00", "2026-05-03T06:00", "2026-05-03T07:00", "2026-05-03T08:00", "2026-05-03T09:00", "2026-05-03T10:00", "2026-05-03T11:00", "2026-05-03T12:00", "2026-05-03T13:00", "2026-05-03T14:00", "2026-05-03T15:00", "2026-05-03T16:00", "2026-05-03T17:00", "2026-05-03T18:00", "2026-05-03T19:00", "2026-05-03T20:00", "2026-05-03T21:00", "2026-05-03T22:00", "2026-05-03T23:00", "2026-05-04T00:00", "2026-05-04T01:00", "2026-05-04T02:00", "2026-05-04T03:00", "2026-05-04T04:00", "2026-05-04T05:00", "2026-05-04T06:00", "2026-05-04T07:00", "2026-05-04T08:00", "2026-05-04T09:00", "2026-05-04T10:00", "2026-05-04T11:00", "2026-05-04T12:00", "2026-05-04T13:00", "2026-05-04T14:00", "2026-05-04T15:00", "2026-05-04T16:00", "2026-05-04T17:00", "2026-05-04T18:00", "2026-05-04T19:00", "2026-05-04T20:00", "2026-05-04T21:00", "2026-05-04T22:00", "2026-05-04T23:00"];
-const L30V = [869.88, 874.45, 873.05, 873.33, 872.34, 871.35, 874.44, 849.98, 746.72, 639.72, 601.07, 606.33, 615.63, 607.23, 623.81, 618.21, 629.62, 698.18, 795.39, 826.84, 827.19, 834.6, 828.12, 837.88, 845.8, 857.98, 865.81, 871.37, 878.66, 877.52, 877.67, 854.95, 762.68, 652.39, 586.85, 572.08, 583.66, 587.89, 601.75, 591.36, 622.41, 695.75, 785.88, 801.41, 810.78, 826.58, 820.55, 829.84, 841.34, 840.73, 841.43, 844.05, 847.53, 851.57, 853.35, 831.82, 758.66, 676.05, 607.94, 590.65, 586.78, 586.41, 601.93, 598.4, 627.23, 706.26, 787.84, 810.64, 814.14, 822.4, 813.81, 834.69, 851.32, 855.68, 856.14, 858.08, 862.43, 862.1, 863.94, 834.76, 734.43, 623.1, 578.11, 590.25, 580.51, 588.12, 595.11, 592.1, 625.94, 700.7, 809.7, 848.09, 852.69, 857.55, 853.51, 879.94, 887.83, 890.22, 889.76, 893.43, 898.23, 901.07, 902.41, 871.63, 760.76, 641.39, 598.69, 577.11, 585.85, 603.16, 602.87, 601.4, 642.91, 719.81, 832.04, 853.88, 852.2, 863.44, 861.42, 870.0, 884.94, 884.94, 884.57, 888.46, 891.09, 885.97, 883.13, 854.48, 750.42, 635.41, 594.23, 573.25, 600.06, 598.38, 606.93, 603.88, 638.99, 724.93, 832.5, 851.83, 854.0, 861.93, 861.52, 870.01, 885.5, 888.29, 895.76, 900.04, 900.58, 895.7, 896.11, 859.66, 758.72, 643.72, 598.53, 577.71, 576.59, 589.29, 587.11, 596.97, 646.16, 728.64, 825.0, 836.21, 839.33, 855.41, 854.08, 867.69, 878.1, 880.72, 887.44, 892.76, 899.5, 898.37, 895.19, 857.04, 741.42, 637.11, 595.6, 585.27, 581.33, 594.78, 608.15, 601.01, 634.5, 714.41, 829.4, 856.96, 856.39, 862.15, 858.16, 873.11, 879.76, 891.91, 895.9, 896.08, 891.77, 889.62, 890.52, 857.05, 751.64, 652.95, 605.36, 573.35, 558.92, 568.21, 573.81, 604.68, 652.64, 727.94, 825.41, 838.08, 846.35, 858.02, 854.71, 867.57, 869.95, 881.41, 893.08, 902.08, 904.81, 899.36, 890.77, 865.86, 763.33, 662.49, 606.38, 578.05, 578.03, 582.55, 587.85, 607.67, 657.08, 727.89, 825.6, 847.46, 848.1, 862.09, 854.57, 865.1, 871.51, 880.97, 885.92, 896.21, 899.73, 897.65, 895.09, 866.11, 764.51, 664.68, 617.57, 589.3, 574.23, 591.25, 602.22, 625.96, 669.89, 738.44, 828.09, 842.28, 845.28, 853.51, 857.4, 866.95, 880.27, 886.75, 892.39, 899.81, 903.64, 902.78, 896.85, 870.41, 768.34, 672.17, 625.61, 599.96, 584.42, 589.73, 603.31, 646.91, 697.63, 781.93, 847.0, 855.27, 852.0, 861.57, 859.07, 858.35, 872.82, 883.38, 897.21, 907.14, 904.82, 903.54, 902.65, 876.22, 775.84, 685.36, 635.82, 605.54, 600.61, 594.4, 610.04, 644.67, 687.49, 742.2, 822.77, 849.68, 850.19, 862.55, 853.31, 848.9, 869.26, 878.35, 886.87, 891.91, 895.87, 895.7, 892.44, 864.88, 761.22, 666.44, 630.32, 612.63, 599.72, 606.28, 625.24, 662.13, 703.44, 762.86, 836.79, 851.82, 850.99, 858.76, 851.04, 857.97, 869.27, 878.4, 886.5, 895.86, 899.63, 900.41, 902.62, 872.65, 762.38, 660.07, 613.59, 594.63, 591.69, 588.74, 588.67, 630.05, 667.52, 734.67, 822.7, 863.47, 859.8, 865.83, 855.23, 862.01, 872.24, 876.71, 891.25, 905.44, 913.08, 911.79, 909.33, 883.36, 774.04, 672.2, 628.08, 604.77, 598.05, 584.84, 598.74, 652.67, 700.29, 759.06, 837.98, 850.66, 850.79, 862.81, 852.46, 847.18, 862.82, 869.65, 880.68, 886.69, 890.78, 894.76, 888.01, 865.85, 754.92, 663.75, 620.67, 586.79, 581.22, 578.79, 594.04, 640.08, 694.1, 755.72, 830.84, 845.61, 838.26, 846.48, 836.02, 836.02, 851.97, 864.54, 872.71, 890.06, 902.81, 901.49, 894.65, 867.43, 748.44, 654.5, 611.03, 602.37, 580.67, 578.57, 585.81, 624.82, 670.37, 731.69, 819.26, 836.38, 840.09, 852.62, 846.25, 844.75, 854.73, 864.8, 874.32, 882.42, 882.07, 882.14, 881.6, 860.68, 761.18, 665.05, 621.52, 597.13, 585.33, 579.1, 586.58, 629.12, 676.07, 743.1, 820.43, 839.32, 834.01, 846.95, 841.24, 837.03, 851.25, 861.72, 871.13, 872.96, 880.23, 876.79, 873.1, 847.33, 759.98, 672.7, 637.9, 621.53, 606.66, 605.33, 626.51, 661.35, 707.29, 759.51, 820.8, 834.91, 837.03, 844.18, 834.73, 827.32, 839.96, 853.64, 862.6, 873.95, 880.75, 882.58, 881.34, 856.43, 776.5, 692.91, 652.69, 645.1, 617.45, 612.21, 642.5, 690.25, 735.52, 773.38, 823.45, 838.99, 839.79, 850.51, 841.38, 836.3, 840.56, 851.23, 857.67, 871.69, 875.09, 876.29, 877.63, 851.06, 769.71, 684.5, 649.08, 622.69, 591.1, 593.02, 613.54, 662.82, 706.91, 765.22, 832.45, 856.4, 845.88, 856.17, 850.48, 844.98, 851.37, 859.08, 865.21, 866.75, 870.29, 867.35, 867.72, 837.8, 725.88, 651.44, 616.84, 592.72, 594.0, 599.71, 623.66, 661.1, 704.61, 751.15, 803.81, 820.98, 819.49, 835.77, 826.21, 831.41, 842.58, 846.67, 855.26, 866.57, 875.46, 878.72, 876.65, 840.01, 726.28, 639.01, 617.1, 583.47, 578.73, 581.96, 606.85, 647.79, 687.92, 738.62, 800.82, 821.12, 824.28, 827.75, 815.2, 824.15, 834.31, 847.24, 857.1, 862.13, 865.29, 874.08, 870.25, 837.15, 738.26, 645.1, 597.14, 570.09, 569.95, 571.57, 587.57, 627.52, 674.7, 728.85, 804.44, 820.89, 814.87, 831.55, 834.66, 836.31, 847.07, 847.08, 848.93, 858.17, 868.15, 866.16, 870.09, 838.26, 724.07, 641.63, 590.52, 573.46, 575.15, 568.8, 575.41, 617.25, 645.92, 687.74, 757.95, 789.17, 803.83, 814.38, 810.27, 819.92, 821.62, 825.28, 833.78, 840.76, 844.0, 846.56, 846.27, 792.79, 696.38, 665.31, 633.94, 597.75, 611.3, 597.64, 594.07, 571.19, 599.71, 667.11, 747.13, 790.54, 800.1, 815.24, 813.07, 816.42, 829.37, 830.38, 837.57, 843.42, 855.55, 856.67, 858.62, 802.07, 679.49, 598.8, 559.55, 550.06, 545.94, 556.77, 560.44, 598.3, 652.98, 715.78, 772.65, 796.93, 805.41, 821.72, 810.86, 811.1, 827.67, 830.15, 832.09, 833.19, 840.51, 839.44, 838.56, 787.6, 670.92, 630.79, 609.9, 607.11, 603.4, 599.25, 589.09, 563.18, 592.26, 658.88, 754.95, 790.54, 790.7, 805.09, 796.04, 798.32, 815.3, 828.86, 832.12, 838.46, 844.64, 849.18, 856.6, 807.47, 695.55, 607.9, 594.43, 577.58, 562.22, 553.03, 561.32, 625.05, 675.93, 728.93, 796.6, 818.96, 811.12, 828.4, 818.63, 826.85];
-const DD   = ["2025-04-01", "2025-04-02", "2025-04-03", "2025-04-04", "2025-04-05", "2025-04-06", "2025-04-07", "2025-04-08", "2025-04-09", "2025-04-10", "2025-04-11", "2025-04-12", "2025-04-13", "2025-04-14", "2025-04-15", "2025-04-16", "2025-04-17", "2025-04-18", "2025-04-19", "2025-04-20", "2025-04-21", "2025-04-22", "2025-04-23", "2025-04-24", "2025-04-25", "2025-04-26", "2025-04-27", "2025-04-28", "2025-04-29", "2025-04-30", "2025-05-01", "2025-05-02", "2025-05-03", "2025-05-04", "2025-05-05", "2025-05-06", "2025-05-07", "2025-05-08", "2025-05-09", "2025-05-10", "2025-05-11", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-17", "2025-05-18", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-24", "2025-05-25", "2025-05-26", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-05-31", "2025-06-01", "2025-06-02", "2025-06-03", "2025-06-04", "2025-06-05", "2025-06-06", "2025-06-07", "2025-06-08", "2025-06-09", "2025-06-10", "2025-06-11", "2025-06-12", "2025-06-13", "2025-06-14", "2025-06-15", "2025-06-16", "2025-06-17", "2025-06-18", "2025-06-19", "2025-06-20", "2025-06-21", "2025-06-22", "2025-06-23", "2025-06-24", "2025-06-25", "2025-06-26", "2025-06-27", "2025-06-28", "2025-06-29", "2025-06-30", "2025-07-01", "2025-07-02", "2025-07-03", "2025-07-04", "2025-07-05", "2025-07-06", "2025-07-07", "2025-07-08", "2025-07-09", "2025-07-10", "2025-07-11", "2025-07-12", "2025-07-13", "2025-07-14", "2025-07-16", "2025-07-17", "2025-07-18", "2025-07-19", "2025-07-20", "2025-07-21", "2025-07-22", "2025-07-23", "2025-07-24", "2025-07-25", "2025-07-26", "2025-07-27", "2025-07-28", "2025-07-29", "2025-07-30", "2025-07-31", "2025-08-01", "2025-08-02", "2025-08-03", "2025-08-04", "2025-08-05", "2025-08-06", "2025-08-07", "2025-08-08", "2025-08-09", "2025-08-10", "2025-08-11", "2025-08-12", "2025-08-13", "2025-08-14", "2025-08-15", "2025-08-16", "2025-08-17", "2025-08-18", "2025-08-19", "2025-08-21", "2025-08-22", "2025-08-23", "2025-08-24", "2025-08-25", "2025-08-26", "2025-08-27", "2025-08-28", "2025-08-29", "2025-08-30", "2025-08-31", "2025-09-01", "2025-09-02", "2025-09-03", "2025-09-04", "2025-09-05", "2025-09-06", "2025-09-07", "2025-09-08", "2025-09-09", "2025-09-10", "2025-09-11", "2025-09-12", "2025-09-13", "2025-09-14", "2025-09-15", "2025-09-16", "2025-09-17", "2025-09-18", "2025-09-19", "2025-09-20", "2025-09-21", "2025-09-22", "2025-09-23", "2025-09-24", "2025-09-25", "2025-09-26", "2025-09-27", "2025-09-28", "2025-09-29", "2025-09-30", "2025-10-01", "2025-10-02", "2025-10-03", "2025-10-04", "2025-10-05", "2025-10-06", "2025-10-07", "2025-10-08", "2025-10-09", "2025-10-10", "2025-10-11", "2025-10-12", "2025-10-13", "2025-10-14", "2025-10-15", "2025-10-16", "2025-10-17", "2025-10-18", "2025-10-19", "2025-10-20", "2025-10-21", "2025-10-22", "2025-10-23", "2025-10-24", "2025-10-25", "2025-10-26", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-01", "2025-11-02", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-08", "2025-11-09", "2025-11-11", "2025-11-12", "2025-11-13", "2025-11-14", "2025-11-15", "2025-11-16", "2025-11-17", "2025-11-18", "2025-11-19", "2025-11-20", "2025-11-21", "2025-11-22", "2025-11-23", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-27", "2025-11-28", "2025-11-29", "2025-11-30", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-06", "2025-12-07", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-20", "2025-12-21", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-27", "2025-12-28", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-03", "2026-01-04", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-10", "2026-01-11", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-15", "2026-01-16", "2026-01-17", "2026-01-18", "2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09", "2026-02-10", "2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", "2026-02-23", "2026-02-24", "2026-02-25", "2026-02-26", "2026-02-27", "2026-02-28", "2026-03-01", "2026-03-02", "2026-03-03", "2026-03-04", "2026-03-05", "2026-03-06", "2026-03-07", "2026-03-08", "2026-03-09", "2026-03-10", "2026-03-11", "2026-03-12", "2026-03-13", "2026-03-14", "2026-03-15", "2026-03-16", "2026-03-17", "2026-03-18", "2026-03-19", "2026-03-20", "2026-03-21", "2026-03-22", "2026-03-23", "2026-03-24", "2026-03-25", "2026-03-26", "2026-03-27", "2026-03-28", "2026-03-29", "2026-03-30", "2026-03-31", "2026-04-01", "2026-04-02", "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", "2026-04-07", "2026-04-08", "2026-04-09", "2026-04-10", "2026-04-11", "2026-04-12", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16", "2026-04-17", "2026-04-18", "2026-04-19", "2026-04-20", "2026-04-21", "2026-04-22", "2026-04-23", "2026-04-24", "2026-04-25", "2026-04-26", "2026-04-27", "2026-04-28", "2026-04-29", "2026-04-30", "2026-05-01", "2026-05-02", "2026-05-03", "2026-05-04"];
-const DV   = [810.3, 815.7, 823.1, 816.8, 812.5, 789.9, 790.5, 799.9, 799.4, 775.6, 755.3, 777.8, 783.8, 784.7, 785.7, 787.0, 787.2, 769.9, 755.8, 777.1, 798.7, 792.2, 787.1, 784.8, 791.3, 842.6, 796.6, 791.0, 777.1, 769.7, 761.4, 764.8, 763.3, 761.9, 774.1, 773.8, 775.7, 781.6, 788.4, 790.9, 775.6, 767.0, 769.0, 782.4, 785.7, 762.7, 762.1, 764.0, 772.4, 764.2, 747.8, 722.9, 723.0, 711.6, 703.7, 703.0, 694.0, 701.8, 705.6, 686.6, 664.3, 684.1, 698.7, 700.8, 720.0, 751.8, 761.8, 740.6, 723.3, 727.8, 716.8, 727.4, 732.9, 744.7, 753.3, 744.3, 717.3, 705.6, 680.3, 668.1, 666.5, 684.7, 684.7, 698.3, 676.9, 713.3, 721.6, 708.2, 705.0, 676.2, 666.9, 674.3, 692.6, 707.6, 700.7, 681.0, 661.0, 668.0, 677.3, 674.5, 684.5, 701.3, 693.4, 681.1, 666.3, 691.6, 705.3, 720.3, 718.3, 707.2, 725.9, 709.4, 683.0, 684.5, 680.9, 653.3, 645.9, 651.1, 639.7, 658.6, 679.0, 706.4, 695.7, 693.4, 699.1, 699.0, 708.7, 708.4, 712.0, 704.0, 689.4, 682.4, 678.6, 702.3, 729.0, 694.7, 687.2, 665.3, 666.6, 667.3, 688.1, 677.5, 663.2, 648.2, 661.5, 674.9, 691.5, 680.0, 682.9, 696.6, 668.6, 647.3, 644.5, 647.3, 644.0, 651.8, 655.6, 646.2, 675.9, 708.5, 721.7, 712.1, 714.2, 715.6, 700.3, 687.3, 707.6, 725.1, 722.1, 720.4, 708.5, 839.8, 698.1, 695.6, 698.9, 709.3, 709.7, 692.5, 677.3, 700.3, 714.3, 692.1, 675.9, 706.7, 712.9, 706.3, 706.9, 719.9, 738.6, 742.2, 742.9, 742.9, 744.5, 747.0, 751.8, 754.1, 757.9, 759.0, 768.5, 759.7, 759.2, 748.1, 735.8, 741.8, 753.9, 744.7, 742.9, 736.4, 706.5, 691.1, 708.0, 728.4, 737.9, 748.7, 752.3, 747.1, 775.6, 775.3, 773.9, 773.3, 780.6, 794.0, 793.3, 793.7, 794.6, 784.8, 770.3, 784.8, 792.0, 803.9, 795.5, 797.0, 807.3, 813.2, 805.3, 787.6, 800.6, 801.5, 813.0, 819.7, 824.7, 827.8, 825.6, 812.6, 802.6, 797.5, 801.4, 798.9, 797.1, 793.5, 801.0, 807.3, 818.7, 823.6, 810.6, 803.4, 802.9, 812.4, 815.1, 818.3, 830.0, 828.2, 822.9, 814.3, 806.4, 821.5, 826.6, 826.6, 825.1, 829.3, 841.6, 858.1, 850.0, 834.5, 823.0, 816.5, 822.9, 812.4, 799.5, 804.6, 802.9, 813.3, 809.1, 809.6, 817.5, 827.7, 828.7, 832.1, 829.3, 827.1, 829.3, 823.6, 807.4, 812.9, 793.9, 793.1, 777.1, 804.1, 794.1, 784.3, 785.0, 800.7, 802.5, 803.0, 797.3, 795.6, 775.0, 794.1, 801.6, 804.5, 802.8, 812.6, 807.1, 785.8, 789.8, 799.3, 801.8, 799.9, 797.0, 795.1, 794.7, 790.2, 782.7, 803.8, 816.1, 822.9, 814.4, 818.0, 812.0, 808.7, 803.1, 806.9, 812.0, 796.5, 783.0, 785.5, 790.2, 803.9, 803.8, 801.3, 793.6, 792.6, 803.1, 805.2, 790.3, 788.2, 796.4, 804.6, 828.8, 815.2, 796.1, 800.6, 787.1, 776.8, 790.0, 789.3, 793.0, 773.3, 761.0, 757.1, 783.7, 787.5, 793.2, 785.4, 791.6, 779.8, 762.1, 752.5, 749.9, 757.4, 775.1, 771.2, 771.2, 772.3, 768.9, 773.8, 776.4, 785.2, 784.4, 783.7, 778.3, 785.6, 772.7, 770.2, 768.8, 774.7, 783.3, 777.7, 764.3, 758.9, 754.4, 743.6, 736.0, 732.1, 729.3, 740.2];
-const DT   = ["00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00", "02:15", "02:30", "02:45", "03:00", "03:15", "03:30", "03:45", "04:00", "04:15", "04:30", "04:45", "05:00", "05:15", "05:30", "05:45", "06:00", "06:15", "06:30", "06:45", "07:00", "07:15", "07:30", "07:45", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45"];
-const DTV  = [836.9, 839.4, 838.6, 838.9, 839.2, 840.4, 841.0, 842.0, 842.3, 843.4, 843.6, 844.3, 844.9, 845.9, 845.9, 846.5, 846.7, 847.3, 847.9, 848.3, 848.3, 848.8, 848.5, 847.1, 844.9, 840.8, 833.9, 826.2, 816.1, 803.9, 788.8, 772.5, 754.6, 735.7, 716.3, 698.4, 681.9, 669.1, 656.4, 645.2, 634.3, 626.3, 619.1, 614.0, 608.2, 603.9, 600.8, 598.3, 595.7, 594.3, 593.7, 593.3, 591.8, 592.8, 593.9, 597.8, 602.0, 608.1, 615.3, 621.9, 630.4, 639.9, 652.3, 665.1, 678.7, 693.7, 710.3, 727.5, 743.0, 758.2, 772.2, 783.6, 792.9, 799.7, 803.9, 806.1, 807.4, 809.3, 812.5, 814.1, 816.5, 820.2, 822.7, 825.0, 826.9, 827.7, 827.6, 828.4, 829.4, 829.9, 829.9, 831.4, 832.4, 834.0, 834.9, 835.6];
-const ML   = ["Apr'25", "May'25", "Jun'25", "Jul'25", "Aug'25", "Sep'25", "Oct'25", "Nov'25", "Dec'25", "Jan'26", "Feb'26", "Mar'26", "Apr'26", "May'26"];
-const MV   = [791.0, 748.6, 710.1, 683.9, 687.4, 696.4, 733.8, 787.6, 816.2, 811.9, 801.0, 793.4, 772.2, 734.4];
-const MC   = ["rgba(245,158,11,0.52)", "rgba(34,211,160,0.52)", "rgba(34,211,160,0.52)", "rgba(34,211,160,0.82)", "rgba(34,211,160,0.82)", "rgba(34,211,160,0.82)", "rgba(34,211,160,0.52)", "rgba(245,158,11,0.52)", "rgba(248,113,113,0.52)", "rgba(248,113,113,0.52)", "rgba(248,113,113,0.52)", "rgba(245,158,11,0.52)", "rgba(245,158,11,0.52)", "rgba(34,211,160,0.52)"];
-const FT   = [{"date": "2026-04-05", "val": 762.1}, {"date": "2026-04-06", "val": 752.5}, {"date": "2026-04-07", "val": 749.9}, {"date": "2026-04-08", "val": 757.4}, {"date": "2026-04-09", "val": 775.1}, {"date": "2026-04-10", "val": 771.2}, {"date": "2026-04-11", "val": 771.2}, {"date": "2026-04-12", "val": 772.3}, {"date": "2026-04-13", "val": 768.9}, {"date": "2026-04-14", "val": 773.8}, {"date": "2026-04-15", "val": 776.4}, {"date": "2026-04-16", "val": 785.2}, {"date": "2026-04-17", "val": 784.4}, {"date": "2026-04-18", "val": 783.7}, {"date": "2026-04-19", "val": 778.3}, {"date": "2026-04-20", "val": 785.6}, {"date": "2026-04-21", "val": 772.7}, {"date": "2026-04-22", "val": 770.2}, {"date": "2026-04-23", "val": 768.8}, {"date": "2026-04-24", "val": 774.7}, {"date": "2026-04-25", "val": 783.3}, {"date": "2026-04-26", "val": 777.7}, {"date": "2026-04-27", "val": 764.3}, {"date": "2026-04-28", "val": 758.9}, {"date": "2026-04-29", "val": 754.4}, {"date": "2026-04-30", "val": 743.6}, {"date": "2026-05-01", "val": 736.0}, {"date": "2026-05-02", "val": 732.1}, {"date": "2026-05-03", "val": 729.3}, {"date": "2026-05-04", "val": 740.2}];
-const OLL  = ["2026-04-02T00:00", "2026-04-02T01:00", "2026-04-02T02:00", "2026-04-02T03:00", "2026-04-02T04:00", "2026-04-02T05:00", "2026-04-02T06:00", "2026-04-02T07:00", "2026-04-02T08:00", "2026-04-02T09:00", "2026-04-02T10:00", "2026-04-02T11:00", "2026-04-02T12:00", "2026-04-02T13:00", "2026-04-02T14:00", "2026-04-02T15:00", "2026-04-02T16:00", "2026-04-02T17:00", "2026-04-02T18:00", "2026-04-02T19:00", "2026-04-02T20:00", "2026-04-02T21:00", "2026-04-02T22:00", "2026-04-02T23:00", "2026-04-03T00:00", "2026-04-03T01:00", "2026-04-03T02:00", "2026-04-03T03:00", "2026-04-03T04:00", "2026-04-03T05:00", "2026-04-03T06:00", "2026-04-03T07:00", "2026-04-03T08:00", "2026-04-03T09:00", "2026-04-03T10:00", "2026-04-03T11:00", "2026-04-03T12:00", "2026-04-03T13:00", "2026-04-03T14:00", "2026-04-03T15:00", "2026-04-03T16:00", "2026-04-03T17:00", "2026-04-03T18:00", "2026-04-03T19:00", "2026-04-03T20:00", "2026-04-03T21:00", "2026-04-03T22:00", "2026-04-03T23:00", "2026-04-04T00:00", "2026-04-04T01:00", "2026-04-04T02:00", "2026-04-04T03:00", "2026-04-04T04:00", "2026-04-04T05:00", "2026-04-04T06:00", "2026-04-04T07:00", "2026-04-04T08:00", "2026-04-04T09:00", "2026-04-04T10:00", "2026-04-04T11:00", "2026-04-04T12:00", "2026-04-04T13:00", "2026-04-04T14:00", "2026-04-04T15:00", "2026-04-04T16:00", "2026-04-04T17:00", "2026-04-04T18:00", "2026-04-04T19:00", "2026-04-04T20:00", "2026-04-04T21:00", "2026-04-04T22:00", "2026-04-04T23:00", "2026-04-05T00:00", "2026-04-05T01:00", "2026-04-05T02:00", "2026-04-05T03:00", "2026-04-05T04:00", "2026-04-05T05:00", "2026-04-05T06:00", "2026-04-05T07:00", "2026-04-05T08:00", "2026-04-05T09:00", "2026-04-05T10:00", "2026-04-05T11:00", "2026-04-05T12:00", "2026-04-05T13:00", "2026-04-05T14:00", "2026-04-05T15:00", "2026-04-05T16:00", "2026-04-05T17:00", "2026-04-05T18:00", "2026-04-05T19:00", "2026-04-05T20:00", "2026-04-05T21:00", "2026-04-05T22:00", "2026-04-05T23:00", "2026-04-06T00:00", "2026-04-06T01:00", "2026-04-06T02:00", "2026-04-06T03:00", "2026-04-06T04:00", "2026-04-06T05:00", "2026-04-06T06:00", "2026-04-06T07:00", "2026-04-06T08:00", "2026-04-06T09:00", "2026-04-06T10:00", "2026-04-06T11:00", "2026-04-06T12:00", "2026-04-06T13:00", "2026-04-06T14:00", "2026-04-06T15:00", "2026-04-06T16:00", "2026-04-06T17:00", "2026-04-06T18:00", "2026-04-06T19:00", "2026-04-06T20:00", "2026-04-06T21:00", "2026-04-06T22:00", "2026-04-06T23:00", "2026-04-07T00:00", "2026-04-07T01:00", "2026-04-07T02:00", "2026-04-07T03:00", "2026-04-07T04:00", "2026-04-07T05:00", "2026-04-07T06:00", "2026-04-07T07:00", "2026-04-07T08:00", "2026-04-07T09:00", "2026-04-07T10:00", "2026-04-07T11:00", "2026-04-07T12:00", "2026-04-07T13:00", "2026-04-07T14:00", "2026-04-07T15:00", "2026-04-07T16:00", "2026-04-07T17:00", "2026-04-07T18:00", "2026-04-07T19:00", "2026-04-07T20:00", "2026-04-07T21:00", "2026-04-07T22:00", "2026-04-07T23:00", "2026-04-08T00:00", "2026-04-08T01:00", "2026-04-08T02:00", "2026-04-08T03:00", "2026-04-08T04:00", "2026-04-08T05:00", "2026-04-08T06:00", "2026-04-08T07:00", "2026-04-08T08:00", "2026-04-08T09:00", "2026-04-08T10:00", "2026-04-08T11:00", "2026-04-08T12:00", "2026-04-08T13:00", "2026-04-08T14:00", "2026-04-08T15:00", "2026-04-08T16:00", "2026-04-08T17:00", "2026-04-08T18:00", "2026-04-08T19:00", "2026-04-08T20:00", "2026-04-08T21:00", "2026-04-08T22:00", "2026-04-08T23:00", "2026-04-09T00:00", "2026-04-09T01:00", "2026-04-09T02:00", "2026-04-09T03:00", "2026-04-09T04:00", "2026-04-09T05:00", "2026-04-09T06:00", "2026-04-09T07:00", "2026-04-09T08:00", "2026-04-09T09:00", "2026-04-09T10:00", "2026-04-09T11:00", "2026-04-09T12:00", "2026-04-09T13:00", "2026-04-09T14:00", "2026-04-09T15:00", "2026-04-09T16:00", "2026-04-09T17:00", "2026-04-09T18:00", "2026-04-09T19:00", "2026-04-09T20:00", "2026-04-09T21:00", "2026-04-09T22:00", "2026-04-09T23:00", "2026-04-10T00:00", "2026-04-10T01:00", "2026-04-10T02:00", "2026-04-10T03:00", "2026-04-10T04:00", "2026-04-10T05:00", "2026-04-10T06:00", "2026-04-10T07:00", "2026-04-10T08:00", "2026-04-10T09:00", "2026-04-10T10:00", "2026-04-10T11:00", "2026-04-10T12:00", "2026-04-10T13:00", "2026-04-10T14:00", "2026-04-10T15:00", "2026-04-10T16:00", "2026-04-10T17:00", "2026-04-10T18:00", "2026-04-10T19:00", "2026-04-10T20:00", "2026-04-10T21:00", "2026-04-10T22:00", "2026-04-10T23:00", "2026-04-11T00:00", "2026-04-11T01:00", "2026-04-11T02:00", "2026-04-11T03:00", "2026-04-11T04:00", "2026-04-11T05:00", "2026-04-11T06:00", "2026-04-11T07:00", "2026-04-11T08:00", "2026-04-11T09:00", "2026-04-11T10:00", "2026-04-11T11:00", "2026-04-11T12:00", "2026-04-11T13:00", "2026-04-11T14:00", "2026-04-11T15:00", "2026-04-11T16:00", "2026-04-11T17:00", "2026-04-11T18:00", "2026-04-11T19:00", "2026-04-11T20:00", "2026-04-11T21:00", "2026-04-11T22:00", "2026-04-11T23:00", "2026-04-12T00:00", "2026-04-12T01:00", "2026-04-12T02:00", "2026-04-12T03:00", "2026-04-12T04:00", "2026-04-12T05:00", "2026-04-12T06:00", "2026-04-12T07:00", "2026-04-12T08:00", "2026-04-12T09:00", "2026-04-12T10:00", "2026-04-12T11:00", "2026-04-12T12:00", "2026-04-12T13:00", "2026-04-12T14:00", "2026-04-12T15:00", "2026-04-12T16:00", "2026-04-12T17:00", "2026-04-12T18:00", "2026-04-12T19:00", "2026-04-12T20:00", "2026-04-12T21:00", "2026-04-12T22:00", "2026-04-12T23:00", "2026-04-13T00:00", "2026-04-13T01:00", "2026-04-13T02:00", "2026-04-13T03:00", "2026-04-13T04:00", "2026-04-13T05:00", "2026-04-13T06:00", "2026-04-13T07:00", "2026-04-13T08:00", "2026-04-13T09:00", "2026-04-13T10:00", "2026-04-13T11:00", "2026-04-13T12:00", "2026-04-13T13:00", "2026-04-13T14:00", "2026-04-13T15:00", "2026-04-13T16:00", "2026-04-13T17:00", "2026-04-13T18:00", "2026-04-13T19:00", "2026-04-13T20:00", "2026-04-13T21:00", "2026-04-13T22:00", "2026-04-13T23:00", "2026-04-14T00:00", "2026-04-14T01:00", "2026-04-14T02:00", "2026-04-14T03:00", "2026-04-14T04:00", "2026-04-14T05:00", "2026-04-14T06:00", "2026-04-14T07:00", "2026-04-14T08:00", "2026-04-14T09:00", "2026-04-14T10:00", "2026-04-14T11:00", "2026-04-14T12:00", "2026-04-14T13:00", "2026-04-14T14:00", "2026-04-14T15:00", "2026-04-14T16:00", "2026-04-14T17:00", "2026-04-14T18:00", "2026-04-14T19:00", "2026-04-14T20:00", "2026-04-14T21:00", "2026-04-14T22:00", "2026-04-14T23:00", "2026-04-15T00:00", "2026-04-15T01:00", "2026-04-15T02:00", "2026-04-15T03:00", "2026-04-15T04:00", "2026-04-15T05:00", "2026-04-15T06:00", "2026-04-15T07:00", "2026-04-15T08:00", "2026-04-15T09:00", "2026-04-15T10:00", "2026-04-15T11:00", "2026-04-15T12:00", "2026-04-15T13:00", "2026-04-15T14:00", "2026-04-15T15:00", "2026-04-15T16:00", "2026-04-15T17:00", "2026-04-15T18:00", "2026-04-15T19:00", "2026-04-15T20:00", "2026-04-15T21:00", "2026-04-15T22:00", "2026-04-15T23:00", "2026-04-16T00:00", "2026-04-16T01:00", "2026-04-16T02:00", "2026-04-16T03:00", "2026-04-16T04:00", "2026-04-16T05:00", "2026-04-16T06:00", "2026-04-16T07:00", "2026-04-16T08:00", "2026-04-16T09:00", "2026-04-16T10:00", "2026-04-16T11:00", "2026-04-16T12:00", "2026-04-16T13:00", "2026-04-16T14:00", "2026-04-16T15:00", "2026-04-16T16:00", "2026-04-16T17:00", "2026-04-16T18:00", "2026-04-16T19:00", "2026-04-16T20:00", "2026-04-16T21:00", "2026-04-16T22:00", "2026-04-16T23:00", "2026-04-17T00:00", "2026-04-17T01:00", "2026-04-17T02:00", "2026-04-17T03:00", "2026-04-17T04:00", "2026-04-17T05:00", "2026-04-17T06:00", "2026-04-17T07:00", "2026-04-17T08:00", "2026-04-17T09:00", "2026-04-17T10:00", "2026-04-17T11:00", "2026-04-17T12:00", "2026-04-17T13:00", "2026-04-17T14:00", "2026-04-17T15:00", "2026-04-17T16:00", "2026-04-17T17:00", "2026-04-17T18:00", "2026-04-17T19:00", "2026-04-17T20:00", "2026-04-17T21:00", "2026-04-17T22:00", "2026-04-17T23:00", "2026-04-18T00:00", "2026-04-18T01:00", "2026-04-18T02:00", "2026-04-18T03:00", "2026-04-18T04:00", "2026-04-18T05:00", "2026-04-18T06:00", "2026-04-18T07:00", "2026-04-18T08:00", "2026-04-18T09:00", "2026-04-18T10:00", "2026-04-18T11:00", "2026-04-18T12:00", "2026-04-18T13:00", "2026-04-18T14:00", "2026-04-18T15:00", "2026-04-18T16:00", "2026-04-18T17:00", "2026-04-18T18:00", "2026-04-18T19:00", "2026-04-18T20:00", "2026-04-18T21:00", "2026-04-18T22:00", "2026-04-18T23:00", "2026-04-19T00:00", "2026-04-19T01:00", "2026-04-19T02:00", "2026-04-19T03:00", "2026-04-19T04:00", "2026-04-19T05:00", "2026-04-19T06:00", "2026-04-19T07:00", "2026-04-19T08:00", "2026-04-19T09:00", "2026-04-19T10:00", "2026-04-19T11:00", "2026-04-19T12:00", "2026-04-19T13:00", "2026-04-19T14:00", "2026-04-19T15:00", "2026-04-19T16:00", "2026-04-19T17:00", "2026-04-19T18:00", "2026-04-19T19:00", "2026-04-19T20:00", "2026-04-19T21:00", "2026-04-19T22:00", "2026-04-19T23:00", "2026-04-20T00:00", "2026-04-20T01:00", "2026-04-20T02:00", "2026-04-20T03:00", "2026-04-20T04:00", "2026-04-20T05:00", "2026-04-20T06:00", "2026-04-20T07:00", "2026-04-20T08:00", "2026-04-20T09:00", "2026-04-20T10:00", "2026-04-20T11:00", "2026-04-20T12:00", "2026-04-20T13:00", "2026-04-20T14:00", "2026-04-20T15:00", "2026-04-20T16:00", "2026-04-20T17:00", "2026-04-20T18:00", "2026-04-20T19:00", "2026-04-20T20:00", "2026-04-20T21:00", "2026-04-20T22:00", "2026-04-20T23:00", "2026-04-21T00:00", "2026-04-21T01:00", "2026-04-21T02:00", "2026-04-21T03:00", "2026-04-21T04:00", "2026-04-21T05:00", "2026-04-21T06:00", "2026-04-21T07:00", "2026-04-21T08:00", "2026-04-21T09:00", "2026-04-21T10:00", "2026-04-21T11:00", "2026-04-21T12:00", "2026-04-21T13:00", "2026-04-21T14:00", "2026-04-21T15:00", "2026-04-21T16:00", "2026-04-21T17:00", "2026-04-21T18:00", "2026-04-21T19:00", "2026-04-21T20:00", "2026-04-21T21:00", "2026-04-21T22:00", "2026-04-21T23:00", "2026-04-22T00:00", "2026-04-22T01:00", "2026-04-22T02:00", "2026-04-22T03:00", "2026-04-22T04:00", "2026-04-22T05:00", "2026-04-22T06:00", "2026-04-22T07:00", "2026-04-22T08:00", "2026-04-22T09:00", "2026-04-22T10:00", "2026-04-22T11:00", "2026-04-22T12:00", "2026-04-22T13:00", "2026-04-22T14:00", "2026-04-22T15:00", "2026-04-22T16:00", "2026-04-22T17:00", "2026-04-22T18:00", "2026-04-22T19:00", "2026-04-22T20:00", "2026-04-22T21:00", "2026-04-22T22:00", "2026-04-22T23:00", "2026-04-23T00:00", "2026-04-23T01:00", "2026-04-23T02:00", "2026-04-23T03:00", "2026-04-23T04:00", "2026-04-23T05:00", "2026-04-23T06:00", "2026-04-23T07:00", "2026-04-23T08:00", "2026-04-23T09:00", "2026-04-23T10:00", "2026-04-23T11:00", "2026-04-23T12:00", "2026-04-23T13:00", "2026-04-23T14:00", "2026-04-23T15:00", "2026-04-23T16:00", "2026-04-23T17:00", "2026-04-23T18:00", "2026-04-23T19:00", "2026-04-23T20:00", "2026-04-23T21:00", "2026-04-23T22:00", "2026-04-23T23:00", "2026-04-24T00:00", "2026-04-24T01:00", "2026-04-24T02:00", "2026-04-24T03:00", "2026-04-24T04:00", "2026-04-24T05:00", "2026-04-24T06:00", "2026-04-24T07:00", "2026-04-24T08:00", "2026-04-24T09:00", "2026-04-24T10:00", "2026-04-24T11:00", "2026-04-24T12:00", "2026-04-24T13:00", "2026-04-24T14:00", "2026-04-24T15:00", "2026-04-24T16:00", "2026-04-24T17:00", "2026-04-24T18:00", "2026-04-24T19:00", "2026-04-24T20:00", "2026-04-24T21:00", "2026-04-24T22:00", "2026-04-24T23:00", "2026-04-25T00:00", "2026-04-25T01:00", "2026-04-25T02:00", "2026-04-25T03:00", "2026-04-25T04:00", "2026-04-25T05:00", "2026-04-25T06:00", "2026-04-25T07:00", "2026-04-25T08:00", "2026-04-25T09:00", "2026-04-25T10:00", "2026-04-25T11:00", "2026-04-25T12:00", "2026-04-25T13:00", "2026-04-25T14:00", "2026-04-25T15:00", "2026-04-25T16:00", "2026-04-25T17:00", "2026-04-25T18:00", "2026-04-25T19:00", "2026-04-25T20:00", "2026-04-25T21:00", "2026-04-25T22:00", "2026-04-25T23:00", "2026-04-26T00:00", "2026-04-26T01:00", "2026-04-26T02:00", "2026-04-26T03:00", "2026-04-26T04:00", "2026-04-26T05:00", "2026-04-26T06:00", "2026-04-26T07:00", "2026-04-26T08:00", "2026-04-26T09:00", "2026-04-26T10:00", "2026-04-26T11:00", "2026-04-26T12:00", "2026-04-26T13:00", "2026-04-26T14:00", "2026-04-26T15:00", "2026-04-26T16:00", "2026-04-26T17:00", "2026-04-26T18:00", "2026-04-26T19:00", "2026-04-26T20:00", "2026-04-26T21:00", "2026-04-26T22:00", "2026-04-26T23:00", "2026-04-27T00:00", "2026-04-27T01:00", "2026-04-27T02:00", "2026-04-27T03:00", "2026-04-27T04:00", "2026-04-27T05:00", "2026-04-27T06:00", "2026-04-27T07:00", "2026-04-27T08:00", "2026-04-27T09:00", "2026-04-27T10:00", "2026-04-27T11:00", "2026-04-27T12:00", "2026-04-27T13:00", "2026-04-27T14:00", "2026-04-27T15:00", "2026-04-27T16:00", "2026-04-27T17:00", "2026-04-27T18:00", "2026-04-27T19:00", "2026-04-27T20:00", "2026-04-27T21:00", "2026-04-27T22:00", "2026-04-27T23:00", "2026-04-28T00:00", "2026-04-28T01:00", "2026-04-28T02:00", "2026-04-28T03:00", "2026-04-28T04:00", "2026-04-28T05:00", "2026-04-28T06:00", "2026-04-28T07:00", "2026-04-28T08:00", "2026-04-28T09:00", "2026-04-28T10:00", "2026-04-28T11:00", "2026-04-28T12:00", "2026-04-28T13:00", "2026-04-28T14:00", "2026-04-28T15:00", "2026-04-28T16:00", "2026-04-28T17:00", "2026-04-28T18:00", "2026-04-28T19:00", "2026-04-28T20:00", "2026-04-28T21:00", "2026-04-28T22:00", "2026-04-28T23:00", "2026-04-29T00:00", "2026-04-29T01:00", "2026-04-29T02:00", "2026-04-29T03:00", "2026-04-29T04:00", "2026-04-29T05:00", "2026-04-29T06:00", "2026-04-29T07:00", "2026-04-29T08:00", "2026-04-29T09:00", "2026-04-29T10:00", "2026-04-29T11:00", "2026-04-29T12:00", "2026-04-29T13:00", "2026-04-29T14:00", "2026-04-29T15:00", "2026-04-29T16:00", "2026-04-29T17:00", "2026-04-29T18:00", "2026-04-29T19:00", "2026-04-29T20:00", "2026-04-29T21:00", "2026-04-29T22:00", "2026-04-29T23:00", "2026-04-30T00:00", "2026-04-30T01:00", "2026-04-30T02:00", "2026-04-30T03:00", "2026-04-30T04:00", "2026-04-30T05:00", "2026-04-30T06:00", "2026-04-30T07:00", "2026-04-30T08:00", "2026-04-30T09:00", "2026-04-30T10:00", "2026-04-30T11:00", "2026-04-30T12:00", "2026-04-30T13:00", "2026-04-30T14:00", "2026-04-30T15:00", "2026-04-30T16:00", "2026-04-30T17:00", "2026-04-30T18:00", "2026-04-30T19:00", "2026-04-30T20:00", "2026-04-30T21:00", "2026-04-30T22:00", "2026-04-30T23:00", "2026-05-04T00:00", "2026-05-04T01:00", "2026-05-04T02:00", "2026-05-04T03:00", "2026-05-04T04:00", "2026-05-04T05:00", "2026-05-04T06:00", "2026-05-04T07:00", "2026-05-04T08:00", "2026-05-04T09:00", "2026-05-04T10:00", "2026-05-04T11:00", "2026-05-04T12:00", "2026-05-04T13:00", "2026-05-04T14:00", "2026-05-04T15:00", "2026-05-04T16:00", "2026-05-04T17:00", "2026-05-04T18:00", "2026-05-04T19:00", "2026-05-04T20:00", "2026-05-04T21:00", "2026-05-04T22:00", "2026-05-04T23:00"];
-const OLD  = [9000.51, 5998.47, 4829.55, 4554.44, 4900.64, 10000.0, 7116.81, 5998.0, 3822.02, 2890.39, 2439.71, 2439.11, 2549.04, 2099.51, 2410.05, 3019.48, 3092.62, 3731.23, 4999.92, 10000.0, 8499.47, 7999.24, 10000.0, 10000.0, 6049.1, 4572.28, 4633.62, 4550.82, 4567.41, 4550.47, 9909.41, 9909.01, 3133.51, 2450.08, 1980.42, 1879.87, 1902.4, 1545.3, 1619.6, 2286.75, 2739.35, 3299.59, 3849.74, 9949.68, 5450.6, 5811.64, 5110.02, 8999.19, 9422.73, 6499.8, 5129.08, 4549.4, 4499.01, 4829.74, 5229.28, 4999.51, 2909.88, 2310.75, 1999.57, 1633.59, 1545.93, 1545.37, 1545.52, 1999.73, 2666.57, 3299.07, 4332.26, 10000.0, 6290.85, 5129.94, 4999.55, 8999.58, 4829.75, 4829.44, 4500.93, 4399.78, 4250.68, 4546.36, 5000.22, 4399.23, 2439.55, 1545.39, 830.15, 300.96, 983.36, 983.32, 983.57, 1545.42, 2092.85, 2902.62, 3903.24, 5024.1, 4554.42, 4499.02, 3943.61, 4499.08, 4189.34, 4266.59, 3999.78, 3849.44, 3894.59, 4033.96, 4550.68, 4550.08, 2620.46, 1625.43, 983.41, 983.42, 983.82, 983.54, 983.65, 1545.41, 1990.69, 2775.02, 3699.55, 5846.51, 4550.41, 4022.54, 3656.62, 4399.01, 3448.18, 3479.52, 3412.45, 3510.65, 3485.52, 3510.27, 4033.58, 3903.57, 2439.27, 1830.3, 983.38, 500.51, 983.11, 799.38, 983.39, 1545.48, 1980.56, 2160.83, 3150.19, 4546.71, 3699.75, 3699.05, 3254.44, 3417.64, 3137.01, 3153.14, 3254.64, 3397.86, 3412.83, 3473.74, 3699.61, 3470.92, 1990.93, 1551.61, 870.77, 983.11, 983.01, 699.43, 983.25, 1545.06, 1789.37, 2160.55, 3479.87, 4500.39, 3849.6, 3699.51, 3370.98, 3849.43, 3532.33, 3464.22, 3399.74, 3399.64, 3464.28, 3630.18, 4399.16, 4572.09, 2150.95, 1500.63, 919.45, 983.45, 983.12, 512.08, 983.45, 1545.18, 1830.44, 2299.13, 4361.58, 6300.3, 5024.45, 4550.72, 3849.73, 4769.64, 4189.12, 3999.22, 3849.33, 3903.04, 3894.65, 4189.03, 4554.37, 4399.09, 2121.53, 1419.86, 489.12, 649.74, 489.85, 300.94, 983.08, 1350.43, 1908.55, 2216.7, 4399.17, 10000.0, 6000.88, 5700.71, 4380.14, 5129.21, 4600.63, 4229.49, 3880.86, 4229.35, 4229.7, 3709.64, 4999.03, 4229.63, 1551.2, 1000.02, 449.61, 449.26, 983.01, 400.46, 983.29, 1459.28, 1545.46, 2180.45, 4554.64, 10000.0, 9909.64, 6000.13, 4999.01, 6499.91, 9000.02, 5075.77, 5000.28, 4999.23, 4999.65, 4572.92, 4769.21, 4229.46, 1545.55, 200.73, 200.04, 200.56, 200.39, 199.65, 200.97, 813.19, 983.86, 2070.23, 3500.24, 7599.5, 6021.54, 5300.67, 4789.74, 4789.79, 10000.0, 9500.25, 6799.71, 6799.43, 5299.43, 6500.07, 6800.0, 4799.05, 1998.68, 1499.86, 1150.64, 983.63, 983.2, 499.64, 983.25, 1516.51, 2118.38, 3000.08, 4999.05, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 8999.69, 5269.5, 4463.85, 10000.0, 10000.0, 4789.65, 2080.18, 789.85, 983.47, 983.52, 983.14, 399.32, 983.4, 1515.48, 1830.31, 2890.11, 4632.05, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 8282.3, 5999.17, 10000.0, 10000.0, 5000.05, 1980.82, 1799.49, 1620.51, 1621.59, 1591.14, 1516.11, 1830.92, 3169.07, 2178.0, 3034.91, 4339.54, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 8999.53, 5998.5, 7000.7, 4229.47, 2170.46, 1949.49, 1619.63, 1591.43, 1516.61, 399.96, 1515.5, 2451.7, 2420.88, 2973.57, 4229.87, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 4980.86, 2420.7, 1459.27, 1399.76, 1515.09, 1000.37, 299.82, 1515.95, 2451.28, 2510.96, 3490.2, 9020.29, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 5500.4, 2589.04, 2021.33, 2021.11, 2000.73, 1980.76, 1799.54, 2021.74, 2213.71, 2509.49, 3001.19, 6000.5, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 4649.54, 2159.87, 1449.45, 1200.55, 1001.15, 339.19, 299.63, 880.77, 1544.99, 2130.74, 2250.01, 4100.46, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 4800.01, 2420.24, 2001.37, 1800.84, 1591.27, 1544.67, 1515.98, 1591.89, 2130.47, 2729.72, 3669.5, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 4769.22, 2160.95, 2021.77, 1818.34, 1536.11, 1544.56, 1449.03, 1676.5, 2284.42, 2968.41, 3457.93, 6000.89, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 4460.97, 2420.58, 2160.27, 1824.45, 1544.63, 1515.99, 1515.9, 1591.1, 2130.19, 3000.59, 3851.3, 6540.09, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 4500.74, 2160.8, 2080.82, 1799.32, 1340.02, 1001.06, 1001.16, 1001.55, 2100.69, 2735.85, 3875.18, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 5130.26, 2950.66, 2462.93, 2080.16, 1850.57, 1830.33, 1619.25, 1980.28, 2492.83, 3001.97, 4299.65, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 3150.03, 2501.88, 2055.71, 1822.26, 1591.62, 1516.33, 1815.21, 2900.56, 3370.8, 4299.16, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 6105.65, 2512.17, 2400.04, 1591.41, 1515.45, 1001.8, 1001.56, 1250.97, 2451.64, 2842.51, 3680.25, 6000.86, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 9499.07, 3291.5, 3158.87, 2501.83, 2242.73, 2100.61, 2021.54, 2440.89, 3289.09, 3892.05, 6310.42, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 4789.97, 2910.01, 2450.88, 2200.03, 1990.22, 1809.95, 1653.87, 2021.73, 3232.35, 3438.65, 3920.54, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 8028.97, 8071.68, 10000.0, 4010.45, 2140.42, 2090.81, 2021.39, 1591.69, 1554.89, 1551.52, 2010.22, 2838.03, 3210.58, 3462.97, 4770.99, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 8200.31, 5500.9, 4632.67, 6105.82, 3894.87, 1840.28, 1815.82, 1640.09, 1515.73, 1503.12, 1515.46, 1591.8, 2509.87, 2772.84, 2849.79, 3566.37, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 4920.72, 4299.61, 3763.56, 3569.54, 3359.41, 3849.14, 3462.28, 2775.24, 300.73, 300.7, 300.81, 300.38, 300.44, 300.41, 300.66, 1001.64, 1544.58, 1840.83, 3173.54, 3849.47, 3849.77, 3849.9, 3892.67, 5205.93];
-const OLI  = [892.9, 898.2, 906.6, 908.3, 906.8, 904.6, 890.9, 854.3, 784.8, 701.2, 624.2, 592.3, 569.8, 573.9, 584.4, 645.1, 697.6, 768.3, 824.9, 833.5, 843.1, 859.9, 879.5, 887.0, 901.5, 901.1, 917.1, 923.3, 920.2, 911.4, 903.9, 873.5, 805.1, 720.8, 646.6, 620.6, 603.2, 599.4, 604.7, 639.1, 701.1, 756.2, 819.3, 827.2, 837.8, 855.6, 852.9, 865.4, 888.2, 894.9, 905.0, 915.9, 916.9, 912.1, 903.9, 873.1, 789.2, 685.0, 610.5, 586.7, 588.8, 595.6, 600.3, 639.8, 681.8, 732.9, 810.5, 824.7, 833.2, 836.6, 833.5, 857.1, 869.9, 874.5, 873.0, 873.3, 872.3, 871.4, 874.4, 850.0, 746.7, 639.7, 601.1, 606.3, 615.6, 607.2, 623.8, 618.2, 629.6, 698.2, 795.4, 826.8, 827.2, 834.6, 828.1, 837.9, 845.8, 858.0, 865.8, 871.4, 878.7, 877.5, 877.7, 855.0, 762.7, 652.4, 586.9, 572.1, 583.7, 587.9, 601.8, 591.4, 622.4, 695.8, 785.9, 801.4, 810.8, 826.6, 820.5, 829.8, 841.3, 840.7, 841.4, 844.0, 847.5, 851.6, 853.4, 831.8, 758.7, 676.0, 607.9, 590.6, 586.8, 586.4, 601.9, 598.4, 627.2, 706.3, 787.8, 810.6, 814.1, 822.4, 813.8, 834.7, 851.3, 855.7, 856.1, 858.1, 862.4, 862.1, 863.9, 834.8, 734.4, 623.1, 578.1, 590.2, 580.5, 588.1, 595.1, 592.1, 625.9, 700.7, 809.7, 848.1, 852.7, 857.5, 853.5, 879.9, 887.8, 890.2, 889.8, 893.4, 898.2, 901.1, 902.4, 871.6, 760.8, 641.4, 598.7, 577.1, 585.9, 603.2, 602.9, 601.4, 642.9, 719.8, 832.0, 853.9, 852.2, 863.4, 861.4, 870.0, 884.9, 884.9, 884.6, 888.5, 891.1, 886.0, 883.1, 854.5, 750.4, 635.4, 594.2, 573.2, 600.1, 598.4, 606.9, 603.9, 639.0, 724.9, 832.5, 851.8, 854.0, 861.9, 861.5, 870.0, 885.5, 888.3, 895.8, 900.0, 900.6, 895.7, 896.1, 859.7, 758.7, 643.7, 598.5, 577.7, 576.6, 589.3, 587.1, 597.0, 646.2, 728.6, 825.0, 836.2, 839.3, 855.4, 854.1, 867.7, 878.1, 880.7, 887.4, 892.8, 899.5, 898.4, 895.2, 857.0, 741.4, 637.1, 595.6, 585.3, 581.3, 594.8, 608.1, 601.0, 634.5, 714.4, 829.4, 857.0, 856.4, 862.1, 858.2, 873.1, 879.8, 891.9, 895.9, 896.1, 891.8, 889.6, 890.5, 857.0, 751.6, 653.0, 605.4, 573.4, 558.9, 568.2, 573.8, 604.7, 652.6, 727.9, 825.4, 838.1, 846.4, 858.0, 854.7, 867.6, 870.0, 881.4, 893.1, 902.1, 904.8, 899.4, 890.8, 865.9, 763.3, 662.5, 606.4, 578.0, 578.0, 582.5, 587.9, 607.7, 657.1, 727.9, 825.6, 847.5, 848.1, 862.1, 854.6, 865.1, 871.5, 881.0, 885.9, 896.2, 899.7, 897.6, 895.1, 866.1, 764.5, 664.7, 617.6, 589.3, 574.2, 591.2, 602.2, 626.0, 669.9, 738.4, 828.1, 842.3, 845.3, 853.5, 857.4, 867.0, 880.3, 886.8, 892.4, 899.8, 903.6, 902.8, 896.9, 870.4, 768.3, 672.2, 625.6, 600.0, 584.4, 589.7, 603.3, 646.9, 697.6, 781.9, 847.0, 855.3, 852.0, 861.6, 859.1, 858.4, 872.8, 883.4, 897.2, 907.1, 904.8, 903.5, 902.6, 876.2, 775.8, 685.4, 635.8, 605.5, 600.6, 594.4, 610.0, 644.7, 687.5, 742.2, 822.8, 849.7, 850.2, 862.5, 853.3, 848.9, 869.3, 878.4, 886.9, 891.9, 895.9, 895.7, 892.4, 864.9, 761.2, 666.4, 630.3, 612.6, 599.7, 606.3, 625.2, 662.1, 703.4, 762.9, 836.8, 851.8, 851.0, 858.8, 851.0, 858.0, 869.3, 878.4, 886.5, 895.9, 899.6, 900.4, 902.6, 872.6, 762.4, 660.1, 613.6, 594.6, 591.7, 588.7, 588.7, 630.0, 667.5, 734.7, 822.7, 863.5, 859.8, 865.8, 855.2, 862.0, 872.2, 876.7, 891.2, 905.4, 913.1, 911.8, 909.3, 883.4, 774.0, 672.2, 628.1, 604.8, 598.0, 584.8, 598.7, 652.7, 700.3, 759.1, 838.0, 850.7, 850.8, 862.8, 852.5, 847.2, 862.8, 869.6, 880.7, 886.7, 890.8, 894.8, 888.0, 865.9, 754.9, 663.8, 620.7, 586.8, 581.2, 578.8, 594.0, 640.1, 694.1, 755.7, 830.8, 845.6, 838.3, 846.5, 836.0, 836.0, 852.0, 864.5, 872.7, 890.1, 902.8, 901.5, 894.6, 867.4, 748.4, 654.5, 611.0, 602.4, 580.7, 578.6, 585.8, 624.8, 670.4, 731.7, 819.3, 836.4, 840.1, 852.6, 846.2, 844.8, 854.7, 864.8, 874.3, 882.4, 882.1, 882.1, 881.6, 860.7, 761.2, 665.0, 621.5, 597.1, 585.3, 579.1, 586.6, 629.1, 676.1, 743.1, 820.4, 839.3, 834.0, 847.0, 841.2, 837.0, 851.2, 861.7, 871.1, 873.0, 880.2, 876.8, 873.1, 847.3, 760.0, 672.7, 637.9, 621.5, 606.7, 605.3, 626.5, 661.4, 707.3, 759.5, 820.8, 834.9, 837.0, 844.2, 834.7, 827.3, 840.0, 853.6, 862.6, 874.0, 880.8, 882.6, 881.3, 856.4, 776.5, 692.9, 652.7, 645.1, 617.5, 612.2, 642.5, 690.2, 735.5, 773.4, 823.5, 839.0, 839.8, 850.5, 841.4, 836.3, 840.6, 851.2, 857.7, 871.7, 875.1, 876.3, 877.6, 851.1, 769.7, 684.5, 649.1, 622.7, 591.1, 593.0, 613.5, 662.8, 706.9, 765.2, 832.5, 856.4, 845.9, 856.2, 850.5, 845.0, 851.4, 859.1, 865.2, 866.8, 870.3, 867.4, 867.7, 837.8, 725.9, 651.4, 616.8, 592.7, 594.0, 599.7, 623.7, 661.1, 704.6, 751.1, 803.8, 821.0, 819.5, 835.8, 826.2, 831.4, 842.6, 846.7, 855.3, 866.6, 875.5, 878.7, 876.6, 840.0, 726.3, 639.0, 617.1, 583.5, 578.7, 582.0, 606.9, 647.8, 687.9, 738.6, 800.8, 821.1, 824.3, 827.8, 815.2, 824.1, 834.3, 847.2, 857.1, 862.1, 865.3, 874.1, 870.2, 837.1, 738.3, 645.1, 597.1, 570.1, 570.0, 571.6, 587.6, 627.5, 674.7, 728.9, 804.4, 820.9, 814.9, 831.5, 834.7, 836.3, 847.1, 847.1, 848.9, 858.2, 868.1, 866.2, 870.1, 838.3, 724.1, 641.6, 590.5, 573.5, 575.1, 568.8, 575.4, 617.2, 645.9, 687.7, 758.0, 789.2, 803.8, 814.4, 810.3, 819.9, 815.3, 828.9, 832.1, 838.5, 844.6, 849.2, 856.6, 807.5, 695.5, 607.9, 594.4, 577.6, 562.2, 553.0, 561.3, 625.0, 675.9, 728.9, 796.6, 819.0, 811.1, 828.4, 818.6, 826.9];
-const CMM  = 734.4;
-const SP   = 603.5;
-const CEA  = 712.0;
-const II_WP = 8921.0;
-const II_WI = 836.0;
-const II_BP = 1065.0;
-const II_BI = 588.0;
-const STATE_DATA = {"Andhra Pradesh": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [790.5, 805.9, 812.0], "national": [792.0, 740.6, 737.6], "re_pct": [24.9, 23.4, 22.8], "mean": 802.8, "latest": 812.0, "latest_re": 22.8, "latest_date": "2026-04-29"}, "Gujarat": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [691.5, 582.9, 569.6], "national": [792.0, 740.6, 737.6], "re_pct": [34.3, 44.6, 45.9], "mean": 614.7, "latest": 569.6, "latest_re": 45.9, "latest_date": "2026-04-29"}, "Karnataka": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [640.3, 598.4, 587.2], "national": [792.0, 740.6, 737.6], "re_pct": [39.1, 43.1, 44.2], "mean": 608.6, "latest": 587.2, "latest_re": 44.2, "latest_date": "2026-04-29"}, "Madhya Pradesh": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [898.3, 820.4, 791.5], "national": [792.0, 740.6, 737.6], "re_pct": [14.6, 22.0, 24.8], "mean": 836.7, "latest": 791.5, "latest_re": 24.8, "latest_date": "2026-04-29"}, "Maharashtra": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [935.6, 871.7, 867.9], "national": [792.0, 740.6, 737.6], "re_pct": [11.1, 17.1, 17.5], "mean": 891.7, "latest": 867.9, "latest_re": 17.5, "latest_date": "2026-04-29"}, "Rajasthan": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [744.5, 630.5, 648.6], "national": [792.0, 740.6, 737.6], "re_pct": [29.2, 40.1, 38.3], "mean": 674.5, "latest": 648.6, "latest_re": 38.3, "latest_date": "2026-04-29"}, "Tamil Nadu": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [817.6, 731.0, 701.9], "national": [792.0, 740.6, 737.6], "re_pct": [22.3, 30.5, 33.3], "mean": 750.2, "latest": 701.9, "latest_re": 33.3, "latest_date": "2026-04-29"}, "Telengana": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [917.1, 931.6, 918.8], "national": [792.0, 740.6, 737.6], "re_pct": [12.8, 11.4, 12.7], "mean": 922.5, "latest": 918.8, "latest_re": 12.7, "latest_date": "2026-04-29"}};
-const NAT_MEAN   = 756.2;
+const L30=["2026-04-04T0:00", "2026-04-04T1:00", "2026-04-04T2:00", "2026-04-04T3:00", "2026-04-04T4:00", "2026-04-04T5:00", "2026-04-04T6:00", "2026-04-04T7:00", "2026-04-04T8:00", "2026-04-04T9:00", "2026-04-04T10:00", "2026-04-04T11:00", "2026-04-04T12:00", "2026-04-04T13:00", "2026-04-04T14:00", "2026-04-04T15:00", "2026-04-04T16:00", "2026-04-04T17:00", "2026-04-04T18:00", "2026-04-04T19:00", "2026-04-04T20:00", "2026-04-04T21:00", "2026-04-04T22:00", "2026-04-04T23:00", "2026-04-05T0:00", "2026-04-05T1:00", "2026-04-05T2:00", "2026-04-05T3:00", "2026-04-05T4:00", "2026-04-05T5:00", "2026-04-05T6:00", "2026-04-05T7:00", "2026-04-05T8:00", "2026-04-05T9:00", "2026-04-05T10:00", "2026-04-05T11:00", "2026-04-05T12:00", "2026-04-05T13:00", "2026-04-05T14:00", "2026-04-05T15:00", "2026-04-05T16:00", "2026-04-05T17:00", "2026-04-05T18:00", "2026-04-05T19:00", "2026-04-05T20:00", "2026-04-05T21:00", "2026-04-05T22:00", "2026-04-05T23:00", "2026-04-06T0:00", "2026-04-06T1:00", "2026-04-06T2:00", "2026-04-06T3:00", "2026-04-06T4:00", "2026-04-06T5:00", "2026-04-06T6:00", "2026-04-06T7:00", "2026-04-06T8:00", "2026-04-06T9:00", "2026-04-06T10:00", "2026-04-06T11:00", "2026-04-06T12:00", "2026-04-06T13:00", "2026-04-06T14:00", "2026-04-06T15:00", "2026-04-06T16:00", "2026-04-06T17:00", "2026-04-06T18:00", "2026-04-06T19:00", "2026-04-06T20:00", "2026-04-06T21:00", "2026-04-06T22:00", "2026-04-06T23:00", "2026-04-07T0:00", "2026-04-07T1:00", "2026-04-07T2:00", "2026-04-07T3:00", "2026-04-07T4:00", "2026-04-07T5:00", "2026-04-07T6:00", "2026-04-07T7:00", "2026-04-07T8:00", "2026-04-07T9:00", "2026-04-07T10:00", "2026-04-07T11:00", "2026-04-07T12:00", "2026-04-07T13:00", "2026-04-07T14:00", "2026-04-07T15:00", "2026-04-07T16:00", "2026-04-07T17:00", "2026-04-07T18:00", "2026-04-07T19:00", "2026-04-07T20:00", "2026-04-07T21:00", "2026-04-07T22:00", "2026-04-07T23:00", "2026-04-08T0:00", "2026-04-08T1:00", "2026-04-08T2:00", "2026-04-08T3:00", "2026-04-08T4:00", "2026-04-08T5:00", "2026-04-08T6:00", "2026-04-08T7:00", "2026-04-08T8:00", "2026-04-08T9:00", "2026-04-08T10:00", "2026-04-08T11:00", "2026-04-08T12:00", "2026-04-08T13:00", "2026-04-08T14:00", "2026-04-08T15:00", "2026-04-08T16:00", "2026-04-08T17:00", "2026-04-08T18:00", "2026-04-08T19:00", "2026-04-08T20:00", "2026-04-08T21:00", "2026-04-08T22:00", "2026-04-08T23:00", "2026-04-09T0:00", "2026-04-09T1:00", "2026-04-09T2:00", "2026-04-09T3:00", "2026-04-09T4:00", "2026-04-09T5:00", "2026-04-09T6:00", "2026-04-09T7:00", "2026-04-09T8:00", "2026-04-09T9:00", "2026-04-09T10:00", "2026-04-09T11:00", "2026-04-09T12:00", "2026-04-09T13:00", "2026-04-09T14:00", "2026-04-09T15:00", "2026-04-09T16:00", "2026-04-09T17:00", "2026-04-09T18:00", "2026-04-09T19:00", "2026-04-09T20:00", "2026-04-09T21:00", "2026-04-09T22:00", "2026-04-09T23:00", "2026-04-10T0:00", "2026-04-10T1:00", "2026-04-10T2:00", "2026-04-10T3:00", "2026-04-10T4:00", "2026-04-10T5:00", "2026-04-10T6:00", "2026-04-10T7:00", "2026-04-10T8:00", "2026-04-10T9:00", "2026-04-10T10:00", "2026-04-10T11:00", "2026-04-10T12:00", "2026-04-10T13:00", "2026-04-10T14:00", "2026-04-10T15:00", "2026-04-10T16:00", "2026-04-10T17:00", "2026-04-10T18:00", "2026-04-10T19:00", "2026-04-10T20:00", "2026-04-10T21:00", "2026-04-10T22:00", "2026-04-10T23:00", "2026-04-11T0:00", "2026-04-11T1:00", "2026-04-11T2:00", "2026-04-11T3:00", "2026-04-11T4:00", "2026-04-11T5:00", "2026-04-11T6:00", "2026-04-11T7:00", "2026-04-11T8:00", "2026-04-11T9:00", "2026-04-11T10:00", "2026-04-11T11:00", "2026-04-11T12:00", "2026-04-11T13:00", "2026-04-11T14:00", "2026-04-11T15:00", "2026-04-11T16:00", "2026-04-11T17:00", "2026-04-11T18:00", "2026-04-11T19:00", "2026-04-11T20:00", "2026-04-11T21:00", "2026-04-11T22:00", "2026-04-11T23:00", "2026-04-12T0:00", "2026-04-12T1:00", "2026-04-12T2:00", "2026-04-12T3:00", "2026-04-12T4:00", "2026-04-12T5:00", "2026-04-12T6:00", "2026-04-12T7:00", "2026-04-12T8:00", "2026-04-12T9:00", "2026-04-12T10:00", "2026-04-12T11:00", "2026-04-12T12:00", "2026-04-12T13:00", "2026-04-12T14:00", "2026-04-12T15:00", "2026-04-12T16:00", "2026-04-12T17:00", "2026-04-12T18:00", "2026-04-12T19:00", "2026-04-12T20:00", "2026-04-12T21:00", "2026-04-12T22:00", "2026-04-12T23:00", "2026-04-13T0:00", "2026-04-13T1:00", "2026-04-13T2:00", "2026-04-13T3:00", "2026-04-13T4:00", "2026-04-13T5:00", "2026-04-13T6:00", "2026-04-13T7:00", "2026-04-13T8:00", "2026-04-13T9:00", "2026-04-13T10:00", "2026-04-13T11:00", "2026-04-13T12:00", "2026-04-13T13:00", "2026-04-13T14:00", "2026-04-13T15:00", "2026-04-13T16:00", "2026-04-13T17:00", "2026-04-13T18:00", "2026-04-13T19:00", "2026-04-13T20:00", "2026-04-13T21:00", "2026-04-13T22:00", "2026-04-13T23:00", "2026-04-14T0:00", "2026-04-14T1:00", "2026-04-14T2:00", "2026-04-14T3:00", "2026-04-14T4:00", "2026-04-14T5:00", "2026-04-14T6:00", "2026-04-14T7:00", "2026-04-14T8:00", "2026-04-14T9:00", "2026-04-14T10:00", "2026-04-14T11:00", "2026-04-14T12:00", "2026-04-14T13:00", "2026-04-14T14:00", "2026-04-14T15:00", "2026-04-14T16:00", "2026-04-14T17:00", "2026-04-14T18:00", "2026-04-14T19:00", "2026-04-14T20:00", "2026-04-14T21:00", "2026-04-14T22:00", "2026-04-14T23:00", "2026-04-15T0:00", "2026-04-15T1:00", "2026-04-15T2:00", "2026-04-15T3:00", "2026-04-15T4:00", "2026-04-15T5:00", "2026-04-15T6:00", "2026-04-15T7:00", "2026-04-15T8:00", "2026-04-15T9:00", "2026-04-15T10:00", "2026-04-15T11:00", "2026-04-15T12:00", "2026-04-15T13:00", "2026-04-15T14:00", "2026-04-15T15:00", "2026-04-15T16:00", "2026-04-15T17:00", "2026-04-15T18:00", "2026-04-15T19:00", "2026-04-15T20:00", "2026-04-15T21:00", "2026-04-15T22:00", "2026-04-15T23:00", "2026-04-16T0:00", "2026-04-16T1:00", "2026-04-16T2:00", "2026-04-16T3:00", "2026-04-16T4:00", "2026-04-16T5:00", "2026-04-16T6:00", "2026-04-16T7:00", "2026-04-16T8:00", "2026-04-16T9:00", "2026-04-16T10:00", "2026-04-16T11:00", "2026-04-16T12:00", "2026-04-16T13:00", "2026-04-16T14:00", "2026-04-16T15:00", "2026-04-16T16:00", "2026-04-16T17:00", "2026-04-16T18:00", "2026-04-16T19:00", "2026-04-16T20:00", "2026-04-16T21:00", "2026-04-16T22:00", "2026-04-16T23:00", "2026-04-17T0:00", "2026-04-17T1:00", "2026-04-17T2:00", "2026-04-17T3:00", "2026-04-17T4:00", "2026-04-17T5:00", "2026-04-17T6:00", "2026-04-17T7:00", "2026-04-17T8:00", "2026-04-17T9:00", "2026-04-17T10:00", "2026-04-17T11:00", "2026-04-17T12:00", "2026-04-17T13:00", "2026-04-17T14:00", "2026-04-17T15:00", "2026-04-17T16:00", "2026-04-17T17:00", "2026-04-17T18:00", "2026-04-17T19:00", "2026-04-17T20:00", "2026-04-17T21:00", "2026-04-17T22:00", "2026-04-17T23:00", "2026-04-18T0:00", "2026-04-18T1:00", "2026-04-18T2:00", "2026-04-18T3:00", "2026-04-18T4:00", "2026-04-18T5:00", "2026-04-18T6:00", "2026-04-18T7:00", "2026-04-18T8:00", "2026-04-18T9:00", "2026-04-18T10:00", "2026-04-18T11:00", "2026-04-18T12:00", "2026-04-18T13:00", "2026-04-18T14:00", "2026-04-18T15:00", "2026-04-18T16:00", "2026-04-18T17:00", "2026-04-18T18:00", "2026-04-18T19:00", "2026-04-18T20:00", "2026-04-18T21:00", "2026-04-18T22:00", "2026-04-18T23:00", "2026-04-19T0:00", "2026-04-19T1:00", "2026-04-19T2:00", "2026-04-19T3:00", "2026-04-19T4:00", "2026-04-19T5:00", "2026-04-19T6:00", "2026-04-19T7:00", "2026-04-19T8:00", "2026-04-19T9:00", "2026-04-19T10:00", "2026-04-19T11:00", "2026-04-19T12:00", "2026-04-19T13:00", "2026-04-19T14:00", "2026-04-19T15:00", "2026-04-19T16:00", "2026-04-19T17:00", "2026-04-19T18:00", "2026-04-19T19:00", "2026-04-19T20:00", "2026-04-19T21:00", "2026-04-19T22:00", "2026-04-19T23:00", "2026-04-20T0:00", "2026-04-20T1:00", "2026-04-20T2:00", "2026-04-20T3:00", "2026-04-20T4:00", "2026-04-20T5:00", "2026-04-20T6:00", "2026-04-20T7:00", "2026-04-20T8:00", "2026-04-20T9:00", "2026-04-20T10:00", "2026-04-20T11:00", "2026-04-20T12:00", "2026-04-20T13:00", "2026-04-20T14:00", "2026-04-20T15:00", "2026-04-20T16:00", "2026-04-20T17:00", "2026-04-20T18:00", "2026-04-20T19:00", "2026-04-20T20:00", "2026-04-20T21:00", "2026-04-20T22:00", "2026-04-20T23:00", "2026-04-21T0:00", "2026-04-21T1:00", "2026-04-21T2:00", "2026-04-21T3:00", "2026-04-21T4:00", "2026-04-21T5:00", "2026-04-21T6:00", "2026-04-21T7:00", "2026-04-21T8:00", "2026-04-21T9:00", "2026-04-21T10:00", "2026-04-21T11:00", "2026-04-21T12:00", "2026-04-21T13:00", "2026-04-21T14:00", "2026-04-21T15:00", "2026-04-21T16:00", "2026-04-21T17:00", "2026-04-21T18:00", "2026-04-21T19:00", "2026-04-21T20:00", "2026-04-21T21:00", "2026-04-21T22:00", "2026-04-21T23:00", "2026-04-22T0:00", "2026-04-22T1:00", "2026-04-22T2:00", "2026-04-22T3:00", "2026-04-22T4:00", "2026-04-22T5:00", "2026-04-22T6:00", "2026-04-22T7:00", "2026-04-22T8:00", "2026-04-22T9:00", "2026-04-22T10:00", "2026-04-22T11:00", "2026-04-22T12:00", "2026-04-22T13:00", "2026-04-22T14:00", "2026-04-22T15:00", "2026-04-22T16:00", "2026-04-22T17:00", "2026-04-22T18:00", "2026-04-22T19:00", "2026-04-22T20:00", "2026-04-22T21:00", "2026-04-22T22:00", "2026-04-22T23:00", "2026-04-23T0:00", "2026-04-23T1:00", "2026-04-23T2:00", "2026-04-23T3:00", "2026-04-23T4:00", "2026-04-23T5:00", "2026-04-23T6:00", "2026-04-23T7:00", "2026-04-23T8:00", "2026-04-23T9:00", "2026-04-23T10:00", "2026-04-23T11:00", "2026-04-23T12:00", "2026-04-23T13:00", "2026-04-23T14:00", "2026-04-23T15:00", "2026-04-23T16:00", "2026-04-23T17:00", "2026-04-23T18:00", "2026-04-23T19:00", "2026-04-23T20:00", "2026-04-23T21:00", "2026-04-23T22:00", "2026-04-23T23:00", "2026-04-24T0:00", "2026-04-24T1:00", "2026-04-24T2:00", "2026-04-24T3:00", "2026-04-24T4:00", "2026-04-24T5:00", "2026-04-24T6:00", "2026-04-24T7:00", "2026-04-24T8:00", "2026-04-24T9:00", "2026-04-24T10:00", "2026-04-24T11:00", "2026-04-24T12:00", "2026-04-24T13:00", "2026-04-24T14:00", "2026-04-24T15:00", "2026-04-24T16:00", "2026-04-24T17:00", "2026-04-24T18:00", "2026-04-24T19:00", "2026-04-24T20:00", "2026-04-24T21:00", "2026-04-24T22:00", "2026-04-24T23:00", "2026-04-25T0:00", "2026-04-25T1:00", "2026-04-25T2:00", "2026-04-25T3:00", "2026-04-25T4:00", "2026-04-25T5:00", "2026-04-25T6:00", "2026-04-25T7:00", "2026-04-25T8:00", "2026-04-25T9:00", "2026-04-25T10:00", "2026-04-25T11:00", "2026-04-25T12:00", "2026-04-25T13:00", "2026-04-25T14:00", "2026-04-25T15:00", "2026-04-25T16:00", "2026-04-25T17:00", "2026-04-25T18:00", "2026-04-25T19:00", "2026-04-25T20:00", "2026-04-25T21:00", "2026-04-25T22:00", "2026-04-25T23:00", "2026-04-26T0:00", "2026-04-26T1:00", "2026-04-26T2:00", "2026-04-26T3:00", "2026-04-26T4:00", "2026-04-26T5:00", "2026-04-26T6:00", "2026-04-26T7:00", "2026-04-26T8:00", "2026-04-26T9:00", "2026-04-26T10:00", "2026-04-26T11:00", "2026-04-26T12:00", "2026-04-26T13:00", "2026-04-26T14:00", "2026-04-26T15:00", "2026-04-26T16:00", "2026-04-26T17:00", "2026-04-26T18:00", "2026-04-26T19:00", "2026-04-26T20:00", "2026-04-26T21:00", "2026-04-26T22:00", "2026-04-26T23:00", "2026-04-27T0:00", "2026-04-27T1:00", "2026-04-27T2:00", "2026-04-27T3:00", "2026-04-27T4:00", "2026-04-27T5:00", "2026-04-27T6:00", "2026-04-27T7:00", "2026-04-27T8:00", "2026-04-27T9:00", "2026-04-27T10:00", "2026-04-27T11:00", "2026-04-27T12:00", "2026-04-27T13:00", "2026-04-27T14:00", "2026-04-27T15:00", "2026-04-27T16:00", "2026-04-27T17:00", "2026-04-27T18:00", "2026-04-27T19:00", "2026-04-27T20:00", "2026-04-27T21:00", "2026-04-27T22:00", "2026-04-27T23:00", "2026-04-28T0:00", "2026-04-28T1:00", "2026-04-28T2:00", "2026-04-28T3:00", "2026-04-28T4:00", "2026-04-28T5:00", "2026-04-28T6:00", "2026-04-28T7:00", "2026-04-28T8:00", "2026-04-28T9:00", "2026-04-28T10:00", "2026-04-28T11:00", "2026-04-28T12:00", "2026-04-28T13:00", "2026-04-28T14:00", "2026-04-28T15:00", "2026-04-28T16:00", "2026-04-28T17:00", "2026-04-28T18:00", "2026-04-28T19:00", "2026-04-28T20:00", "2026-04-28T21:00", "2026-04-28T22:00", "2026-04-28T23:00", "2026-04-29T0:00", "2026-04-29T1:00", "2026-04-29T2:00", "2026-04-29T3:00", "2026-04-29T4:00", "2026-04-29T5:00", "2026-04-29T6:00", "2026-04-29T7:00", "2026-04-29T8:00", "2026-04-29T9:00", "2026-04-29T10:00", "2026-04-29T11:00", "2026-04-29T12:00", "2026-04-29T13:00", "2026-04-29T14:00", "2026-04-29T15:00", "2026-04-29T16:00", "2026-04-29T17:00", "2026-04-29T18:00", "2026-04-29T19:00", "2026-04-29T20:00", "2026-04-29T21:00", "2026-04-29T22:00", "2026-04-29T23:00", "2026-04-30T0:00", "2026-04-30T1:00", "2026-04-30T2:00", "2026-04-30T3:00", "2026-04-30T4:00", "2026-04-30T5:00", "2026-04-30T6:00", "2026-04-30T7:00", "2026-04-30T8:00", "2026-04-30T9:00", "2026-04-30T10:00", "2026-04-30T11:00", "2026-04-30T12:00", "2026-04-30T13:00", "2026-04-30T14:00", "2026-04-30T15:00", "2026-04-30T16:00", "2026-04-30T17:00", "2026-04-30T18:00", "2026-04-30T19:00", "2026-04-30T20:00", "2026-04-30T21:00", "2026-04-30T22:00", "2026-04-30T23:00", "2026-05-01T0:00", "2026-05-01T1:00", "2026-05-01T2:00", "2026-05-01T3:00", "2026-05-01T4:00", "2026-05-01T5:00", "2026-05-01T6:00", "2026-05-01T7:00", "2026-05-01T8:00", "2026-05-01T9:00", "2026-05-01T10:00", "2026-05-01T11:00", "2026-05-01T12:00", "2026-05-01T13:00", "2026-05-01T14:00", "2026-05-01T15:00", "2026-05-01T16:00", "2026-05-01T17:00", "2026-05-01T18:00", "2026-05-01T19:00", "2026-05-01T20:00", "2026-05-01T21:00", "2026-05-01T22:00", "2026-05-01T23:00", "2026-05-02T0:00", "2026-05-02T1:00", "2026-05-02T2:00", "2026-05-02T3:00", "2026-05-02T4:00", "2026-05-02T5:00", "2026-05-02T6:00", "2026-05-02T7:00", "2026-05-02T8:00", "2026-05-02T9:00", "2026-05-02T10:00", "2026-05-02T11:00", "2026-05-02T12:00", "2026-05-02T13:00", "2026-05-02T14:00", "2026-05-02T15:00", "2026-05-02T16:00", "2026-05-02T17:00", "2026-05-02T18:00", "2026-05-02T19:00", "2026-05-02T20:00", "2026-05-02T21:00", "2026-05-02T22:00", "2026-05-02T23:00", "2026-05-03T0:00", "2026-05-03T1:00", "2026-05-03T2:00", "2026-05-03T3:00", "2026-05-03T4:00", "2026-05-03T5:00", "2026-05-03T6:00", "2026-05-03T7:00", "2026-05-03T8:00", "2026-05-03T9:00", "2026-05-03T10:00", "2026-05-03T11:00", "2026-05-03T12:00", "2026-05-03T13:00", "2026-05-03T14:00", "2026-05-03T15:00", "2026-05-03T16:00", "2026-05-03T17:00", "2026-05-03T18:00", "2026-05-03T19:00", "2026-05-03T20:00", "2026-05-03T21:00", "2026-05-03T22:00", "2026-05-03T23:00"];
+const L30V=[888.23, 894.92, 905.01, 915.93, 916.85, 912.13, 903.94, 873.14, 789.2, 684.98, 610.47, 586.66, 588.84, 595.65, 600.29, 639.83, 681.77, 732.92, 810.48, 824.74, 833.22, 836.59, 833.47, 857.1, 869.88, 874.45, 873.05, 873.33, 872.34, 871.35, 874.44, 849.98, 746.72, 639.72, 601.07, 606.33, 615.63, 607.23, 623.81, 618.21, 629.62, 698.18, 795.39, 826.84, 827.19, 834.6, 828.12, 837.88, 845.8, 857.98, 865.81, 871.37, 878.66, 877.52, 877.67, 854.95, 762.68, 652.39, 586.85, 572.08, 583.66, 587.89, 601.75, 591.36, 622.41, 695.75, 785.88, 801.41, 810.78, 826.58, 820.55, 829.84, 841.34, 840.73, 841.43, 844.05, 847.53, 851.57, 853.35, 831.82, 758.66, 676.05, 607.94, 590.65, 586.78, 586.41, 601.93, 598.4, 627.23, 706.26, 787.84, 810.64, 814.14, 822.4, 813.81, 834.69, 851.32, 855.68, 856.14, 858.08, 862.43, 862.1, 863.94, 834.76, 734.43, 623.1, 578.11, 590.25, 580.51, 588.12, 595.11, 592.1, 625.94, 700.7, 809.7, 848.09, 852.69, 857.55, 853.51, 879.94, 887.83, 890.22, 889.76, 893.43, 898.23, 901.07, 902.41, 871.63, 760.76, 641.39, 598.69, 577.11, 585.85, 603.16, 602.87, 601.4, 642.91, 719.81, 832.04, 853.88, 852.2, 863.44, 861.42, 870.0, 884.94, 884.94, 884.57, 888.46, 891.09, 885.97, 883.13, 854.48, 750.42, 635.41, 594.23, 573.25, 600.06, 598.38, 606.93, 603.88, 638.99, 724.93, 832.5, 851.83, 854.0, 861.93, 861.52, 870.01, 885.5, 888.29, 895.76, 900.04, 900.58, 895.7, 896.11, 859.66, 758.72, 643.72, 598.53, 577.71, 576.59, 589.29, 587.11, 596.97, 646.16, 728.64, 825.0, 836.21, 839.33, 855.41, 854.08, 867.69, 878.1, 880.72, 887.44, 892.76, 899.5, 898.37, 895.19, 857.04, 741.42, 637.11, 595.6, 585.27, 581.33, 594.78, 608.15, 601.01, 634.5, 714.41, 829.4, 856.96, 856.39, 862.15, 858.16, 873.11, 879.76, 891.91, 895.9, 896.08, 891.77, 889.62, 890.52, 857.05, 751.64, 652.95, 605.36, 573.35, 558.92, 568.21, 573.81, 604.68, 652.64, 727.94, 825.41, 838.08, 846.35, 858.02, 854.71, 867.57, 869.95, 881.41, 893.08, 902.08, 904.81, 899.36, 890.77, 865.86, 763.33, 662.49, 606.38, 578.05, 578.03, 582.55, 587.85, 607.67, 657.08, 727.89, 825.6, 847.46, 848.1, 862.09, 854.57, 865.1, 871.51, 880.97, 885.92, 896.21, 899.73, 897.65, 895.09, 866.11, 764.51, 664.68, 617.57, 589.3, 574.23, 591.25, 602.22, 625.96, 669.89, 738.44, 828.09, 842.28, 845.28, 853.51, 857.4, 866.95, 880.27, 886.75, 892.39, 899.81, 903.64, 902.78, 896.85, 870.41, 768.34, 672.17, 625.61, 599.96, 584.42, 589.73, 603.31, 646.91, 697.63, 781.93, 847.0, 855.27, 852.0, 861.57, 859.07, 858.35, 872.82, 883.38, 897.21, 907.14, 904.82, 903.54, 902.65, 876.22, 775.84, 685.36, 635.82, 605.54, 600.61, 594.4, 610.04, 644.67, 687.49, 742.2, 822.77, 849.68, 850.19, 862.55, 853.31, 848.9, 869.26, 878.35, 886.87, 891.91, 895.87, 895.7, 892.44, 864.88, 761.22, 666.44, 630.32, 612.63, 599.72, 606.28, 625.24, 662.13, 703.44, 762.86, 836.79, 851.82, 850.99, 858.76, 851.04, 857.97, 869.27, 878.4, 886.5, 895.86, 899.63, 900.41, 902.62, 872.65, 762.38, 660.07, 613.59, 594.63, 591.69, 588.74, 588.67, 630.05, 667.52, 734.67, 822.7, 863.47, 859.8, 865.83, 855.23, 862.01, 872.24, 876.71, 891.25, 905.44, 913.08, 911.79, 909.33, 883.36, 774.04, 672.2, 628.08, 604.77, 598.05, 584.84, 598.74, 652.67, 700.29, 759.06, 837.98, 850.66, 850.79, 862.81, 852.46, 847.18, 862.82, 869.65, 880.68, 886.69, 890.78, 894.76, 888.01, 865.85, 754.92, 663.75, 620.67, 586.79, 581.22, 578.79, 594.04, 640.08, 694.1, 755.72, 830.84, 845.61, 838.26, 846.48, 836.02, 836.02, 851.97, 864.54, 872.71, 890.06, 902.81, 901.49, 894.65, 867.43, 748.44, 654.5, 611.03, 602.37, 580.67, 578.57, 585.81, 624.82, 670.37, 731.69, 819.26, 836.38, 840.09, 852.62, 846.25, 844.75, 854.73, 864.8, 874.32, 882.42, 882.07, 882.14, 881.6, 860.68, 761.18, 665.05, 621.52, 597.13, 585.33, 579.1, 586.58, 629.12, 676.07, 743.1, 820.43, 839.32, 834.01, 846.95, 841.24, 837.03, 851.25, 861.72, 871.13, 872.96, 880.23, 876.79, 873.1, 847.33, 759.98, 672.7, 637.9, 621.53, 606.66, 605.33, 626.51, 661.35, 707.29, 759.51, 820.8, 834.91, 837.03, 844.18, 834.73, 827.32, 839.96, 853.64, 862.6, 873.95, 880.75, 882.58, 881.34, 856.43, 776.5, 692.91, 652.69, 645.1, 617.45, 612.21, 642.5, 690.25, 735.52, 773.38, 823.45, 838.99, 839.79, 850.51, 841.38, 836.3, 840.56, 851.23, 857.67, 871.69, 875.09, 876.29, 877.63, 851.06, 769.71, 684.5, 649.08, 622.69, 591.1, 593.02, 613.54, 662.82, 706.91, 765.22, 832.45, 856.4, 845.88, 856.17, 850.48, 844.98, 851.37, 859.08, 865.21, 866.75, 870.29, 867.35, 867.72, 837.8, 725.88, 651.44, 616.84, 592.72, 594.0, 599.71, 623.66, 661.1, 704.61, 751.15, 803.81, 820.98, 819.49, 835.77, 826.21, 831.41, 842.58, 846.67, 855.26, 866.57, 875.46, 878.72, 876.65, 840.01, 726.28, 639.01, 617.1, 583.47, 578.73, 581.96, 606.85, 647.79, 687.92, 738.62, 800.82, 821.12, 824.28, 827.75, 815.2, 824.15, 834.31, 847.24, 857.1, 862.13, 865.29, 874.08, 870.25, 837.15, 738.26, 645.1, 597.14, 570.09, 569.95, 571.57, 587.57, 627.52, 674.7, 728.85, 804.44, 820.89, 814.87, 831.55, 834.66, 836.31, 847.07, 847.08, 848.93, 858.17, 868.15, 866.16, 870.09, 838.26, 724.07, 641.63, 590.52, 573.46, 575.15, 568.8, 575.41, 617.25, 645.92, 687.74, 757.95, 789.17, 803.83, 814.38, 810.27, 819.92, 821.62, 825.28, 833.78, 840.76, 844.0, 846.56, 846.27, 792.79, 696.38, 665.31, 633.94, 597.75, 611.3, 597.64, 594.07, 571.19, 599.71, 667.11, 747.13, 790.54, 800.1, 815.24, 813.07, 816.42, 829.37, 830.38, 837.57, 843.42, 855.55, 856.67, 858.62, 802.07, 679.49, 598.8, 559.55, 550.06, 545.94, 556.77, 560.44, 598.3, 652.98, 715.78, 772.65, 796.93, 805.41, 821.72, 810.86, 811.1, 827.67, 830.15, 832.09, 833.19, 840.51, 839.44, 838.56, 787.6, 670.92, 630.79, 609.9, 607.11, 603.4, 599.25, 589.09, 563.18, 592.26, 658.88, 754.95, 790.54, 790.7, 805.09, 796.04, 798.32];
+const DD=["2025-04-01", "2025-04-02", "2025-04-03", "2025-04-04", "2025-04-05", "2025-04-06", "2025-04-07", "2025-04-08", "2025-04-09", "2025-04-10", "2025-04-11", "2025-04-12", "2025-04-13", "2025-04-14", "2025-04-15", "2025-04-16", "2025-04-17", "2025-04-18", "2025-04-19", "2025-04-20", "2025-04-21", "2025-04-22", "2025-04-23", "2025-04-24", "2025-04-25", "2025-04-26", "2025-04-27", "2025-04-28", "2025-04-29", "2025-04-30", "2025-05-01", "2025-05-02", "2025-05-03", "2025-05-04", "2025-05-05", "2025-05-06", "2025-05-07", "2025-05-08", "2025-05-09", "2025-05-10", "2025-05-11", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-17", "2025-05-18", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-24", "2025-05-25", "2025-05-26", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-05-31", "2025-06-01", "2025-06-02", "2025-06-03", "2025-06-04", "2025-06-05", "2025-06-06", "2025-06-07", "2025-06-08", "2025-06-09", "2025-06-10", "2025-06-11", "2025-06-12", "2025-06-13", "2025-06-14", "2025-06-15", "2025-06-16", "2025-06-17", "2025-06-18", "2025-06-19", "2025-06-20", "2025-06-21", "2025-06-22", "2025-06-23", "2025-06-24", "2025-06-25", "2025-06-26", "2025-06-27", "2025-06-28", "2025-06-29", "2025-06-30", "2025-07-01", "2025-07-02", "2025-07-03", "2025-07-04", "2025-07-05", "2025-07-06", "2025-07-07", "2025-07-08", "2025-07-09", "2025-07-10", "2025-07-11", "2025-07-12", "2025-07-13", "2025-07-14", "2025-07-16", "2025-07-17", "2025-07-18", "2025-07-19", "2025-07-20", "2025-07-21", "2025-07-22", "2025-07-23", "2025-07-24", "2025-07-25", "2025-07-26", "2025-07-27", "2025-07-28", "2025-07-29", "2025-07-30", "2025-07-31", "2025-08-01", "2025-08-02", "2025-08-03", "2025-08-04", "2025-08-05", "2025-08-06", "2025-08-07", "2025-08-08", "2025-08-09", "2025-08-10", "2025-08-11", "2025-08-12", "2025-08-13", "2025-08-14", "2025-08-15", "2025-08-16", "2025-08-17", "2025-08-18", "2025-08-19", "2025-08-21", "2025-08-22", "2025-08-23", "2025-08-24", "2025-08-25", "2025-08-26", "2025-08-27", "2025-08-28", "2025-08-29", "2025-08-30", "2025-08-31", "2025-09-01", "2025-09-02", "2025-09-03", "2025-09-04", "2025-09-05", "2025-09-06", "2025-09-07", "2025-09-08", "2025-09-09", "2025-09-10", "2025-09-11", "2025-09-12", "2025-09-13", "2025-09-14", "2025-09-15", "2025-09-16", "2025-09-17", "2025-09-18", "2025-09-19", "2025-09-20", "2025-09-21", "2025-09-22", "2025-09-23", "2025-09-24", "2025-09-25", "2025-09-26", "2025-09-27", "2025-09-28", "2025-09-29", "2025-09-30", "2025-10-01", "2025-10-02", "2025-10-03", "2025-10-04", "2025-10-05", "2025-10-06", "2025-10-07", "2025-10-08", "2025-10-09", "2025-10-10", "2025-10-11", "2025-10-12", "2025-10-13", "2025-10-14", "2025-10-15", "2025-10-16", "2025-10-17", "2025-10-18", "2025-10-19", "2025-10-20", "2025-10-21", "2025-10-22", "2025-10-23", "2025-10-24", "2025-10-25", "2025-10-26", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-01", "2025-11-02", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-08", "2025-11-09", "2025-11-11", "2025-11-12", "2025-11-13", "2025-11-14", "2025-11-15", "2025-11-16", "2025-11-17", "2025-11-18", "2025-11-19", "2025-11-20", "2025-11-21", "2025-11-22", "2025-11-23", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-27", "2025-11-28", "2025-11-29", "2025-11-30", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-06", "2025-12-07", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-20", "2025-12-21", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-27", "2025-12-28", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-03", "2026-01-04", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-10", "2026-01-11", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-15", "2026-01-16", "2026-01-17", "2026-01-18", "2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09", "2026-02-10", "2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", "2026-02-23", "2026-02-24", "2026-02-25", "2026-02-26", "2026-02-27", "2026-02-28", "2026-03-01", "2026-03-02", "2026-03-03", "2026-03-04", "2026-03-05", "2026-03-06", "2026-03-07", "2026-03-08", "2026-03-09", "2026-03-10", "2026-03-11", "2026-03-12", "2026-03-13", "2026-03-14", "2026-03-15", "2026-03-16", "2026-03-17", "2026-03-18", "2026-03-19", "2026-03-20", "2026-03-21", "2026-03-22", "2026-03-23", "2026-03-24", "2026-03-25", "2026-03-26", "2026-03-27", "2026-03-28", "2026-03-29", "2026-03-30", "2026-03-31", "2026-04-01", "2026-04-02", "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", "2026-04-07", "2026-04-08", "2026-04-09", "2026-04-10", "2026-04-11", "2026-04-12", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16", "2026-04-17", "2026-04-18", "2026-04-19", "2026-04-20", "2026-04-21", "2026-04-22", "2026-04-23", "2026-04-24", "2026-04-25", "2026-04-26", "2026-04-27", "2026-04-28", "2026-04-29", "2026-04-30", "2026-05-01", "2026-05-02", "2026-05-03"];
+const DV=[810.3, 815.7, 823.1, 816.8, 812.5, 789.9, 790.5, 799.9, 799.4, 775.6, 755.3, 777.8, 783.8, 784.7, 785.7, 787.0, 787.2, 769.9, 755.8, 777.1, 798.7, 792.2, 787.1, 784.8, 791.3, 842.6, 796.6, 791.0, 777.1, 769.7, 761.4, 764.8, 763.3, 761.9, 774.1, 773.8, 775.7, 781.6, 788.4, 790.9, 775.6, 767.0, 769.0, 782.4, 785.7, 762.7, 762.1, 764.0, 772.4, 764.2, 747.8, 722.9, 723.0, 711.6, 703.7, 703.0, 694.0, 701.8, 705.6, 686.6, 664.3, 684.1, 698.7, 700.8, 720.0, 751.8, 761.8, 740.6, 723.3, 727.8, 716.8, 727.4, 732.9, 744.7, 753.3, 744.3, 717.3, 705.6, 680.3, 668.1, 666.5, 684.7, 684.7, 698.3, 676.9, 713.3, 721.6, 708.2, 705.0, 676.2, 666.9, 674.3, 692.6, 707.6, 700.7, 681.0, 661.0, 668.0, 677.3, 674.5, 684.5, 701.3, 693.4, 681.1, 666.3, 691.6, 705.3, 720.3, 718.3, 707.2, 725.9, 709.4, 683.0, 684.5, 680.9, 653.3, 645.9, 651.1, 639.7, 658.6, 679.0, 706.4, 695.7, 693.4, 699.1, 699.0, 708.7, 708.4, 712.0, 704.0, 689.4, 682.4, 678.6, 702.3, 729.0, 694.7, 687.2, 665.3, 666.6, 667.3, 688.1, 677.5, 663.2, 648.2, 661.5, 674.9, 691.5, 680.0, 682.9, 696.6, 668.6, 647.3, 644.5, 647.3, 644.0, 651.8, 655.6, 646.2, 675.9, 708.5, 721.7, 712.1, 714.2, 715.6, 700.3, 687.3, 707.6, 725.1, 722.1, 720.4, 708.5, 839.8, 698.1, 695.6, 698.9, 709.3, 709.7, 692.5, 677.3, 700.3, 714.3, 692.1, 675.9, 706.7, 712.9, 706.3, 706.9, 719.9, 738.6, 742.2, 742.9, 742.9, 744.5, 747.0, 751.8, 754.1, 757.9, 759.0, 768.5, 759.7, 759.2, 748.1, 735.8, 741.8, 753.9, 744.7, 742.9, 736.4, 706.5, 691.1, 708.0, 728.4, 737.9, 748.7, 752.3, 747.1, 775.6, 775.3, 773.9, 773.3, 780.6, 794.0, 793.3, 793.7, 794.6, 784.8, 770.3, 784.8, 792.0, 803.9, 795.5, 797.0, 807.3, 813.2, 805.3, 787.6, 800.6, 801.5, 813.0, 819.7, 824.7, 827.8, 825.6, 812.6, 802.6, 797.5, 801.4, 798.9, 797.1, 793.5, 801.0, 807.3, 818.7, 823.6, 810.6, 803.4, 802.9, 812.4, 815.1, 818.3, 830.0, 828.2, 822.9, 814.3, 806.4, 821.5, 826.6, 826.6, 825.1, 829.3, 841.6, 858.1, 850.0, 834.5, 823.0, 816.5, 822.9, 812.4, 799.5, 804.6, 802.9, 813.3, 809.1, 809.6, 817.5, 827.7, 828.7, 832.1, 829.3, 827.1, 829.3, 823.6, 807.4, 812.9, 793.9, 793.1, 777.1, 804.1, 794.1, 784.3, 785.0, 800.7, 802.5, 803.0, 797.3, 795.6, 775.0, 794.1, 801.6, 804.5, 802.8, 812.6, 807.1, 785.8, 789.8, 799.3, 801.8, 799.9, 797.0, 795.1, 794.7, 790.2, 782.7, 803.8, 816.1, 822.9, 814.4, 818.0, 812.0, 808.7, 803.1, 806.9, 812.0, 796.5, 783.0, 785.5, 790.2, 803.9, 803.8, 801.3, 793.6, 792.6, 803.1, 805.2, 790.3, 788.2, 796.4, 804.6, 828.8, 815.2, 796.1, 800.6, 787.1, 776.8, 790.0, 789.3, 793.0, 773.3, 761.0, 757.1, 783.7, 787.5, 793.2, 785.4, 791.6, 779.8, 762.1, 752.5, 749.9, 757.4, 775.1, 771.2, 771.2, 772.3, 768.9, 773.8, 776.4, 785.2, 784.4, 783.7, 778.3, 785.6, 772.7, 770.2, 768.8, 774.7, 783.3, 777.7, 764.3, 758.9, 754.4, 743.6, 736.0, 732.1, 729.3];
+const DT=["00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00", "02:15", "02:30", "02:45", "03:00", "03:15", "03:30", "03:45", "04:00", "04:15", "04:30", "04:45", "05:00", "05:15", "05:30", "05:45", "06:00", "06:15", "06:30", "06:45", "07:00", "07:15", "07:30", "07:45", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45"];
+const DTV=[837.0, 839.4, 838.6, 839.0, 839.3, 840.5, 841.1, 842.0, 842.3, 843.4, 843.7, 844.4, 844.9, 845.9, 846.0, 846.5, 846.7, 847.3, 847.9, 848.3, 848.3, 848.8, 848.5, 847.1, 844.9, 840.8, 833.9, 826.2, 816.2, 803.9, 788.9, 772.6, 754.7, 735.9, 716.5, 698.6, 682.1, 669.3, 656.6, 645.4, 634.4, 626.4, 619.2, 614.1, 608.3, 604.0, 600.9, 598.4, 595.8, 594.4, 593.8, 593.4, 591.9, 592.9, 594.0, 597.9, 602.1, 608.2, 615.4, 622.0, 630.5, 639.9, 652.3, 665.1, 678.7, 693.7, 710.3, 727.5, 743.0, 758.2, 772.3, 783.6, 792.9, 799.7, 803.9, 806.1, 807.4, 809.3, 812.5, 814.1, 816.5, 820.2, 822.7, 825.0, 826.9, 827.7, 827.6, 828.4, 829.4, 829.9, 829.9, 831.5, 832.5, 834.0, 834.9, 835.6];
+const ML=["Apr'25", "May'25", "Jun'25", "Jul'25", "Aug'25", "Sep'25", "Oct'25", "Nov'25", "Dec'25", "Jan'26", "Feb'26", "Mar'26", "Apr'26", "May'26"];
+const MV=[791.0, 748.6, 710.1, 683.9, 687.4, 696.4, 733.8, 787.6, 816.2, 811.9, 801.0, 793.4, 772.2, 732.4];
+const MC=["rgba(240,165,0,0.60)", "rgba(0,229,160,0.52)", "rgba(0,229,160,0.52)", "rgba(0,229,160,0.82)", "rgba(0,229,160,0.82)", "rgba(0,229,160,0.82)", "rgba(0,229,160,0.52)", "rgba(240,165,0,0.60)", "rgba(248,81,73,0.60)", "rgba(248,81,73,0.60)", "rgba(248,81,73,0.60)", "rgba(240,165,0,0.60)", "rgba(240,165,0,0.60)", "rgba(0,229,160,0.52)"];
+const OLL=["2026-04-27T00:00", "2026-04-27T01:00", "2026-04-27T02:00", "2026-04-27T03:00", "2026-04-27T04:00", "2026-04-27T05:00", "2026-04-27T06:00", "2026-04-27T07:00", "2026-04-27T08:00", "2026-04-27T09:00", "2026-04-27T10:00", "2026-04-27T11:00", "2026-04-27T12:00", "2026-04-27T13:00", "2026-04-27T14:00", "2026-04-27T15:00", "2026-04-27T16:00", "2026-04-27T17:00", "2026-04-27T18:00", "2026-04-27T19:00", "2026-04-27T20:00", "2026-04-27T21:00", "2026-04-27T22:00", "2026-04-27T23:00", "2026-04-28T00:00", "2026-04-28T01:00", "2026-04-28T02:00", "2026-04-28T03:00", "2026-04-28T04:00", "2026-04-28T05:00", "2026-04-28T06:00", "2026-04-28T07:00", "2026-04-28T08:00", "2026-04-28T09:00", "2026-04-28T10:00", "2026-04-28T11:00", "2026-04-28T12:00", "2026-04-28T13:00", "2026-04-28T14:00", "2026-04-28T15:00", "2026-04-28T16:00", "2026-04-28T17:00", "2026-04-28T18:00", "2026-04-28T19:00", "2026-04-28T20:00", "2026-04-28T21:00", "2026-04-28T22:00", "2026-04-28T23:00", "2026-04-29T00:00", "2026-04-29T01:00", "2026-04-29T02:00", "2026-04-29T03:00", "2026-04-29T04:00", "2026-04-29T05:00", "2026-04-29T06:00", "2026-04-29T07:00", "2026-04-29T08:00", "2026-04-29T09:00", "2026-04-29T10:00", "2026-04-29T11:00", "2026-04-29T12:00", "2026-04-29T13:00", "2026-04-29T14:00", "2026-04-29T15:00", "2026-04-29T16:00", "2026-04-29T17:00", "2026-04-29T18:00", "2026-04-29T19:00", "2026-04-29T20:00", "2026-04-29T21:00", "2026-04-29T22:00", "2026-04-29T23:00", "2026-04-30T00:00", "2026-04-30T01:00", "2026-04-30T02:00", "2026-04-30T03:00", "2026-04-30T04:00", "2026-04-30T05:00", "2026-04-30T06:00", "2026-04-30T07:00", "2026-04-30T08:00", "2026-04-30T09:00", "2026-04-30T10:00", "2026-04-30T11:00", "2026-04-30T12:00", "2026-04-30T13:00", "2026-04-30T14:00", "2026-04-30T15:00", "2026-04-30T16:00", "2026-04-30T17:00", "2026-04-30T18:00", "2026-04-30T19:00", "2026-04-30T20:00", "2026-04-30T21:00", "2026-04-30T22:00", "2026-04-30T23:00", "2026-05-04T00:00", "2026-05-04T01:00", "2026-05-04T02:00", "2026-05-04T03:00", "2026-05-04T04:00", "2026-05-04T05:00", "2026-05-04T06:00", "2026-05-04T07:00", "2026-05-04T08:00", "2026-05-04T09:00", "2026-05-04T10:00", "2026-05-04T11:00", "2026-05-04T12:00", "2026-05-04T13:00", "2026-05-04T14:00", "2026-05-04T15:00", "2026-05-04T16:00", "2026-05-04T17:00", "2026-05-04T18:00", "2026-05-04T19:00", "2026-05-04T20:00", "2026-05-04T21:00", "2026-05-04T22:00", "2026-05-04T23:00"];
+const OLD=[10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 9499.07, 3291.5, 3158.87, 2501.83, 2242.73, 2100.61, 2021.54, 2440.89, 3289.09, 3892.05, 6310.42, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 4789.97, 2910.01, 2450.88, 2200.03, 1990.22, 1809.95, 1653.87, 2021.73, 3232.35, 3438.65, 3920.54, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 8028.97, 8071.68, 10000.0, 4010.45, 2140.42, 2090.81, 2021.39, 1591.69, 1554.89, 1551.52, 2010.22, 2838.03, 3210.58, 3462.97, 4770.99, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 8200.31, 5500.9, 4632.67, 6105.82, 3894.87, 1840.28, 1815.82, 1640.09, 1515.73, 1503.12, 1515.46, 1591.8, 2509.87, 2772.84, 2849.79, 3566.37, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 4920.72, 4299.61, 3763.56, 3569.54, 3359.41, 3849.14, 3462.28, 2775.24, 300.73, 300.7, 300.81, 300.38, 300.44, 300.41, 300.66, 1001.64, 1544.58, 1840.83, 3173.54, 3849.47, 3849.77, 3849.9, 3892.67, 5205.93];
+const OLI=[851.4, 859.1, 865.2, 866.8, 870.3, 867.4, 867.7, 837.8, 725.9, 651.4, 616.8, 592.7, 594.0, 599.7, 623.7, 661.1, 704.6, 751.1, 803.8, 821.0, 819.5, 835.8, 826.2, 831.4, 842.6, 846.7, 855.3, 866.6, 875.5, 878.7, 876.6, 840.0, 726.3, 639.0, 617.1, 583.5, 578.7, 582.0, 606.9, 647.8, 687.9, 738.6, 800.8, 821.1, 824.3, 827.8, 815.2, 824.1, 834.3, 847.2, 857.1, 862.1, 865.3, 874.1, 870.2, 837.1, 738.3, 645.1, 597.1, 570.1, 570.0, 571.6, 587.6, 627.5, 674.7, 728.9, 804.4, 820.9, 814.9, 831.5, 834.7, 836.3, 847.1, 847.1, 848.9, 858.2, 868.1, 866.2, 870.1, 838.3, 724.1, 641.6, 590.5, 573.5, 575.1, 568.8, 575.4, 617.2, 645.9, 687.7, 758.0, 789.2, 803.8, 814.4, 810.3, 819.9, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null];
+const CMM=732.4;
+const SP=603.6;
+const CEA=712.0;
+const II_WP=10000;
+const II_WI=854;
+const II_BP=1743;
+const II_BI=581;
+const STATE_DATA={"Andhra Pradesh": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [790.5, 805.9, 812.0], "national": [792.0, 740.6, 737.6], "re_pct": [24.9, 23.4, 22.8], "mean": 802.8, "latest": 812.0, "latest_re": 22.8, "latest_date": "2026-04-29"}, "Gujarat": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [691.5, 582.9, 569.6], "national": [792.0, 740.6, 737.6], "re_pct": [34.3, 44.6, 45.9], "mean": 614.7, "latest": 569.6, "latest_re": 45.9, "latest_date": "2026-04-29"}, "Karnataka": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [640.3, 598.4, 587.2], "national": [792.0, 740.6, 737.6], "re_pct": [39.1, 43.1, 44.2], "mean": 608.6, "latest": 587.2, "latest_re": 44.2, "latest_date": "2026-04-29"}, "Madhya Pradesh": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [898.3, 820.4, 791.5], "national": [792.0, 740.6, 737.6], "re_pct": [14.6, 22.0, 24.8], "mean": 836.7, "latest": 791.5, "latest_re": 24.8, "latest_date": "2026-04-29"}, "Maharashtra": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [935.6, 871.7, 867.9], "national": [792.0, 740.6, 737.6], "re_pct": [11.1, 17.1, 17.5], "mean": 891.7, "latest": 867.9, "latest_re": 17.5, "latest_date": "2026-04-29"}, "Rajasthan": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [744.5, 630.5, 648.6], "national": [792.0, 740.6, 737.6], "re_pct": [29.2, 40.1, 38.3], "mean": 674.5, "latest": 648.6, "latest_re": 38.3, "latest_date": "2026-04-29"}, "Tamil Nadu": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [817.6, 731.0, 701.9], "national": [792.0, 740.6, 737.6], "re_pct": [22.3, 30.5, 33.3], "mean": 750.2, "latest": 701.9, "latest_re": 33.3, "latest_date": "2026-04-29"}, "Telengana": {"dates": ["2025-04-01", "2026-04-28", "2026-04-29"], "vals": [917.1, 931.6, 918.8], "national": [792.0, 740.6, 737.6], "re_pct": [12.8, 11.4, 12.7], "mean": 922.5, "latest": 918.8, "latest_re": 12.7, "latest_date": "2026-04-29"}};
+const NAT_MEAN=756.3;
 
-// Tabs
-const TMAP = {charts:'CHARTS',overlay:'PRICE + CARBON',states:'STATE INTENSITY',factors:'DAILY FACTORS',calculator:'IMPACT CALCULATOR',methodology:'METHODOLOGY'};
-function switchTab(n) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  const p = document.getElementById('panel-' + n);
-  if (p) p.classList.add('active');
-  document.querySelectorAll('.tab').forEach(t => {
-    if (t.textContent.trim().startsWith(TMAP[n])) t.classList.add('active');
-  });
+const TMAP={charts:"CHARTS",overlay:"PRICE + CARBON",states:"STATE INTENSITY",factors:"DAILY FACTORS",calculator:"IMPACT CALCULATOR",methodology:"METHODOLOGY"};
+function switchTab(n){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  const p=document.getElementById("panel-"+n);if(p)p.classList.add("active");
+  document.querySelectorAll(".tab").forEach(t=>{if(t.textContent.trim().startsWith(TMAP[n]))t.classList.add("active");});
 }
 
-// Charts
-window.addEventListener('load', function() {
-  const GC = 'rgba(48,54,61,0.6)';
-  const TK = {color:'#7d8590',maxRotation:0,font:{family:"'JetBrains Mono'",size:10}};
-  const TT = {backgroundColor:'#0d1117',borderColor:'#30363d',borderWidth:1,titleColor:'#e6edf3',padding:12,titleFont:{family:"'JetBrains Mono'",size:11},bodyFont:{family:"'JetBrains Mono'",size:11}};
-  const NA = {duration:0,active:{duration:0},resize:{duration:0}};
-  const MO = {responsive:true,maintainAspectRatio:false};
+window.addEventListener("load",function(){
+  const GC="rgba(48,54,61,0.6)";
+  const TK={color:"#7d8590",maxRotation:0,font:{family:"'JetBrains Mono'",size:10}};
+  const TT={backgroundColor:"#0d1117",borderColor:"#30363d",borderWidth:1,titleColor:"#e6edf3",padding:12,titleFont:{family:"'JetBrains Mono'",size:11},bodyFont:{family:"'JetBrains Mono'",size:11}};
+  const NA={duration:0,active:{duration:0},resize:{duration:0}};
+  const MO={responsive:true,maintainAspectRatio:false};
 
-  function ic(id, cfg) {
-    try {
-      const el = document.getElementById(id);
-      if (!el) return null;
-      return new Chart(el.getContext('2d'), cfg);
-    } catch(e) { console.error(id, e); return null; }
-  }
+  function ic(id,cfg){try{const el=document.getElementById(id);if(!el)return null;return new Chart(el.getContext("2d"),cfg);}catch(e){console.error(id,e);return null;}}
+  function gr(id,h,c1,c2){try{const el=document.getElementById(id);if(!el)return"transparent";const g=el.getContext("2d").createLinearGradient(0,0,0,h);g.addColorStop(0,c1);g.addColorStop(1,c2);return g;}catch(e){return"transparent";}}
 
-  function grad(id, h, c1, c2) {
-    try {
-      const el = document.getElementById(id);
-      if (!el) return 'transparent';
-      const g = el.getContext('2d').createLinearGradient(0,0,0,h);
-      g.addColorStop(0,c1); g.addColorStop(1,c2); return g;
-    } catch(e) { return 'transparent'; }
-  }
-
-  ic('c30', {type:'line',
-    data:{labels:L30,datasets:[{data:L30V,borderColor:'#00e5a0',borderWidth:1.5,pointRadius:0,
-      fill:true,backgroundColor:grad('c30',220,'rgba(0,229,160,0.15)','rgba(0,229,160,0)'),tension:0.3}]},
-    options:{...MO,animation:NA,plugins:{legend:{display:false},tooltip:{...TT,bodyColor:'#00e5a0',callbacks:{
-      title:i=>{try{const dt=new Date(i[0].label);return dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short'})+' '+dt.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}catch(e){return i[0].label;}},
-      label:i=>' '+i.raw.toFixed(1)+' g CO₂/kWh'
-    }}},
-    scales:{x:{grid:{color:GC},ticks:{...TK,maxTicksLimit:12,callback:(v,i)=>L30[i]?.endsWith('T00:00')?L30[i].slice(5,10):''}},
-      y:{grid:{color:GC},ticks:{...TK,callback:v=>v+'g'},min:400,max:980}}
+  ic("c30",{type:"line",data:{labels:L30,datasets:[{data:L30V,borderColor:"#00e5a0",borderWidth:1.5,pointRadius:0,fill:true,backgroundColor:gr("c30",220,"rgba(0,229,160,0.15)","rgba(0,229,160,0)"),tension:0.3}]},
+    options:{...MO,animation:NA,plugins:{legend:{display:false},tooltip:{...TT,bodyColor:"#00e5a0",callbacks:{
+      title:i=>{try{const dt=new Date(i[0].label);return dt.toLocaleDateString("en-IN",{day:"2-digit",month:"short"})+" "+dt.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});}catch(e){return i[0].label;}},
+      label:i=>" "+i.raw.toFixed(1)+" g CO\u2082/kWh"
+    }}},scales:{x:{grid:{color:GC},ticks:{...TK,maxTicksLimit:12,callback:(v,i)=>L30[i]?.endsWith("T00:00")?L30[i].slice(5,10):""}},y:{grid:{color:GC},ticks:{...TK,callback:v=>v+"g"},min:400,max:980}}
   }});
 
-  ic('cM', {type:'bar',
-    data:{labels:ML,datasets:[{data:MV,backgroundColor:MV.map(v=>v<700?'rgba(0,229,160,0.8)':v<750?'rgba(0,229,160,0.5)':v<800?'rgba(240,165,0,0.6)':'rgba(248,81,73,0.6)'),borderWidth:0,borderRadius:4}]},
-    options:{...MO,animation:NA,plugins:{legend:{display:false},tooltip:{...TT,bodyColor:'#00e5a0',callbacks:{title:i=>i[0].label,label:i=>' '+i.raw+' g CO₂/kWh'}}},
+  ic("cM",{type:"bar",data:{labels:ML,datasets:[{data:MV,backgroundColor:MV.map(v=>v<700?"rgba(0,229,160,0.8)":v<750?"rgba(0,229,160,0.5)":v<800?"rgba(240,165,0,0.6)":"rgba(248,81,73,0.6)"),borderWidth:0,borderRadius:4}]},
+    options:{...MO,animation:NA,plugins:{legend:{display:false},tooltip:{...TT,bodyColor:"#00e5a0",callbacks:{title:i=>i[0].label,label:i=>" "+i.raw+" g CO\u2082/kWh"}}},
     scales:{x:{grid:{display:false},ticks:{...TK}},y:{grid:{color:GC},ticks:{...TK},min:620,max:840}}
   }});
 
-  ic('cD', {type:'line',
-    data:{labels:DT,datasets:[{data:DTV,borderColor:'#58a6ff',borderWidth:2,pointRadius:0,
-      fill:true,backgroundColor:grad('cD',250,'rgba(88,166,255,0.2)','rgba(88,166,255,0.01)'),tension:0.4}]},
-    options:{...MO,animation:NA,plugins:{legend:{display:false},tooltip:{...TT,bodyColor:'#58a6ff',callbacks:{title:i=>DT[i[0].dataIndex]+' IST',label:i=>' '+i.raw.toFixed(1)+' g CO₂/kWh'}}},
-    scales:{x:{grid:{color:GC},ticks:{...TK,maxTicksLimit:8,callback:(v,i)=>['00:00','03:00','06:00','09:00','12:00','15:00','18:00','21:00'].includes(DT[i])?DT[i]:''}},
-      y:{grid:{color:GC},ticks:{...TK},min:580,max:920}}
+  ic("cD",{type:"line",data:{labels:DT,datasets:[{data:DTV,borderColor:"#58a6ff",borderWidth:2,pointRadius:0,fill:true,backgroundColor:gr("cD",250,"rgba(88,166,255,0.2)","rgba(88,166,255,0.01)"),tension:0.4}]},
+    options:{...MO,animation:NA,plugins:{legend:{display:false},tooltip:{...TT,bodyColor:"#58a6ff",callbacks:{title:i=>DT[i[0].dataIndex]+" IST",label:i=>" "+i.raw.toFixed(1)+" g CO\u2082/kWh"}}},
+    scales:{x:{grid:{color:GC},ticks:{...TK,maxTicksLimit:8,callback:(v,i)=>["00:00","03:00","06:00","09:00","12:00","15:00","18:00","21:00"].includes(DT[i])?DT[i]:""}},y:{grid:{color:GC},ticks:{...TK},min:580,max:920}}
   }});
 
-  ic('cOL', {type:'line',
-    data:{labels:OLL,datasets:[
-      {label:'DAM Price (₹/MWh)',data:OLD,borderColor:'#f0a500',borderWidth:1.5,pointRadius:0,tension:0.3,yAxisID:'yP',fill:false},
-      {label:'Carbon Intensity (g/kWh)',data:OLI,borderColor:'#00e5a0',borderWidth:1.5,pointRadius:0,tension:0.3,yAxisID:'yI',fill:false}
-    ]},
-    options:{...MO,animation:NA,interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#7d8590',font:{family:"'JetBrains Mono'",size:11},boxWidth:12,boxHeight:2,padding:16}},
-        tooltip:{...TT,callbacks:{
-          title:i=>{const l=OLL[i[0].dataIndex];try{const dt=new Date(l);return dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short'})+' '+dt.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}catch(e){return l;}},
-          label:i=>i.datasetIndex===0?' DAM: ₹'+i.raw?.toLocaleString('en-IN')+'/MWh':' Intensity: '+i.raw?.toFixed(1)+' g CO₂/kWh'
-        }}},
-      scales:{
-        x:{grid:{color:GC},ticks:{...TK,maxTicksLimit:10,callback:(v,i)=>{
-          const l=OLL[i];if(!l||!l.endsWith('T00:00'))return'';
-          const p=l.split('T')[0].split('-');
-          const mo=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-          return p[2]+' '+mo[parseInt(p[1])];
-        }}},
-        yP:{type:'linear',position:'left',grid:{color:GC},ticks:{...TK,callback:v=>v>=1000?'₹'+(v/1000).toFixed(0)+'k':'₹'+v},title:{display:false}},
-        yI:{type:'linear',position:'right',grid:{drawOnChartArea:false},ticks:{...TK,callback:v=>v+'g'},title:{display:false},min:400,max:1000}
-      }
+  ic("cOL",{type:"line",data:{labels:OLL,datasets:[
+    {label:"DAM Price (\u20b9/MWh)",data:OLD,borderColor:"#f0a500",borderWidth:1.5,pointRadius:0,tension:0.3,yAxisID:"yP",fill:false},
+    {label:"Carbon Intensity (g/kWh)",data:OLI,borderColor:"#00e5a0",borderWidth:1.5,pointRadius:0,tension:0.3,yAxisID:"yI",fill:false}
+  ]},options:{...MO,animation:NA,interaction:{mode:"index",intersect:false},
+    plugins:{legend:{display:true,position:"top",align:"end",labels:{color:"#7d8590",font:{family:"'JetBrains Mono'",size:11},boxWidth:12,boxHeight:2,padding:16}},
+      tooltip:{...TT,callbacks:{
+        title:i=>{const l=OLL[i[0].dataIndex];try{const dt=new Date(l);return dt.toLocaleDateString("en-IN",{day:"2-digit",month:"short"})+" "+dt.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});}catch(e){return l;}},
+        label:i=>i.datasetIndex===0?" DAM: \u20b9"+i.raw?.toLocaleString("en-IN")+"/MWh":" Intensity: "+i.raw?.toFixed(1)+" g CO\u2082/kWh"
+      }}},
+    scales:{
+      x:{grid:{color:GC},ticks:{...TK,maxTicksLimit:10,callback:(v,i)=>{const l=OLL[i];if(!l||!l.endsWith("T00:00"))return"";const p=l.split("T")[0].split("-");const mo=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];return p[2]+" "+mo[parseInt(p[1])];} }},
+      yP:{type:"linear",position:"left",grid:{color:GC},ticks:{...TK,callback:v=>v>=1000?"\u20b9"+(v/1000).toFixed(0)+"k":"\u20b9"+v},title:{display:false}},
+      yI:{type:"linear",position:"right",grid:{drawOnChartArea:false},ticks:{...TK,callback:v=>v+"g"},title:{display:false},min:400,max:1000}
     }
-  });
+  }});
 });
 
-// CSV download
-function dlCSV() {
-  const hdr='date,intensity_g_per_kwh,intensity_t_per_mwh,citation\n';
-  const rows=DD.map((d,i)=>{const v=DV[i];return d+','+v+','+(v/1000).toFixed(4)+',"India Grid Carbon Intensity API · '+d+' · '+v+' g CO2/kWh · CEA Baseline v21.0"';}).join('\n');
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([hdr+rows],{type:'text/csv'}));
-  a.download='india_grid_intensity_daily.csv';a.click();
+function dlCSV(){
+  const hdr="date,intensity_g_per_kwh,intensity_t_per_mwh,citation
+";
+  const rows=DD.map((d,i)=>{const v=DV[i];return d+","+v+","+(v/1000).toFixed(4)+',"India Grid Carbon Intensity API \u00b7 '+d+" \u00b7 "+v+" g CO2/kWh \u00b7 CEA Baseline v21.0"';}).join("
+");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([hdr+rows],{type:"text/csv"}));
+  a.download="india_grid_intensity_daily.csv";a.click();
 }
 
-// Scope 2 Calculator
-function calc() {
-  const kwh=parseFloat(document.getElementById('kwh').value);
-  const res=document.getElementById('cres');
-  const exp=document.getElementById('cexp');
-  if(!kwh||kwh<=0){res.style.display='none';return;}
-  res.style.display='block';
+function calc(){
+  const kwh=parseFloat(document.getElementById("kwh").value);
+  const res=document.getElementById("cres");const exp=document.getElementById("cexp");
+  if(!kwh||kwh<=0){res.style.display="none";return;}
+  res.style.display="block";
   const co2=kwh*CMM/1e6,cea=kwh*CEA/1e6,diff=co2-cea,sol=kwh*(CMM-SP)/1e6;
-  document.getElementById('r1').textContent=co2.toFixed(1)+' t';
-  document.getElementById('r2').textContent=(diff>=0?'+':'')+diff.toFixed(1)+' t';
-  document.getElementById('r3').textContent=sol.toFixed(1)+' t';
-  document.getElementById('r4').textContent=(sol*12).toFixed(1)+' t';
-  const dtxt=diff>=0?'Actual is <strong>+'+(diff.toFixed(1))+' t higher</strong> than CEA avg — CEA would understate your footprint.':'Actual is <strong>'+(Math.abs(diff).toFixed(1))+' t lower</strong> than CEA avg — CEA would overstate your footprint.';
-  exp.innerHTML='<strong>How it works:</strong> '+kwh.toLocaleString()+' kWh × '+CMM+' ÷ 1,000,000 = '+co2.toFixed(1)+' tCO₂. '+dtxt;
+  document.getElementById("r1").textContent=co2.toFixed(1)+" t";
+  document.getElementById("r2").textContent=(diff>=0?"+":"")+diff.toFixed(1)+" t";
+  document.getElementById("r3").textContent=sol.toFixed(1)+" t";
+  document.getElementById("r4").textContent=(sol*12).toFixed(1)+" t";
+  exp.innerHTML="<strong>How it works:</strong> "+kwh.toLocaleString()+" kWh \\u00d7 "+CMM+" \u00f7 1,000,000 = "+co2.toFixed(1)+" tCO\u2082. "+(diff>=0?"Actual is <strong>+"+(diff.toFixed(1))+" t higher</strong> than CEA avg.":"Actual is <strong>"+(Math.abs(diff).toFixed(1))+" t lower</strong> than CEA avg.");
 }
 
-// Load Shift Calculator
-function calcII() {
-  const mw=parseFloat(document.getElementById('iimw').value);
-  const hrs=parseFloat(document.getElementById('iihrs').value);
-  const out=document.getElementById('iiout');
-  if(!mw||!hrs||mw<=0||hrs<=0){out.style.display='none';return;}
-  out.style.display='block';
+function calcII(){
+  const mw=parseFloat(document.getElementById("iimw").value);
+  const hrs=parseFloat(document.getElementById("iihrs").value);
+  const out=document.getElementById("iiout");
+  if(!mw||!hrs||mw<=0||hrs<=0){out.style.display="none";return;}
+  out.style.display="block";
   const mwh_day=mw*hrs,mwh_m=mwh_day*30;
   const cs_m=(II_WP-II_BP)*mwh_m,cs_y=cs_m*12;
   const co2_m=((II_WI-II_BI)/1000)*mwh_m,co2_y=co2_m*12;
-  document.getElementById('iihdr').textContent=mw+'MW shifted '+hrs+'h/day — 19:00 → 13:00 IST';
-  document.getElementById('iicost').textContent='₹'+Math.round(cs_m).toLocaleString('en-IN')+'/month';
-  document.getElementById('iico2').textContent=co2_m.toFixed(1)+' tCO₂/month';
-  document.getElementById('iiyr').textContent='₹'+(cs_y/100000).toFixed(1)+' Lakh/year';
-  document.getElementById('iis2').textContent=co2_y.toFixed(1)+' tCO₂/year';
-  document.getElementById('iibestv').textContent='Save ₹'+Math.round((II_WP-II_BP)*mwh_day).toLocaleString('en-IN');
-  document.getElementById('iiworstv').textContent='Cost ₹'+Math.round(II_WP*mwh_day).toLocaleString('en-IN');
+  document.getElementById("iihdr").textContent=mw+"MW shifted "+hrs+"h/day \u2014 19:00 \u2192 13:00 IST";
+  document.getElementById("iicost").textContent="\u20b9"+Math.round(cs_m).toLocaleString("en-IN")+"/month";
+  document.getElementById("iico2").textContent=co2_m.toFixed(1)+" tCO\u2082/month";
+  document.getElementById("iiyr").textContent="\u20b9"+(cs_y/100000).toFixed(1)+" Lakh/year";
+  document.getElementById("iis2").textContent=co2_y.toFixed(1)+" tCO\u2082/year";
+  document.getElementById("iibestv").textContent="Save \u20b9"+Math.round((II_WP-II_BP)*mwh_day).toLocaleString("en-IN");
+  document.getElementById("iiworstv").textContent="Cost \u20b9"+Math.round(II_WP*mwh_day).toLocaleString("en-IN");
 }
 
-// State chart
 let stChart=null;
-function updateState() {
-  const state=document.getElementById('ssel').value;
-  const kpis=document.getElementById('skpis');
-  const title=document.getElementById('stitle');
-  if(!state||!STATE_DATA[state]){kpis.style.display='none';return;}
+function updateState(){
+  const state=document.getElementById("ssel").value;
+  const kpis=document.getElementById("skpis");
+  const title=document.getElementById("stitle");
+  if(!state||!STATE_DATA[state]){kpis.style.display="none";return;}
   const sd=STATE_DATA[state];
-  title.textContent=state+' — Daily Grid Intensity';
-  kpis.style.display='grid';
+  title.textContent=state+" \u2014 Daily Grid Intensity";
+  kpis.style.display="grid";
   const diff=(sd.mean-NAT_MEAN).toFixed(1);
-  document.getElementById('sk1').textContent=sd.mean+' g/kWh';
-  document.getElementById('sk2').textContent=(diff>0?'+':'')+diff;
-  document.getElementById('sk2').style.color=diff>0?'var(--re)':'var(--ac)';
-  document.getElementById('sk3').textContent=sd.latest_re+'%';
-  document.getElementById('sk4').textContent=sd.latest_date;
+  document.getElementById("sk1").textContent=sd.mean+" g/kWh";
+  document.getElementById("sk2").textContent=(diff>0?"+":"")+diff;
+  document.getElementById("sk2").style.color=diff>0?"var(--re)":"var(--ac)";
+  document.getElementById("sk3").textContent=sd.latest_re+"%";
+  document.getElementById("sk4").textContent=sd.latest_date;
   if(stChart){stChart.destroy();stChart=null;}
-  const el=document.getElementById('cSt');
-  if(!el)return;
-  try{
-    stChart=new Chart(el.getContext('2d'),{type:'line',
-      data:{labels:sd.dates,datasets:[
-        {label:state,data:sd.vals,borderColor:'#00e5a0',borderWidth:2,pointRadius:0,tension:0.3,fill:false},
-        {label:'National',data:sd.national,borderColor:'#7d8590',borderWidth:1,borderDash:[4,4],pointRadius:0,tension:0.3,fill:false}
-      ]},
-      options:{responsive:true,maintainAspectRatio:false,animation:{duration:0,active:{duration:0},resize:{duration:0}},
-        plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#7d8590',font:{family:"'JetBrains Mono'",size:11},boxWidth:16,padding:16}},
-          tooltip:{backgroundColor:'#0d1117',borderColor:'#30363d',borderWidth:1,titleColor:'#e6edf3',padding:12,callbacks:{
-            title:i=>i[0].label,
-            label:i=>' '+i.dataset.label+': '+(i.raw||0).toFixed(1)+' g CO₂/kWh'
-          }}},
-        scales:{x:{grid:{color:'rgba(48,54,61,0.6)'},ticks:{color:'#7d8590',maxRotation:0,maxTicksLimit:10,font:{family:"'JetBrains Mono'",size:10},callback:(v,i)=>{
-          const l=sd.dates[i];if(!l)return'';
-          const d=new Date(l);return d.getDate()===1?d.toLocaleDateString('en-IN',{month:'short',year:'2-digit'}):'';
-        }}},y:{grid:{color:'rgba(48,54,61,0.6)'},ticks:{color:'#7d8590',font:{family:"'JetBrains Mono'",size:10},callback:v=>v+'g'},min:400,max:1000}}
-      }
-    });
-  }catch(e){console.error('state chart',e);}
+  const el=document.getElementById("cSt");if(!el)return;
+  try{stChart=new Chart(el.getContext("2d"),{type:"line",
+    data:{labels:sd.dates,datasets:[
+      {label:state,data:sd.vals,borderColor:"#00e5a0",borderWidth:2,pointRadius:0,tension:0.3,fill:false},
+      {label:"National",data:sd.national,borderColor:"#7d8590",borderWidth:1,borderDash:[4,4],pointRadius:0,tension:0.3,fill:false}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:0,active:{duration:0},resize:{duration:0}},
+      plugins:{legend:{display:true,position:"top",align:"end",labels:{color:"#7d8590",font:{family:"'JetBrains Mono'",size:11},boxWidth:16,padding:16}},
+        tooltip:{backgroundColor:"#0d1117",borderColor:"#30363d",borderWidth:1,titleColor:"#e6edf3",padding:12,callbacks:{
+          title:i=>i[0].label,label:i=>" "+i.dataset.label+": "+(i.raw||0).toFixed(1)+" g CO\u2082/kWh"
+        }}},
+      scales:{x:{grid:{color:"rgba(48,54,61,0.6)"},ticks:{color:"#7d8590",maxRotation:0,maxTicksLimit:10,font:{family:"'JetBrains Mono'",size:10},callback:(v,i)=>{const l=sd.dates[i];if(!l)return"";const d=new Date(l);return d.getDate()===1?d.toLocaleDateString("en-IN",{month:"short",year:"2-digit"}):"";} }},
+        y:{grid:{color:"rgba(48,54,61,0.6)"},ticks:{color:"#7d8590",font:{family:"'JetBrains Mono'",size:10},callback:v=>v+"g"},min:400,max:1000}}
+    }
+  });}catch(e){console.error("state chart",e);}
 }
 </script>
 </body>
