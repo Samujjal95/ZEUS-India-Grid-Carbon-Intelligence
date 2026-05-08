@@ -1,0 +1,11 @@
+# ZEUS — pre-launch state
+# Blocks all search engine crawlers from indexing the site.
+# When ready to launch publicly:
+#   1. Delete this file
+#   2. Remove the <meta name="robots" content="noindex, nofollow"> line from index.html
+#   3. Remove the same line from build_dashboard.py (it's near the top of build_html's f-string)
+#   4. Rebuild the dashboard, commit, push
+#   5. Submit sitemap to Google Search Console for indexing
+
+User-agent: *
+Disallow: /
