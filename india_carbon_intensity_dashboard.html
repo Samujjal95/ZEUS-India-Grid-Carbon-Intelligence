@@ -635,10 +635,12 @@ html[data-theme="light"] #cexp_period strong{color:#0a1419 !important}
 
 /* ═══════════════════════════════════════════════════════════════════════
    LIGHT-MODE CARD BACKGROUND FIXES
-   These cards had hardcoded dark backgrounds; force white in light mode
+   These cards have hardcoded dark bg; force white in light mode
+   Fixes the PRICE+CARBON KPIs, IMPACT CALCULATOR results, LOAD SHIFT,
+   and STATE INTENSITY KPI strips.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* Price + Carbon and State Intensity KPI strips */
+/* PRICE+CARBON & STATE INTENSITY KPI strips */
 html[data-theme="light"] .kstrip,
 html[data-theme="light"] .ksk,
 html[data-theme="light"] .kk,
@@ -658,7 +660,7 @@ html[data-theme="light"] .ii-best-row{
   border-color:#cfdae0 !important;
 }
 
-/* Header/banner inside Load Shift output ("4MW shifted ...") */
+/* Header/banner inside Load Shift output */
 html[data-theme="light"] .ii-hdr,
 html[data-theme="light"] #iihdr{
   background:linear-gradient(135deg,#087f5b,#0b9f6c) !important;
@@ -674,26 +676,22 @@ html[data-theme="light"] #cexp_period{
   color:#1a2932 !important;
 }
 
-/* Forecast cards on FORECAST tab (also use dark bg) */
+/* Forecast cards (FORECAST tab) */
 html[data-theme="light"] .fc-card,
 html[data-theme="light"] .ow-card{
   background:#ffffff !important;
   border-color:#cfdae0 !important;
 }
-
-/* Small/zone tags inside cards */
 html[data-theme="light"] .ow-best{border-color:rgba(8,127,91,0.35) !important}
 html[data-theme="light"] .ow-gap{border-color:rgba(183,107,0,0.35) !important}
 html[data-theme="light"] .ow-worst{border-color:rgba(201,42,59,0.35) !important}
 
-/* Hero stat cards (FY 2025-26 MEAN, CEA REFERENCE, etc.) */
+/* Hero stat cards (FY MEAN, CEA, etc.) */
 html[data-theme="light"] .hero-right,
 html[data-theme="light"] .hero-stat{
   background:#ffffff !important;
 }
-html[data-theme="light"] .hero-right{
-  border:1px solid #cfdae0 !important;
-}
+html[data-theme="light"] .hero-right{border:1px solid #cfdae0 !important}
 
 /* Methodology cards */
 html[data-theme="light"] .mc{
@@ -701,10 +699,11 @@ html[data-theme="light"] .mc{
   border-color:#cfdae0 !important;
 }
 
-/* Sanity check box */
-html[data-theme="light"] .sanity-box{
-  background:rgba(8,127,91,0.05) !important;
-  border-color:rgba(8,127,91,0.30) !important;
+/* Best/worst block tables */
+html[data-theme="light"] .worst3,
+html[data-theme="light"] .best3{
+  background:#ffffff !important;
+  border:1px solid #cfdae0 !important;
 }
 
 /* Roadmap card */
@@ -721,28 +720,6 @@ html[data-theme="light"] .download-btn{
 }
 html[data-theme="light"] .download-btn:hover{
   background:rgba(8,127,91,0.18) !important;
-}
-
-/* Best/worst block tables (PRICE+CARBON tab) */
-html[data-theme="light"] .worst3,
-html[data-theme="light"] .best3{
-  background:#ffffff !important;
-  border:1px solid #cfdae0 !important;
-}
-
-/* All States ranking table container */
-html[data-theme="light"] .ranking-tbl,
-html[data-theme="light"] .ranking-tbl tr{
-  background:#ffffff !important;
-}
-html[data-theme="light"] .ranking-tbl tr:hover{
-  background:#f0f5f7 !important;
-}
-
-/* Data lineage card grid */
-html[data-theme="light"] .lineage-card,
-html[data-theme="light"] .lineage-grid > div{
-  background:#ffffff !important;
 }
 
 .theme-toggle{
@@ -854,7 +831,7 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
       <a class="hlink" onclick="switchTab('factors')">DAILY FACTORS</a>
       <a class="hlink" onclick="switchTab('methodology')">METHODOLOGY</a>
       <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark mode" title="Toggle light and dark mode"><span class="theme-track"><span class="theme-knob"></span></span></button>
-      <a class="hlink" href="mailto:your@email.com" style="background:var(--ac-dim);border:1px solid var(--ac-glow);border-radius:6px;padding:6px 14px;color:var(--ac)">REQUEST ACCESS &rarr;</a>
+      <a class="hlink" href="mailto:hello@zeusgrid.in" style="background:var(--ac-dim);border:1px solid var(--ac-glow);border-radius:6px;padding:6px 14px;color:var(--ac)">REQUEST ACCESS &rarr;</a>
     </div>
   </div>
 </header>
@@ -1236,11 +1213,6 @@ intensity(t) =
     </div>
   </div>
 
-  <div class="sanity-box">
-    <div class="sanity-num">712</div>
-    <div class="sanity-text"><strong>CEA reference (FY 2024-25)</strong> &mdash; CEA CO&#x2082; Baseline Database v21.0<br><strong>Our FY 2025-26 mean: 757.0 g/kWh</strong> &mdash; within &plusmn;8% &#x2713;<br><br><span style="color:var(--mu)"><strong style="color:var(--tx)">Why the difference?</strong> CEA's 712 includes monsoon (Jul&ndash;Sep) when intensity drops sharply. Our data starts Apr 2025 &mdash; summer months when thermal load peaks. The gap is expected and documented.</span></div>
-  </div>
-
   <div class="section" style="margin-top:24px">
     <div class="section-header"><div class="section-title">Impact Calculator Methodology</div><div class="section-sub">How both calculators work &middot; assumptions &middot; valid use cases</div></div>
     <div class="method-grid">
@@ -1255,9 +1227,8 @@ intensity(t) =
 
 Annual = Monthly &times; 12 &times; EF_avg</div><br>
 
-        <strong>Emission factor used:</strong> 757.0 g/kWh &mdash; the trailing-period mean across all ZEUS data (2025-04-01 to 2026-05-07, 399 days). This covers <strong>all of FY 2025-26 plus year-to-date FY 2026-27</strong>.<br>
-        For BRSR Core / annual GHG reporting, this is the correct factor (annual average), not the current-month value which would skew filings done mid-year.<br>
-        <em>If you need a strict FY 2025-26 mean for a specific filing, contact us for the period-restricted figure.</em><br><br>
+        <strong>Emission factor used:</strong> The calculator above uses the period-specific factor based on your selection (FY 2025-26: 755.1 g/kWh from 362 days; FY 2026-27 YTD: 775.4 g/kWh; rolling 12 months: 754.0 g/kWh; all data: 757.0 g/kWh).<br>
+        For BRSR Core annual filing of FY 2025-26, the default selection is the strict-period FY 2025-26 mean (755.1 g/kWh). Auditors comparing to CEA v21.0 will use the FY 2024-25 baseline (712 g/kWh) and accept either a strict-period match or a ±5% combined uncertainty justification.<br><br>
 
         <strong>CEA baseline comparison:</strong> 712 g/kWh (CEA CO&#x2082; Baseline Database v21.0, FY 2024-25). The live ZEUS factor is 757.0 g/kWh &mdash; the difference quantifies whether the actual grid has been cleaner or dirtier than the published static baseline.<br><br>
 
@@ -1330,7 +1301,7 @@ I_solar = 614 g/kWh (10&ndash;14h avg, 30 days)</div>
         <div>
           <div style="font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:6px">Build Information</div>
           <strong style="color:var(--tx)">Version:</strong> ZEUS v0.2<br>
-          <strong style="color:var(--tx)">Built at:</strong> 2026-05-08 14:56:57 IST<br>
+          <strong style="color:var(--tx)">Built at:</strong> 2026-05-08 18:28:36 IST<br>
           <strong style="color:var(--tx)">Methodology:</strong> v0.2 (this document)
         </div>
 
@@ -1381,7 +1352,7 @@ I_solar = 614 g/kWh (10&ndash;14h avg, 30 days)</div>
 
 <footer>
   <div>ZEUS &mdash; India Grid Carbon Intelligence &middot; GRID-INDIA PSP + CEA Baseline v21.0 (&plusmn;5%) &middot; Methodology v0.2</div>
-  <div>2025-04-01 &rarr; 2026-05-07 &middot; 38,264 data points &middot; Built 2026-05-08 14:56:57 IST &middot; <a href="mailto:your@email.com" style="color:var(--mu)">your@email.com</a></div>
+  <div>2025-04-01 &rarr; 2026-05-07 &middot; 38,264 data points &middot; Built 2026-05-08 18:28:36 IST &middot; <a href="mailto:hello@zeusgrid.in" style="color:var(--mu)">hello@zeusgrid.in</a></div>
 </footer>
 
 <script>

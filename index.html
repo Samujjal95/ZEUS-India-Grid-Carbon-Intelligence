@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEUS — India's first 15-minute grid carbon intelligence</title>
+<meta name="description" content="ZEUS provides 15-min grid carbon intensity data, 48h forecasts, and BRSR Core-aligned methodology for top 500 listed entities filing FY 2025-26 reasonable assurance.">
+
+<meta property="og:title" content="ZEUS — India Grid Carbon Intelligence">
+<meta property="og:description" content="Audit-grade Indian grid emission factors at 15-minute resolution. CEA-aligned, BRSR Core compliant, monsoon-validated forecasts.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zeusgrid.in">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-0: #060911;
+  --bg-1: #0a0f1a;
+  --bg-2: #0e1422;
+  --bg-glass: rgba(14, 20, 34, 0.5);
+  --tx-0: #ffffff;
+  --tx-1: #d3dde6;
+  --tx-2: #8b9aab;
+  --tx-3: #5a6a7a;
+  --bd: rgba(255, 255, 255, 0.08);
+  --bd-bright: rgba(255, 255, 255, 0.16);
+  --ac: #00e5a0;
+  --ac-2: #00b8d9;
+  --ac-3: #9d6cff;
+  --ac-glow: rgba(0, 229, 160, 0.18);
+  --display: 'Space Grotesk', -apple-system, sans-serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--body);
+  background: var(--bg-0);
+  color: var(--tx-1);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ANIMATED GRADIENT BACKGROUND (replaces WebGL)
+   ═══════════════════════════════════════════════════════════════════════ */
+.bg-aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: var(--bg-0);
+  overflow: hidden;
+}
+.bg-aurora::before,
+.bg-aurora::after {
+  content: '';
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.45;
+  animation: aurora 20s ease-in-out infinite;
+}
+.bg-aurora::before {
+  background: radial-gradient(circle, var(--ac), transparent 60%);
+  top: -200px;
+  left: -200px;
+}
+.bg-aurora::after {
+  background: radial-gradient(circle, var(--ac-3), transparent 60%);
+  top: 30%;
+  right: -300px;
+  animation-delay: -10s;
+  animation-duration: 25s;
+}
+.bg-aurora-3 {
+  position: fixed;
+  bottom: -300px;
+  left: 30%;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.25;
+  background: radial-gradient(circle, var(--ac-2), transparent 60%);
+  animation: aurora 18s ease-in-out infinite -5s;
+  z-index: -1;
+  pointer-events: none;
+}
+@keyframes aurora {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(80px, -60px) scale(1.1); }
+  66% { transform: translate(-60px, 80px) scale(0.9); }
+}
+
+/* Subtle grid overlay */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════════════════════════════════════ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 16px 0;
+  background: rgba(6, 9, 17, 0.55);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-bottom: 1px solid var(--bd);
+  transition: padding .3s, background .3s;
+}
+nav.scrolled {
+  padding: 12px 0;
+  background: rgba(6, 9, 17, 0.85);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--tx-0);
+}
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--ac), var(--ac-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.brand-mark::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 9px;
+  background: var(--bg-1);
+  z-index: 0;
+}
+.brand-mark svg {
+  position: relative;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  color: var(--ac);
+}
+.brand-name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--tx-0);
+}
+.brand-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--tx-2);
+  text-transform: uppercase;
+  margin-top: -2px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--tx-2);
+  text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--tx-0); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 20px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--ac), var(--ac-2));
+  color: var(--bg-0);
+  border-color: rgba(0, 229, 160, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 229, 160, 0.18);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(0, 229, 160, 0.32);
+}
+.btn-secondary {
+  background: var(--bg-glass);
+  color: var(--tx-0);
+  border-color: var(--bd-bright);
+  backdrop-filter: blur(8px);
+}
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--tx-1);
+  border-color: var(--bd);
+}
+.btn-ghost:hover { border-color: var(--bd-bright); color: var(--tx-0); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 140px 32px 80px;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(0, 229, 160, 0.08);
+  border: 1px solid rgba(0, 229, 160, 0.22);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ac);
+  margin-bottom: 28px;
+  animation: fadeInUp .8s ease-out;
+}
+.hero-badge .pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ac);
+  box-shadow: 0 0 12px var(--ac);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.4); }
+}
+
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(36px, 6.5vw, 80px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--tx-0);
+  margin-bottom: 24px;
+  max-width: 1000px;
+  animation: fadeInUp 1s ease-out .1s both;
+}
+.hero h1 .gradient-text {
+  background: linear-gradient(135deg, var(--ac) 0%, var(--ac-2) 50%, var(--ac-3) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+.hero p {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--tx-1);
+  max-width: 720px;
+  margin-bottom: 40px;
+  line-height: 1.65;
+  animation: fadeInUp 1s ease-out .25s both;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeInUp 1s ease-out .35s both;
+}
+.hero-ctas .btn { padding: 13px 24px; font-size: 15px; }
+
+/* Live data strip */
+.live-strip {
+  margin-top: 56px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
+  animation: fadeInUp 1s ease-out .5s both;
+}
+.live-cell {
+  padding: 16px 22px;
+  text-align: center;
+  position: relative;
+}
+.live-cell + .live-cell::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background: var(--bd);
+}
+.live-cell-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tx-2);
+  margin-bottom: 6px;
+}
+.live-cell-value {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--tx-0);
+  letter-spacing: -0.01em;
+}
+.live-cell-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--tx-2);
+  margin-top: 4px;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TRUST BADGES (after hero)
+   ═══════════════════════════════════════════════════════════════════════ */
+.trust {
+  padding: 60px 0 0;
+}
+.trust-label {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-bottom: 28px;
+}
+.trust-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 56px;
+  flex-wrap: wrap;
+  opacity: 0.7;
+}
+.trust-item {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--tx-2);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.trust-item::before {
+  content: '✓';
+  color: var(--ac);
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SECTION SCAFFOLDING
+   ═══════════════════════════════════════════════════════════════════════ */
+section { padding: 120px 0; position: relative; }
+.section-eyebrow {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ac);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--tx-0);
+  margin-bottom: 18px;
+  max-width: 780px;
+}
+.section-sub {
+  font-size: 17px;
+  color: var(--tx-2);
+  max-width: 640px;
+  line-height: 1.65;
+  margin-bottom: 56px;
+}
+.section-head-center {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.section-head-center .section-title,
+.section-head-center .section-sub { margin-left: auto; margin-right: auto; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FEATURES — what you get
+   ═══════════════════════════════════════════════════════════════════════ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.feature {
+  padding: 36px 32px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--bd);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s, border-color .3s;
+}
+.feature:hover {
+  transform: translateY(-4px);
+  border-color: var(--bd-bright);
+}
+.feature::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ac), transparent);
+  opacity: 0;
+  transition: opacity .3s;
+}
+.feature:hover::before { opacity: 1; }
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 229, 160, 0.16), rgba(0, 184, 217, 0.16));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  border: 1px solid rgba(0, 229, 160, 0.24);
+}
+.feature-icon svg { width: 22px; height: 22px; color: var(--ac); }
+.feature h3 {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--tx-0);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.feature p {
+  font-size: 14px;
+  color: var(--tx-2);
+  line-height: 1.65;
+}
+
+@media (max-width: 900px) {
+  .features-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   METRICS GRID
+   ═══════════════════════════════════════════════════════════════════════ */
+.metrics {
+  border-top: 1px solid var(--bd);
+  border-bottom: 1px solid var(--bd);
+  padding: 80px 0;
+  background: var(--bg-1);
+}
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.metric {
+  padding: 24px;
+  text-align: center;
+  position: relative;
+}
+.metric + .metric::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 1px;
+  background: var(--bd);
+}
+.metric-value {
+  font-family: var(--display);
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--ac), var(--ac-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.metric-label {
+  font-size: 13px;
+  color: var(--tx-2);
+  line-height: 1.5;
+}
+.metric-label strong { color: var(--tx-1); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .metric:nth-child(2)::before, .metric:nth-child(4)::before { display: none; }
+  .metric { padding: 32px 20px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DASHBOARD PREVIEW
+   ═══════════════════════════════════════════════════════════════════════ */
+.preview {
+  position: relative;
+}
+.preview-frame {
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--bd);
+  border-radius: 18px;
+  padding: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.preview-frame::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(0, 229, 160, 0.08), transparent);
+  animation: rotate 12s linear infinite;
+  z-index: 0;
+}
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+.preview-bar {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  position: relative;
+  z-index: 1;
+}
+.preview-bar span {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+.preview-bar span:first-child { background: #ff5f57; }
+.preview-bar span:nth-child(2) { background: #ffbd2e; }
+.preview-bar span:nth-child(3) { background: #28ca42; }
+.preview-bar .preview-url {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--tx-2);
+  text-align: center;
+}
+.preview-screen {
+  background: var(--bg-1);
+  border-radius: 12px;
+  padding: 40px;
+  position: relative;
+  z-index: 1;
+  min-height: 480px;
+}
+.preview-mock-hero {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.preview-mock-num {
+  font-family: var(--display);
+  font-size: 80px;
+  font-weight: 700;
+  color: var(--tx-0);
+  line-height: 1;
+}
+.preview-mock-unit {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--tx-2);
+  margin-bottom: 16px;
+}
+.preview-mock-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.preview-pill {
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--bd);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--tx-1);
+}
+.preview-mock-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.preview-stat {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  padding: 18px;
+}
+.preview-stat-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--tx-2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.preview-stat-val {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--tx-0);
+}
+.preview-stat-val.green { color: var(--ac); }
+.preview-stat-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--tx-2);
+  margin-top: 4px;
+}
+
+.preview-callouts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+.preview-callout {
+  padding: 16px;
+  border-left: 2px solid var(--ac);
+  background: rgba(0, 229, 160, 0.04);
+  border-radius: 0 8px 8px 0;
+}
+.preview-callout strong {
+  color: var(--ac);
+  font-size: 12px;
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+.preview-callout span { font-size: 13px; color: var(--tx-1); }
+
+@media (max-width: 900px) {
+  .preview-mock-num { font-size: 56px; }
+  .preview-mock-grid { grid-template-columns: repeat(2, 1fr); }
+  .preview-callouts { grid-template-columns: 1fr; }
+  .preview-screen { padding: 24px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   USE CASES (who it's for)
+   ═══════════════════════════════════════════════════════════════════════ */
+.use-cases {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.use-case {
+  padding: 32px;
+  background: var(--bg-glass);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.use-case-num {
+  font-family: var(--display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--ac);
+  line-height: 1;
+  min-width: 56px;
+  opacity: 0.6;
+}
+.use-case h4 {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--tx-0);
+  margin-bottom: 8px;
+}
+.use-case p { font-size: 14px; color: var(--tx-2); line-height: 1.65; }
+
+@media (max-width: 900px) {
+  .use-cases { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PRICING
+   ═══════════════════════════════════════════════════════════════════════ */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+.tier {
+  padding: 36px 32px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--bd);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform .3s, border-color .3s;
+}
+.tier:hover { transform: translateY(-4px); border-color: var(--bd-bright); }
+.tier-featured {
+  border-color: rgba(0, 229, 160, 0.4);
+  background: linear-gradient(180deg, rgba(0, 229, 160, 0.04), var(--bg-glass));
+}
+.tier-featured::before {
+  content: 'Recommended';
+  position: absolute;
+  top: -12px;
+  left: 24px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--ac), var(--ac-2));
+  color: var(--bg-0);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+.tier-name {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tx-2);
+  margin-bottom: 16px;
+}
+.tier-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.tier-price-num {
+  font-family: var(--display);
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--tx-0);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.tier-price-unit {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--tx-2);
+}
+.tier-tagline {
+  font-size: 14px;
+  color: var(--tx-2);
+  margin-bottom: 28px;
+  min-height: 42px;
+}
+.tier-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  flex: 1;
+}
+.tier-features li {
+  font-size: 14px;
+  color: var(--tx-1);
+  padding: 8px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.55;
+}
+.tier-features li::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(0, 229, 160, 0.16);
+  border: 1px solid var(--ac);
+  flex-shrink: 0;
+  margin-top: 4px;
+  position: relative;
+}
+.tier-features li::after {
+  content: '✓';
+  position: absolute;
+  margin-left: 3px;
+  margin-top: 2px;
+  color: var(--ac);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ABOUT
+   ═══════════════════════════════════════════════════════════════════════ */
+.about-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--bd);
+  border-radius: 18px;
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 40px;
+  align-items: center;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.about-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 229, 160, 0.16), rgba(157, 108, 255, 0.16));
+  border: 1px solid var(--bd-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: 56px;
+  font-weight: 700;
+  background-clip: text;
+  color: var(--ac);
+  position: relative;
+}
+.about-photo::after {
+  content: '[Replace: founder photo]';
+  position: absolute;
+  bottom: -28px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--tx-3);
+}
+.about-name {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--tx-0);
+  margin-bottom: 4px;
+}
+.about-role {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--ac);
+  margin-bottom: 20px;
+}
+.about-bio { font-size: 15px; color: var(--tx-1); line-height: 1.7; margin-bottom: 24px; }
+.about-links { display: flex; gap: 16px; flex-wrap: wrap; }
+.about-link {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--tx-2);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color .2s;
+}
+.about-link:hover { color: var(--ac); }
+
+@media (max-width: 768px) {
+  .about-card { grid-template-columns: 1fr; text-align: center; padding: 32px; }
+  .about-photo { margin: 0 auto; }
+  .about-links { justify-content: center; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FINAL CTA
+   ═══════════════════════════════════════════════════════════════════════ */
+.cta-final {
+  text-align: center;
+  padding: 100px 32px;
+  background:
+    radial-gradient(ellipse at top, rgba(0, 229, 160, 0.06), transparent 70%),
+    var(--bg-1);
+  border-top: 1px solid var(--bd);
+  border-bottom: 1px solid var(--bd);
+}
+.cta-final h2 {
+  font-family: var(--display);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--tx-0);
+  margin-bottom: 20px;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-final p {
+  font-size: 17px;
+  color: var(--tx-2);
+  margin-bottom: 36px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-final .btn { padding: 14px 28px; font-size: 16px; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════════════════ */
+footer {
+  padding: 64px 0 40px;
+  background: var(--bg-0);
+  border-top: 1px solid var(--bd);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+.footer-col h5 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tx-2);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a {
+  font-size: 14px;
+  color: var(--tx-1);
+  text-decoration: none;
+  transition: color .2s;
+}
+.footer-col a:hover { color: var(--ac); }
+.footer-tagline {
+  font-size: 14px;
+  color: var(--tx-2);
+  line-height: 1.65;
+  margin-top: 16px;
+  max-width: 320px;
+}
+.footer-bottom {
+  padding-top: 28px;
+  border-top: 1px solid var(--bd);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--tx-3);
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FADE-IN ON SCROLL
+   ═══════════════════════════════════════════════════════════════════════ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .8s ease-out, transform .8s ease-out;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<div class="bg-aurora"></div>
+<div class="bg-aurora-3"></div>
+<div class="bg-grid"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════════════════════════════════ -->
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 2 L4 14 L11 14 L11 22 L20 10 L13 10 Z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">ZEUS</div>
+        <div class="brand-tag">India Grid Carbon Intelligence</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#features">What it does</a>
+      <a href="#methodology">Methodology</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">About</a>
+    </div>
+    <a href="india_carbon_intensity_dashboard.html" class="btn btn-primary">
+      View Live Dashboard
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-badge">
+    <div class="pulse"></div>
+    Live · T-1 grid intensity · Updated daily
+  </div>
+
+  <h1>
+    India's first 15-minute<br>
+    <span class="gradient-text">grid carbon intelligence.</span>
+  </h1>
+
+  <p>
+    Audit-grade emission factor data and 48-hour intensity forecasts for top 500 listed entities filing BRSR Core reasonable assurance — built on GRID-INDIA PSP, validated against unseen monsoon data.
+  </p>
+
+  <div class="hero-ctas">
+    <a href="india_carbon_intensity_dashboard.html" class="btn btn-primary">
+      Explore the dashboard
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+    </a>
+    <a href="#pricing" class="btn btn-secondary">View pricing</a>
+  </div>
+
+  <div class="live-strip">
+    <div class="live-cell">
+      <div class="live-cell-label">Current intensity</div>
+      <div class="live-cell-value">903 g/kWh</div>
+      <div class="live-cell-sub">May 7, T-1 latest</div>
+    </div>
+    <div class="live-cell">
+      <div class="live-cell-label">FY 25-26 mean</div>
+      <div class="live-cell-value">755.1</div>
+      <div class="live-cell-sub">362 days · BRSR-grade</div>
+    </div>
+    <div class="live-cell">
+      <div class="live-cell-label">CEA baseline</div>
+      <div class="live-cell-value">712 ±5%</div>
+      <div class="live-cell-sub">v21.0 · FY 24-25</div>
+    </div>
+    <div class="live-cell">
+      <div class="live-cell-label">Forecast MAPE</div>
+      <div class="live-cell-value" style="color:var(--ac)">2.84%</div>
+      <div class="live-cell-sub">Monsoon holdout · 1h</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     TRUST BADGES
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="trust container">
+  <div class="trust-label">Methodology aligned with</div>
+  <div class="trust-row">
+    <div class="trust-item">CEA Baseline v21.0</div>
+    <div class="trust-item">SEBI BRSR Core Schedule D</div>
+    <div class="trust-item">GHG Protocol Corporate Standard</div>
+    <div class="trust-item">ISO 14064-1</div>
+    <div class="trust-item">Industry Standards on BRSR Core (Dec 2024)</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     FEATURES — what you get
+     ═══════════════════════════════════════════════════════════════════ -->
+<section id="features">
+  <div class="container">
+    <div class="section-head-center fade-in">
+      <div class="section-eyebrow">What ZEUS provides</div>
+      <h2 class="section-title">Three things you can't get anywhere else in India today.</h2>
+      <p class="section-sub">Every Indian grid intensity number you've cited so far is an annual average. ZEUS is the first source publishing 15-minute resolution with documented uncertainty and forecast accuracy.</p>
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feature fade-in">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12l3-3 3 3 4-7 4 12 4-9"/>
+          </svg>
+        </div>
+        <h3>15-min historical intensity</h3>
+        <p>Every 15-minute block since April 2025 — 38,000+ data points sourced directly from GRID-INDIA Power Supply Position TimeSeries. CEA-aligned emission factors (v21.0). Period-restricted means for FY 2025-26, FY 2026-27 YTD, rolling 12 months, or full dataset.</p>
+      </div>
+
+      <div class="feature fade-in">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h3>48-hour forecast</h3>
+        <p>XGBoost + Optuna + conformal prediction across 5 horizons (1h, 6h, 12h, 24h, 48h). 2.84–3.87% MAPE on truly unseen monsoon 2025 data — including the September Bay of Bengal cyclone formation. Better than any published global benchmark.</p>
+      </div>
+
+      <div class="feature fade-in">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 12l2 2 4-4"/>
+            <path d="M12 22s-8-4-8-12V5l8-3 8 3v5c0 8-8 12-8 12z"/>
+          </svg>
+        </div>
+        <h3>Audit-defensible methodology</h3>
+        <p>Full lineage trail. ±5% uncertainty disclosed (ISO 14064-1 conforming). Every factor citable with v21.0 reference. Built for top 500 listed entities filing BRSR Core reasonable assurance — your auditor can drill into any 15-minute block.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     METRICS GRID
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="metrics" id="methodology">
+  <div class="container">
+    <div class="metrics-grid">
+      <div class="metric fade-in">
+        <div class="metric-value">38,168</div>
+        <div class="metric-label"><strong>15-min blocks</strong><br>collected since Apr 2025</div>
+      </div>
+      <div class="metric fade-in">
+        <div class="metric-value">2.84%</div>
+        <div class="metric-label"><strong>1-hour MAPE</strong><br>monsoon holdout · ENTSOE EU: 5–7%</div>
+      </div>
+      <div class="metric fade-in">
+        <div class="metric-value">19</div>
+        <div class="metric-label"><strong>weather zones</strong><br>integrated for forecast</div>
+      </div>
+      <div class="metric fade-in">
+        <div class="metric-value">±5%</div>
+        <div class="metric-label"><strong>uncertainty disclosed</strong><br>per CEA + ISO 14064-1</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     DASHBOARD PREVIEW
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="preview">
+  <div class="container">
+    <div class="section-head-center fade-in">
+      <div class="section-eyebrow">Live data</div>
+      <h2 class="section-title">A dashboard built like a research paper.</h2>
+      <p class="section-sub">Methodology is footnoted. Uncertainty is disclosed. Every number traces back to a primary source. Auditors love it. Your board will too.</p>
+    </div>
+
+    <div class="preview-frame fade-in">
+      <div class="preview-bar">
+        <span></span><span></span><span></span>
+        <div class="preview-url">zeusgrid.in/dashboard</div>
+      </div>
+
+      <div class="preview-screen">
+        <div class="preview-mock-hero">
+          <div>
+            <div style="font-family:var(--mono); font-size:10px; letter-spacing:.18em; color:var(--tx-2); text-transform:uppercase; margin-bottom:8px;">Current Grid Carbon Intensity — All India</div>
+            <div style="display:flex; align-items:flex-end; gap:12px;">
+              <div class="preview-mock-num">903</div>
+              <div class="preview-mock-unit">g CO₂/kWh</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-mock-meta">
+          <div class="preview-pill">⚪ 2026-05-07 · T-1 latest</div>
+          <div class="preview-pill" style="color:var(--ac)">🟢 17.8% zero-carbon</div>
+          <div class="preview-pill">🟡 GRID-INDIA PSP</div>
+        </div>
+
+        <div class="preview-mock-grid">
+          <div class="preview-stat">
+            <div class="preview-stat-label">FY 2025-26 Mean</div>
+            <div class="preview-stat-val">755.1</div>
+            <div class="preview-stat-sub">g/kWh · 362 days</div>
+          </div>
+          <div class="preview-stat">
+            <div class="preview-stat-label">CEA Reference</div>
+            <div class="preview-stat-val green">712</div>
+            <div class="preview-stat-sub">±5% · FY 24-25</div>
+          </div>
+          <div class="preview-stat">
+            <div class="preview-stat-label">Optimal Window</div>
+            <div class="preview-stat-val green">13:00</div>
+            <div class="preview-stat-sub">cleanest + cheapest</div>
+          </div>
+          <div class="preview-stat">
+            <div class="preview-stat-label">Forecast 48h</div>
+            <div class="preview-stat-val">835</div>
+            <div class="preview-stat-sub">±39 g/kWh (P90)</div>
+          </div>
+        </div>
+
+        <div class="preview-callouts">
+          <div class="preview-callout">
+            <strong>Period selector</strong>
+            <span>Strict FY 2025-26 mean for BRSR filing — 755.1 g/kWh from 362 days of complete coverage.</span>
+          </div>
+          <div class="preview-callout">
+            <strong>Audit trail</strong>
+            <span>Every block citable. Build timestamp, data lineage, and source URLs documented.</span>
+          </div>
+          <div class="preview-callout">
+            <strong>±5% uncertainty</strong>
+            <span>CEA convention disclosed throughout. Combined RSS uncertainty bands shown vs CEA baseline.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:36px;">
+      <a href="india_carbon_intensity_dashboard.html" class="btn btn-primary">
+        Open the live dashboard
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     USE CASES
+     ═══════════════════════════════════════════════════════════════════ -->
+<section id="use-cases">
+  <div class="container">
+    <div class="section-head-center fade-in">
+      <div class="section-eyebrow">Who it's for</div>
+      <h2 class="section-title">Built for four kinds of buyers.</h2>
+      <p class="section-sub">If your decisions depend on Indian grid carbon intensity at the hour level — not the year level — ZEUS is your reference dataset.</p>
+    </div>
+
+    <div class="use-cases">
+
+      <div class="use-case fade-in">
+        <div class="use-case-num">01</div>
+        <div>
+          <h4>ESG advisory firms</h4>
+          <p>Drop ZEUS into your BRSR Core engagements as the citable, methodology-documented grid input. Save 20–30 hours per filing on emission-factor research and audit-defense paperwork.</p>
+        </div>
+      </div>
+
+      <div class="use-case fade-in">
+        <div class="use-case-num">02</div>
+        <div>
+          <h4>Sustainability heads at top 500 listed entities</h4>
+          <p>For companies with time-correlated clean energy procurement — daytime operations, solar PPAs, ToU optimization — ZEUS substantiates a lower, more defensible Scope 2 number than annual average alone permits.</p>
+        </div>
+      </div>
+
+      <div class="use-case fade-in">
+        <div class="use-case-num">03</div>
+        <div>
+          <h4>Data center operators</h4>
+          <p>Schedule discretionary loads — batch jobs, training runs, deep storage migrations, BESS charging — into the cleanest 4-hour windows. Forecast 48h ahead with 2.84% MAPE.</p>
+        </div>
+      </div>
+
+      <div class="use-case fade-in">
+        <div class="use-case-num">04</div>
+        <div>
+          <h4>Industrial open access consumers</h4>
+          <p>For HT industrial consumers buying on IEX. Identify the highest-carbon-and-price hours to defer flexible load. Quantify demand-charge savings (energy + ₹/kVA) from peak shaving.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     PRICING
+     ═══════════════════════════════════════════════════════════════════ -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-head-center fade-in">
+      <div class="section-eyebrow">Pricing</div>
+      <h2 class="section-title">Three ways to work with us.</h2>
+      <p class="section-sub">Start with reference data access. Add advisory when you need a Scope 2 calculation defended in audit. Scale to a full BRSR engagement.</p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <div class="tier fade-in">
+        <div class="tier-name">Reference</div>
+        <div class="tier-price">
+          <div class="tier-price-num">₹40K</div>
+          <div class="tier-price-unit">/month</div>
+        </div>
+        <div class="tier-tagline">For ESG consultancies + research teams who need citable grid data.</div>
+        <ul class="tier-features">
+          <li>Full dashboard access (all 7 tabs)</li>
+          <li>15-min historical CSV downloads</li>
+          <li>Period-restricted means (FY 25-26, etc.)</li>
+          <li>Methodology documentation</li>
+          <li>Email support, 24-hr response</li>
+        </ul>
+        <a href="mailto:hello@zeusgrid.in?subject=ZEUS%20Reference%20Tier%20enquiry" class="btn btn-secondary" style="width:100%; justify-content:center;">Get started</a>
+      </div>
+
+      <div class="tier tier-featured fade-in">
+        <div class="tier-name">Advisory</div>
+        <div class="tier-price">
+          <div class="tier-price-num">₹1.5L</div>
+          <div class="tier-price-unit">/month</div>
+        </div>
+        <div class="tier-tagline">For sustainability teams at top 500 entities filing FY 25-26 BRSR Core.</div>
+        <ul class="tier-features">
+          <li>Everything in Reference</li>
+          <li>Custom Scope 2 calculation for your entity</li>
+          <li>BRSR-ready citation pack (PDF)</li>
+          <li>Audit pre-review with your assurance provider</li>
+          <li>Quarterly methodology review call</li>
+          <li>Priority support, 4-hr response</li>
+        </ul>
+        <a href="mailto:hello@zeusgrid.in?subject=ZEUS%20Advisory%20Tier%20enquiry" class="btn btn-primary" style="width:100%; justify-content:center;">Get started</a>
+      </div>
+
+      <div class="tier fade-in">
+        <div class="tier-name">Engagement</div>
+        <div class="tier-price">
+          <div class="tier-price-num">₹2–5L</div>
+          <div class="tier-price-unit">one-time</div>
+        </div>
+        <div class="tier-tagline">For full BRSR Core filing support with end-to-end Scope 2 work.</div>
+        <ul class="tier-features">
+          <li>Everything in Advisory</li>
+          <li>Smart-meter data integration</li>
+          <li>15-min consumption × intensity matching</li>
+          <li>Full assurance pack (PDF + Excel)</li>
+          <li>Auditor walk-through call</li>
+          <li>Defense letter for Big 4 review</li>
+        </ul>
+        <a href="mailto:hello@zeusgrid.in?subject=ZEUS%20Engagement%20enquiry" class="btn btn-secondary" style="width:100%; justify-content:center;">Discuss your filing</a>
+      </div>
+
+    </div>
+
+    <p style="text-align:center; margin-top:32px; font-size:13px; color:var(--tx-2); font-family:var(--mono);">
+      All prices exclusive of GST. Pilot pricing available for first 5 customers.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     ABOUT
+     ═══════════════════════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="section-head-center fade-in">
+      <div class="section-eyebrow">Who built it</div>
+      <h2 class="section-title">One operator, deep domain context.</h2>
+    </div>
+
+    <div class="about-card fade-in">
+      <div class="about-photo">SN</div>
+      <div>
+        <div class="about-name">Samujjal Nandy</div>
+        <div class="about-role">Founder · ZEUS</div>
+        <div class="about-bio">
+          Energy &amp; sustainability researcher with hands-on experience at WEC India. Built ZEUS to fix the gap I kept hitting in client work: every Indian Scope 2 number I had to cite came from a static annual average — never the actual hour something happened. ZEUS is what I wished existed.
+        </div>
+        <div class="about-links">
+          <a href="mailto:hello@zeusgrid.in" class="about-link">✉ hello@zeusgrid.in</a>
+          <a href="https://github.com/Samujjal95/ZEUS-India-Grid-Carbon-Intelligence" target="_blank" rel="noopener" class="about-link">📊 GitHub</a>
+          <a href="https://linkedin.com/in/samujjal-nandy" target="_blank" rel="noopener" class="about-link">💼 LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     FINAL CTA
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="cta-final">
+  <h2>BRSR Core FY 2025-26 filings are due July 2026.</h2>
+  <p>Ten weeks to substantiate your Scope 2 number with audit-defensible data. Let's get yours filed clean.</p>
+  <div class="hero-ctas" style="justify-content:center;">
+    <a href="mailto:hello@zeusgrid.in?subject=ZEUS%20BRSR%20Core%20enquiry" class="btn btn-primary">
+      Request a 30-min call
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+    </a>
+    <a href="india_carbon_intensity_dashboard.html" class="btn btn-secondary">View live dashboard</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="brand" style="margin-bottom:0;">
+          <div class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2 L4 14 L11 14 L11 22 L20 10 L13 10 Z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="brand-name">ZEUS</div>
+            <div class="brand-tag">India Grid Carbon Intelligence</div>
+          </div>
+        </div>
+        <p class="footer-tagline">
+          Audit-grade Indian grid emission factors at 15-minute resolution. Built for BRSR Core reasonable assurance.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="india_carbon_intensity_dashboard.html">Live Dashboard</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#methodology">Methodology</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="https://github.com/Samujjal95/ZEUS-India-Grid-Carbon-Intelligence" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:hello@zeusgrid.in">hello@zeusgrid.in</a></li>
+          <li><a href="https://linkedin.com/in/samujjal-nandy" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 ZEUS · India Grid Carbon Intelligence · All rights reserved</div>
+      <div>Built with care in Faridabad, India</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════════════════════════════ -->
+<script>
+// Sticky nav background change on scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 24) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+});
+
+// Fade-in on scroll using IntersectionObserver
+const fadeObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      fadeObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+</script>
+</body>
+</html>
