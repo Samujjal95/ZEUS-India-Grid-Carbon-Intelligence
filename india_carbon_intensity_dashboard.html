@@ -633,6 +633,118 @@ html[data-theme="light"] #kwh_period_hint{color:#4a5a64 !important}
 html[data-theme="light"] #cexp_period{color:#4a5a64 !important}
 html[data-theme="light"] #cexp_period strong{color:#0a1419 !important}
 
+/* ═══════════════════════════════════════════════════════════════════════
+   LIGHT-MODE CARD BACKGROUND FIXES
+   These cards had hardcoded dark backgrounds; force white in light mode
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Price + Carbon and State Intensity KPI strips */
+html[data-theme="light"] .kstrip,
+html[data-theme="light"] .ksk,
+html[data-theme="light"] .kk,
+html[data-theme="light"] .results-strip,
+html[data-theme="light"] .result-cell{
+  background:#ffffff !important;
+  border-color:#cfdae0 !important;
+}
+
+/* Load Shift Opportunity output card (right side of calculator) */
+html[data-theme="light"] .ii-out,
+html[data-theme="light"] .ii-card,
+html[data-theme="light"] .ii-metric,
+html[data-theme="light"] .ii-best-bar,
+html[data-theme="light"] .ii-best-row{
+  background:#ffffff !important;
+  border-color:#cfdae0 !important;
+}
+
+/* Header/banner inside Load Shift output ("4MW shifted ...") */
+html[data-theme="light"] .ii-hdr,
+html[data-theme="light"] #iihdr{
+  background:linear-gradient(135deg,#087f5b,#0b9f6c) !important;
+  color:#ffffff !important;
+}
+
+/* Calculator explanation gray box */
+html[data-theme="light"] .calc-exp,
+html[data-theme="light"] #cexp,
+html[data-theme="light"] #cexp_period{
+  background:rgba(8,127,91,0.05) !important;
+  border:1px solid #cfdae0 !important;
+  color:#1a2932 !important;
+}
+
+/* Forecast cards on FORECAST tab (also use dark bg) */
+html[data-theme="light"] .fc-card,
+html[data-theme="light"] .ow-card{
+  background:#ffffff !important;
+  border-color:#cfdae0 !important;
+}
+
+/* Small/zone tags inside cards */
+html[data-theme="light"] .ow-best{border-color:rgba(8,127,91,0.35) !important}
+html[data-theme="light"] .ow-gap{border-color:rgba(183,107,0,0.35) !important}
+html[data-theme="light"] .ow-worst{border-color:rgba(201,42,59,0.35) !important}
+
+/* Hero stat cards (FY 2025-26 MEAN, CEA REFERENCE, etc.) */
+html[data-theme="light"] .hero-right,
+html[data-theme="light"] .hero-stat{
+  background:#ffffff !important;
+}
+html[data-theme="light"] .hero-right{
+  border:1px solid #cfdae0 !important;
+}
+
+/* Methodology cards */
+html[data-theme="light"] .mc{
+  background:#ffffff !important;
+  border-color:#cfdae0 !important;
+}
+
+/* Sanity check box */
+html[data-theme="light"] .sanity-box{
+  background:rgba(8,127,91,0.05) !important;
+  border-color:rgba(8,127,91,0.30) !important;
+}
+
+/* Roadmap card */
+html[data-theme="light"] .roadmap{
+  background:#ffffff !important;
+  border-color:#cfdae0 !important;
+}
+
+/* Daily Factors download button */
+html[data-theme="light"] .download-btn{
+  background:rgba(8,127,91,0.10) !important;
+  border-color:rgba(8,127,91,0.30) !important;
+  color:#087f5b !important;
+}
+html[data-theme="light"] .download-btn:hover{
+  background:rgba(8,127,91,0.18) !important;
+}
+
+/* Best/worst block tables (PRICE+CARBON tab) */
+html[data-theme="light"] .worst3,
+html[data-theme="light"] .best3{
+  background:#ffffff !important;
+  border:1px solid #cfdae0 !important;
+}
+
+/* All States ranking table container */
+html[data-theme="light"] .ranking-tbl,
+html[data-theme="light"] .ranking-tbl tr{
+  background:#ffffff !important;
+}
+html[data-theme="light"] .ranking-tbl tr:hover{
+  background:#f0f5f7 !important;
+}
+
+/* Data lineage card grid */
+html[data-theme="light"] .lineage-card,
+html[data-theme="light"] .lineage-grid > div{
+  background:#ffffff !important;
+}
+
 .theme-toggle{
   width:54px;height:30px;border:1px solid var(--bd);border-radius:999px;
   background:var(--s2);display:inline-flex;align-items:center;padding:3px;
@@ -1218,7 +1330,7 @@ I_solar = 614 g/kWh (10&ndash;14h avg, 30 days)</div>
         <div>
           <div style="font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:6px">Build Information</div>
           <strong style="color:var(--tx)">Version:</strong> ZEUS v0.2<br>
-          <strong style="color:var(--tx)">Built at:</strong> 2026-05-08 14:50:55 IST<br>
+          <strong style="color:var(--tx)">Built at:</strong> 2026-05-08 14:56:57 IST<br>
           <strong style="color:var(--tx)">Methodology:</strong> v0.2 (this document)
         </div>
 
@@ -1269,7 +1381,7 @@ I_solar = 614 g/kWh (10&ndash;14h avg, 30 days)</div>
 
 <footer>
   <div>ZEUS &mdash; India Grid Carbon Intelligence &middot; GRID-INDIA PSP + CEA Baseline v21.0 (&plusmn;5%) &middot; Methodology v0.2</div>
-  <div>2025-04-01 &rarr; 2026-05-07 &middot; 38,264 data points &middot; Built 2026-05-08 14:50:55 IST &middot; <a href="mailto:your@email.com" style="color:var(--mu)">your@email.com</a></div>
+  <div>2025-04-01 &rarr; 2026-05-07 &middot; 38,264 data points &middot; Built 2026-05-08 14:56:57 IST &middot; <a href="mailto:your@email.com" style="color:var(--mu)">your@email.com</a></div>
 </footer>
 
 <script>
