@@ -3,829 +3,912 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>India Grid Carbon Intensity &mdash; ZEUS Analytics</title>
+<title>ZEUS &mdash; India Grid Intelligence</title>
+<meta name="description" content="Real-time grid carbon intensity for India. 15-minute GRID-INDIA PSP data with 48h forecasts. Built for BRSR Core, CCTS, and ESG dispatch decisions.">
+<meta name="theme-color" content="#060911">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23060911'/%3E%3Ctext x='50%25' y='62%25' font-family='Inter,sans-serif' font-size='18' font-weight='700' text-anchor='middle' fill='%2300e5a0'%3EZ%3C/text%3E%3C/svg%3E">
+<meta property="og:title" content="ZEUS — India Grid Intelligence">
+<meta property="og:description" content="Real-time grid carbon intensity for India — 15-min GRID-INDIA PSP data + 48h forecasts.">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+/* ═════════════════════════════════════════════════════════════════════
+   ZEUS DASHBOARD — UNIFIED STYLESHEET v0.3
+   Single source of truth. No conflicting layers. Landing-aesthetic.
+   ═════════════════════════════════════════════════════════════════════ */
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
 :root{
-  --bg:#06080d;--s1:#0d1117;--s2:#161b22;--s3:#21262d;
-  --bd:#30363d;--tx:#e6edf3;--mu:#7d8590;--mu2:#484f58;
-  --ac:#00e5a0;--ac2:#00b87a;--ac-dim:rgba(0,229,160,0.08);--ac-glow:rgba(0,229,160,0.15);
-  --am:#f0a500;--re:#f85149;--bl:#58a6ff;
-  --body:'Space Grotesk',sans-serif;--display:'Bebas Neue',sans-serif;--mono:'JetBrains Mono',monospace;
+  /* Dark theme (default) */
+  --bg-0:#060911; --bg-1:#0a0f1a; --bg-2:#0e1422;
+  --bg-glass:rgba(14,20,34,0.50);
+  --tx-0:#ffffff; --tx-1:#e6edf3; --tx-2:#8b9aab; --tx-3:#5a6a7a;
+  --bd:rgba(255,255,255,0.08); --bd-bright:rgba(255,255,255,0.16);
+  --ac:#00e5a0; --ac-2:#00b8d9; --ac-3:#9d6cff;
+  --am:#f0a500; --re:#f85149; --bl:#58a6ff;
+  --shadow-1:0 8px 32px rgba(0,0,0,0.30);
+  --shadow-2:0 12px 40px rgba(0,229,160,0.08);
+  --display:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
 }
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--tx);font-family:var(--body);font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.02) 1px,transparent 0);background-size:32px 32px;pointer-events:none;z-index:0}
-header{position:sticky;top:0;z-index:100;background:rgba(6,8,13,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 32px}
-.header-inner{max-width:1400px;margin:0 auto;height:60px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:16px}
-.brand-name{font-family:var(--display);font-size:22px;letter-spacing:.08em;color:var(--ac)}
-.brand-sub{font-family:var(--mono);font-size:10px;color:var(--mu);letter-spacing:.12em;text-transform:uppercase}
-.live-pill{display:flex;align-items:center;gap:6px;background:var(--ac-dim);border:1px solid var(--ac-glow);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:var(--ac);letter-spacing:.08em}
-.pulse{width:6px;height:6px;border-radius:50%;background:var(--ac);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
-.header-right{display:flex;align-items:center;gap:24px}
-.hlink{font-size:12px;color:var(--mu);cursor:pointer;letter-spacing:.04em;transition:color .15s;text-decoration:none;font-family:var(--mono)}
-.hlink:hover{color:var(--ac)}
-.hero{position:relative;z-index:1;background:linear-gradient(180deg,var(--s1) 0%,var(--bg) 100%);border-bottom:1px solid var(--bd);padding:40px 32px 32px}
-.hero-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center}
-.hero-label{font-family:var(--mono);font-size:11px;color:var(--mu);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
-.hero-number{font-family:var(--display);font-size:108px;line-height:.9;color:var(--tx);margin-bottom:8px}
-.hero-number .unit{font-family:var(--mono);font-size:20px;color:var(--mu);letter-spacing:.04em;vertical-align:middle;margin-left:8px}
-.hero-meta{font-family:var(--mono);font-size:11px;color:var(--mu);display:flex;gap:24px;flex-wrap:wrap}
-.hero-meta span{display:flex;align-items:center;gap:6px}
-.hero-meta .dot{width:5px;height:5px;border-radius:50%;display:inline-block}
-.hero-right{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:12px;overflow:hidden;min-width:420px}
-.hero-stat{background:var(--s2);padding:20px 24px}
-.hs-label{font-family:var(--mono);font-size:10px;color:var(--mu);letter-spacing:.10em;text-transform:uppercase;margin-bottom:6px}
-.hs-value{font-family:var(--display);font-size:32px;letter-spacing:.02em;color:var(--ac)}
-.hs-value.n{color:var(--tx)}.hs-value.am{color:var(--am)}
-.hs-sub{font-family:var(--mono);font-size:10px;color:var(--mu);margin-top:4px}
-.tab-bar{position:sticky;top:60px;z-index:99;background:rgba(6,8,13,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd)}
-.tab-bar-inner{max-width:1400px;margin:0 auto;padding:0 32px;display:flex;gap:0}
-.tab{padding:14px 20px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;color:var(--mu);border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap}
-.tab.active{color:var(--ac);border-bottom-color:var(--ac)}
-.tab:hover:not(.active){color:var(--tx)}
-.tab-badge{display:inline-block;background:var(--ac);color:#000;font-size:8px;padding:1px 5px;border-radius:3px;margin-left:6px;vertical-align:middle;font-weight:700}
-.panel{display:none}.panel.active{display:block}
-main{max-width:1400px;margin:0 auto;padding:32px;position:relative;z-index:1}
-.section{margin-bottom:28px}
-.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
-.section-title{font-family:var(--display);font-size:18px;letter-spacing:.06em;color:var(--tx)}
-.section-sub{font-family:var(--mono);font-size:11px;color:var(--mu)}
-.card{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:24px;position:relative;overflow:hidden}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bd),transparent)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.cw{position:relative}
-.insight{background:var(--ac-dim);border:1px solid var(--ac-glow);border-radius:8px;padding:12px 18px;font-size:12px;color:var(--mu);margin-top:14px;line-height:1.7;font-family:var(--mono)}
-.insight strong{color:var(--tx)}.insight .highlight{color:var(--ac);font-weight:600}
-.kstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:20px}
-.ksk{background:var(--s2);padding:20px 24px}
-.kkl{font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
-.kkv{font-family:var(--display);font-size:30px;letter-spacing:.02em;color:var(--ac)}
-.kks{font-family:var(--mono);font-size:10px;color:var(--mu);margin-top:4px}
-.tbl{width:100%;border-collapse:collapse;font-size:13px}
-.tbl th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);padding:10px 14px;border-bottom:1px solid var(--bd);background:var(--s2)}
-.tbl td{padding:10px 14px;border-bottom:1px solid rgba(48,54,61,0.5)}
-.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:var(--s2)}
-.vc{color:var(--ac);font-family:var(--mono);font-weight:500}.cc{color:var(--mu2);font-size:11px;font-family:var(--mono)}
-.rt{width:100%;border-collapse:collapse;font-size:13px;margin-top:14px}
-.rt th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);padding:8px 12px;border-bottom:1px solid var(--bd);background:var(--s2)}
-.rt td{padding:10px 12px;border-bottom:1px solid rgba(48,54,61,0.4)}
-.rt tr:last-child td{border-bottom:none}
-.btn{display:inline-flex;align-items:center;gap:8px;background:var(--ac);color:#000;border:none;padding:10px 20px;font-family:var(--mono);font-size:12px;font-weight:600;border-radius:8px;cursor:pointer;letter-spacing:.04em;transition:background .15s}
-.btn:hover{background:var(--ac2)}
-.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
-.calc-card{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:28px}
-.field-label{font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
-.field-input{width:100%;background:var(--s2);border:1px solid var(--bd);color:var(--tx);font-family:var(--mono);font-size:16px;padding:12px 16px;border-radius:8px;outline:none;transition:border-color .15s}
-.field-input:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-glow)}
-.field-hint{font-family:var(--mono);font-size:11px;color:var(--mu);margin-top:6px}
-.results-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
-.result-cell{background:var(--s2);padding:20px 18px}
-.rc-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
-.rc-val{font-family:var(--display);font-size:28px;color:var(--ac);line-height:1}
-.rc-val.am{color:var(--am)}
-.rc-sub{font-family:var(--mono);font-size:10px;color:var(--mu);margin-top:6px;line-height:1.5}
-.calc-exp{font-family:var(--mono);font-size:12px;color:var(--mu);margin-top:16px;padding:16px 20px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;line-height:1.7}
-.calc-exp strong{color:var(--tx)}
-.ii-out{display:none;margin-top:20px}
-.ii-out-header{background:var(--ac);color:#000;padding:14px 20px;border-radius:8px 8px 0 0;font-family:var(--display);font-size:16px;letter-spacing:.04em}
-.ii-out-body{background:var(--s2);border:1px solid var(--bd);border-top:none;border-radius:0 0 8px 8px}
-.ii-metric{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(48,54,61,0.5)}
-.ii-metric:last-child{border-bottom:none}
-.ii-ml{font-size:13px;color:var(--mu)}
-.ii-mv{font-family:var(--display);font-size:22px;color:var(--ac)}
-.ii-mv.am{color:var(--am)}
-.ii-best-bar{background:var(--bg);border-top:1px solid var(--bd);padding:16px 20px}
-.ii-best-label{font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:10px}
-.ii-best-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:4px 0}
-.badge{display:inline-block;font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:3px;letter-spacing:.05em;font-weight:600}
-.badge.g{background:rgba(0,229,160,0.15);color:var(--ac)}.badge.r{background:rgba(248,81,73,0.15);color:var(--re)}
-.state-select{background:var(--s2);border:1px solid var(--bd);color:var(--tx);font-family:var(--mono);font-size:13px;padding:10px 16px;border-radius:8px;cursor:pointer;outline:none;transition:border-color .15s}
-.state-select:focus{border-color:var(--ac)}
-.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.mc{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:22px 24px}
-.mt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:12px}
-.mb{font-size:13px;line-height:1.7}
-.fml{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:18px 20px;font-family:var(--mono);font-size:12px;color:var(--ac);line-height:2;margin:10px 0}
-.fml .c{color:var(--mu)}
-.ef{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
-.ef th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:7px 10px;border-bottom:1px solid var(--bd)}
-.ef td{padding:8px 10px;border-bottom:1px solid rgba(48,54,61,0.4);font-family:var(--mono);font-size:12px}
-.ef tr:last-child td{border-bottom:none}.z{color:var(--ac)}
-.sanity-box{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:20px 24px;display:flex;align-items:flex-start;gap:24px;margin-top:16px}
-.sanity-num{font-family:var(--display);font-size:48px;color:var(--ac);line-height:1;white-space:nowrap}
-.sanity-text{font-size:13px;line-height:1.7}
-.roadmap{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:20px 24px;margin-top:16px}
-.roadmap-title{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:14px}
-.rm-row{display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(48,54,61,0.4)}
-.rm-row:last-child{border-bottom:none}
-.rm-tag{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:4px;white-space:nowrap;margin-top:2px;letter-spacing:.04em;font-weight:600}
-.rm-live{background:var(--ac);color:#000}.rm-next{background:var(--am);color:#000}.rm-plan{background:var(--s3);color:var(--mu)}
-.rm-text{font-size:13px;line-height:1.6}
-.forecast-meta{font-family:var(--mono);font-size:11px;color:var(--mu);padding:14px 0 24px;border-bottom:1px solid var(--bd);margin-bottom:24px}.fc-delta{font-family:var(--mono);font-size:10px;margin-bottom:6px;letter-spacing:0.05em}.fc-lbl.normal{background:rgba(88,166,255,0.15);color:#58a6ff;border:1px solid rgba(88,166,255,0.3)}.fc-lbl.elevated{background:rgba(240,165,0,0.12);color:var(--am);border:1px solid rgba(240,165,0,0.25)}.ow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0 16px}.ow-card{background:#0d1117;border:1px solid var(--bd);border-radius:10px;padding:24px;text-align:center;position:relative;overflow:hidden}.ow-best{border-color:rgba(0,229,160,0.35)}.ow-best::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ac)}.ow-gap{border-color:rgba(240,165,0,0.35)}.ow-gap::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--am)}.ow-worst{border-color:rgba(248,81,73,0.35)}.ow-worst::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--re)}.ow-tag{font-family:var(--mono);font-size:10px;color:var(--mu);letter-spacing:0.10em;text-transform:uppercase;margin-bottom:8px}.ow-time{font-family:var(--mono);font-size:13px;color:var(--tx);margin-bottom:12px}.ow-val{font-family:var(--display);font-size:42px;line-height:1;letter-spacing:-0.01em;margin-bottom:10px}.ow-sub{font-family:var(--mono);font-size:11px;color:var(--mu)}@media(max-width:900px){.ow-grid{grid-template-columns:1fr}}.fc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin:20px 0 16px}.fc-card{background:#0d1117;border:1px solid var(--bd);border-radius:10px;padding:18px 16px;text-align:center;transition:all 0.2s}.fc-card:hover{border-color:var(--ac);transform:translateY(-2px)}.fc-h{font-family:var(--mono);font-size:10px;color:var(--mu);letter-spacing:0.10em;text-transform:uppercase;margin-bottom:10px}.fc-v{font-family:var(--display);font-size:36px;line-height:1;letter-spacing:-0.01em;margin-bottom:4px}.fc-u{font-family:var(--mono);font-size:10px;color:var(--mu);margin-bottom:10px}.fc-r{font-family:var(--mono);font-size:11px;color:var(--tx);margin-bottom:8px}.fc-t{font-family:var(--mono);font-size:10px;color:var(--mu);margin-bottom:10px}.fc-lbl{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:0.10em;padding:3px 8px;border-radius:3px}.fc-lbl.low{background:rgba(0,229,160,0.15);color:var(--ac);border:1px solid var(--ac-glow)}.fc-lbl.medium{background:rgba(240,165,0,0.12);color:var(--am);border:1px solid rgba(240,165,0,0.25)}.fc-lbl.high{background:rgba(248,81,73,0.12);color:var(--re);border:1px solid rgba(248,81,73,0.25)}.acc-tbl{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px}.acc-tbl th{text-align:left;padding:10px 14px;border-bottom:2px solid var(--bd);color:var(--mu);font-weight:500;font-size:10px;letter-spacing:0.10em;text-transform:uppercase}.acc-tbl td{padding:12px 14px;border-bottom:1px solid var(--bd);color:var(--tx)}.acc-tbl td:first-child{font-weight:600;color:var(--ac)}@media(max-width:900px){.fc-grid{grid-template-columns:repeat(2,1fr)}}.live-strip{background:linear-gradient(135deg,#0d1117 0%,rgba(0,229,160,0.06) 100%);border-bottom:1px solid rgba(0,229,160,0.2);position:relative;z-index:1}.live-inner{max-width:1400px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:32px}.live-left{flex:1}.live-tag{font-family:var(--mono);font-size:10px;color:var(--ac);letter-spacing:.10em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}.live-kpis{display:flex;align-items:center}.live-kpi{padding:0 18px;text-align:center}.live-kpi:first-child{padding-left:0}.live-kpi-label{font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:3px}.live-kpi-val{font-family:var(--display);font-size:20px;line-height:1}.live-kpi-sub{font-family:var(--mono);font-size:9px;color:var(--mu);margin-top:2px}.live-sep{width:1px;height:28px;background:var(--bd);flex-shrink:0}.live-right{width:260px;flex-shrink:0}.live-spark-label{font-family:var(--mono);font-size:9px;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}.live-spark{display:flex;align-items:flex-end;gap:1px;height:40px}.live-spark-sub{font-family:var(--mono);font-size:9px;color:var(--mu);margin-top:5px}.live-note{font-family:var(--mono);font-size:10px;color:var(--mu2);padding:7px 32px;border-top:1px solid rgba(48,54,61,0.4)}
-footer{border-top:1px solid var(--bd);padding:20px 32px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--mu);position:relative;z-index:1}
-
-/* Executive-grade frontend refresh */
-:root{
-  --bg:#07090d;--s1:#10151d;--s2:#151b24;--s3:#1d2632;
-  --bd:#293343;--tx:#f2f6fb;--mu:#9aa5b5;--mu2:#657286;
-  --ac:#2dd4bf;--ac2:#14b8a6;--ac-dim:rgba(45,212,191,0.10);--ac-glow:rgba(45,212,191,0.28);
-  --am:#f59e0b;--re:#ef4444;--bl:#60a5fa;
-  --body:'Inter','Space Grotesk',system-ui,sans-serif;--display:'Space Grotesk','Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
-  --panel:rgba(16,21,29,0.86);--panel-2:rgba(21,27,36,0.92);--line:rgba(148,163,184,0.14);
-  --shadow:0 18px 46px rgba(0,0,0,0.30);
-}
-body{
-  background:
-    linear-gradient(180deg,#080a0f 0%,#0b1017 44%,#07090d 100%);
-  color:var(--tx);
-  font-size:14px;
-  line-height:1.55;
-}
-body *{letter-spacing:0 !important}
-body::before{
-  background-image:
-    linear-gradient(rgba(148,163,184,0.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(148,163,184,0.035) 1px,transparent 1px);
-  background-size:44px 44px;
-  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,0.75),transparent 78%);
-  mask-image:linear-gradient(to bottom,rgba(0,0,0,0.75),transparent 78%);
-}
-header{
-  background:rgba(7,9,13,0.82);
-  border-bottom:1px solid var(--line);
-  box-shadow:0 10px 30px rgba(0,0,0,0.18);
-  padding:0 28px;
-}
-.header-inner{height:68px;max-width:1480px}
-.brand{gap:14px}
-.brand::before{
-  content:"";
-  width:34px;height:34px;border-radius:8px;flex:0 0 auto;
-  background:linear-gradient(135deg,rgba(45,212,191,0.95),rgba(96,165,250,0.82));
-  box-shadow:0 0 0 1px rgba(255,255,255,0.08) inset,0 12px 26px rgba(45,212,191,0.16);
-}
-.brand-name{
-  font-family:var(--display);
-  font-size:23px;
-  font-weight:800;
-  letter-spacing:0;
-  color:var(--tx);
-}
-.brand-sub,.live-pill,.hlink,.hero-label,.hero-meta,.hs-label,.hs-sub,.tab,.section-sub,.kkl,.kks,.field-label,.field-hint,.mt,.roadmap-title{
-  letter-spacing:0;
-}
-.live-pill{
-  border-radius:999px;
-  padding:6px 12px;
-  background:rgba(45,212,191,0.09);
-  border-color:rgba(45,212,191,0.24);
-  color:var(--ac);
-}
-.pulse{background:var(--ac);box-shadow:0 0 14px rgba(45,212,191,0.7)}
-.header-right{gap:8px}
-.hlink{
-  border:1px solid transparent;
-  border-radius:6px;
-  padding:8px 10px;
-  color:var(--mu);
-}
-.hlink:hover{
-  background:rgba(148,163,184,0.08);
-  border-color:var(--line);
-  color:var(--tx);
-}
-.hlink:last-child{
-  background:linear-gradient(135deg,rgba(45,212,191,0.16),rgba(96,165,250,0.10)) !important;
-  border-color:rgba(45,212,191,0.28) !important;
-  color:var(--tx) !important;
-}
-.hero{
-  padding:46px 28px 40px;
-  background:
-    linear-gradient(180deg,rgba(15,23,42,0.92),rgba(7,9,13,0.96)),
-    linear-gradient(90deg,rgba(45,212,191,0.06),rgba(245,158,11,0.04));
-  border-bottom:1px solid var(--line);
-}
-.hero-inner{
-  max-width:1480px;
-  grid-template-columns:minmax(0,1fr) minmax(360px,500px);
-  align-items:stretch;
-}
-.hero-left{
-  min-height:230px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-.hero-label{
-  color:#8ba2bd;
-  margin-bottom:10px;
-}
-.hero-number{
-  font-family:var(--display);
-  font-size:96px;
-  font-weight:800;
-  letter-spacing:0;
-  color:#f8fafc;
-  text-shadow:0 20px 42px rgba(0,0,0,0.28);
-}
-.hero-number .unit{
-  font-family:var(--body);
-  font-size:19px;
-  font-weight:500;
-  color:#a8b3c4;
-  letter-spacing:0;
-}
-.hero-meta{gap:14px;color:#a3afbf}
-.hero-meta span{
-  background:rgba(148,163,184,0.07);
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:6px 10px;
-}
-.hero-right{
-  min-width:0;
-  gap:10px;
-  background:transparent;
-  border:0;
-  border-radius:0;
-  overflow:visible;
-}
-.hero-stat,.ksk,.result-cell{
-  background:linear-gradient(180deg,rgba(21,27,36,0.95),rgba(14,19,27,0.98));
-  border:1px solid var(--line);
-  border-radius:8px;
-}
-.hero-stat{padding:19px 20px}
-.hs-label,.kkl,.rc-label{
-  font-size:10px;
-  color:#93a1b4;
-}
-.hs-value,.kkv,.rc-val,.ii-mv,.sanity-num,.fc-v,.ow-val{
-  font-family:var(--display);
-  font-weight:800;
-  letter-spacing:0;
-}
-.hs-value{font-size:34px}
-.hs-sub,.kks,.rc-sub{color:#8b98aa}
-.tab-bar{
-  top:68px;
-  background:rgba(7,9,13,0.86);
-  border-bottom:1px solid var(--line);
-}
-.tab-bar-inner{
-  max-width:1480px;
-  gap:8px;
-  overflow-x:auto;
-  padding:10px 28px;
-  scrollbar-width:thin;
-}
-.tab{
-  margin-bottom:0;
-  padding:9px 14px;
-  border:1px solid transparent;
-  border-radius:999px;
-  font-size:10px;
-}
-.tab.active{
-  color:#06110f;
-  background:linear-gradient(135deg,var(--ac),#7dd3fc);
-  border-color:transparent;
-  box-shadow:0 10px 24px rgba(45,212,191,0.16);
-}
-.tab:hover:not(.active){
-  color:var(--tx);
-  background:rgba(148,163,184,0.08);
-  border-color:var(--line);
-}
-.tab-badge{border-radius:999px;background:rgba(245,158,11,0.95);color:#111827}
-main{max-width:1480px;padding:34px 28px 52px}
-.section{margin-bottom:30px}
-.section-header{
-  align-items:flex-end;
-  border-bottom:0;
-  gap:18px;
-  margin-bottom:14px;
-  padding-bottom:0;
-}
-.section-title{
-  font-family:var(--display);
-  font-size:21px;
-  font-weight:800;
-  letter-spacing:0;
-  text-transform:none;
-}
-.section-sub{color:#8895a8;text-align:right}
-.card,.calc-card,.mc,.roadmap,.sanity-box,.ow-card,.fc-card{
-  background:linear-gradient(180deg,var(--panel),rgba(11,16,23,0.94));
-  border:1px solid var(--line);
-  border-radius:8px;
-  box-shadow:var(--shadow);
-}
-.card{padding:22px}
-.card::before{display:none}
-.two,.calc-grid,.method-grid{gap:18px}
-.cw canvas{border-radius:6px}
-.insight{
-  background:linear-gradient(90deg,rgba(45,212,191,0.11),rgba(96,165,250,0.055));
-  border:1px solid rgba(45,212,191,0.18);
-  border-left:3px solid var(--ac);
-  border-radius:8px;
-  color:#aab5c4;
-  font-family:var(--body);
-  font-size:13px;
-  padding:13px 16px;
-}
-.insight strong{color:#f3f7fb}
-.insight .highlight{color:#63e6d4}
-.kstrip{
-  background:transparent;
-  border:0;
-  border-radius:0;
-  gap:10px;
-}
-.ksk{padding:19px 20px}
-.tbl,.rt,.acc-tbl,.ef{min-width:720px}
-.tbl th,.rt th,.acc-tbl th,.ef th{
-  background:rgba(148,163,184,0.07);
-  color:#9aa8bb;
-  border-bottom:1px solid var(--line);
-}
-.tbl td,.rt td,.acc-tbl td,.ef td{
-  border-bottom:1px solid rgba(148,163,184,0.10);
-}
-.tbl tr:hover td,.rt tr:hover td{background:rgba(148,163,184,0.05)}
-[style*="#00e5a0"]{color:var(--ac) !important}
-[style*="#f0a500"]{color:var(--am) !important}
-[style*="#f85149"]{color:var(--re) !important}
-[style*="#58a6ff"]{color:var(--bl) !important}
-[style*="#7d8590"]{color:var(--mu) !important}
-.btn{
-  border-radius:6px;
-  background:linear-gradient(135deg,var(--ac),#7dd3fc);
-  color:#06110f;
-  box-shadow:0 12px 26px rgba(45,212,191,0.16);
-}
-.btn:hover{background:linear-gradient(135deg,#5eead4,#93c5fd)}
-.field-input,.state-select{
-  background:rgba(7,11,18,0.70);
-  border-color:var(--line);
-  border-radius:6px;
-}
-.field-input:focus,.state-select:focus{
-  border-color:rgba(45,212,191,0.62);
-  box-shadow:0 0 0 3px rgba(45,212,191,0.14);
-}
-.results-strip{
-  background:transparent;
-  border:0;
-  border-radius:0;
-  gap:10px;
-}
-.calc-exp,.fml,.ii-best-bar{
-  background:rgba(7,11,18,0.72);
-  border-color:var(--line);
-  border-radius:8px;
-}
-.ii-out-header{
-  border-radius:8px 8px 0 0;
-  background:linear-gradient(135deg,var(--ac),#7dd3fc);
-  color:#06110f;
-  font-family:var(--display);
-  font-weight:800;
-  letter-spacing:0;
-}
-.ii-out-body{background:rgba(13,18,26,0.96);border-color:var(--line);border-radius:0 0 8px 8px}
-.ii-metric{border-bottom-color:rgba(148,163,184,0.10)}
-.badge{border-radius:999px}
-.ow-grid,.fc-grid{gap:12px}
-.ow-card,.fc-card{
-  background:linear-gradient(180deg,rgba(18,24,33,0.96),rgba(10,15,22,0.96));
-}
-.ow-card::before{height:2px}
-.ow-val{font-size:38px}
-.fc-card:hover{
-  border-color:rgba(45,212,191,0.42);
-  transform:translateY(-2px);
-}
-.forecast-meta{
-  background:rgba(148,163,184,0.06);
-  border:1px solid var(--line);
-  border-radius:8px;
-  margin-bottom:22px;
-  padding:14px 16px;
-}
-.sanity-box{border-radius:8px}
-footer{
-  border-top:1px solid var(--line);
-  background:rgba(7,9,13,0.88);
-}
-@media(max-width:1100px){
-  .hero-inner{grid-template-columns:1fr}
-  .hero-right{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .two,.calc-grid,.method-grid{grid-template-columns:1fr}
-  .fc-grid{grid-template-columns:repeat(3,1fr)}
-}
-@media(max-width:760px){
-  header{padding:0 16px}
-  .header-inner{height:auto;min-height:64px;gap:12px;align-items:flex-start;flex-direction:column;padding:12px 0}
-  .header-right{width:100%;overflow-x:auto;padding-bottom:2px}
-  .hero{padding:34px 16px 28px}
-  .hero-number{font-size:72px}
-  .hero-number .unit{display:block;margin:8px 0 0}
-  .hero-meta span{width:100%}
-  .hero-right,.kstrip,.results-strip,.ow-grid,.fc-grid{grid-template-columns:1fr}
-  .tab-bar{top:0}
-  .tab-bar-inner{padding:10px 16px}
-  main{padding:26px 16px 42px}
-  .section-header{align-items:flex-start;flex-direction:column;gap:4px}
-  .section-sub{text-align:left}
-  .card,.calc-card,.mc{padding:18px}
-  footer{display:block;padding:18px 16px}
-  footer div+div{margin-top:8px}
-}
-
-
-/* ════════════════════════════════════════════════════════════════════════
-   Light mode theme (Codex v2 integration)
-   ════════════════════════════════════════════════════════════════════════ */
 html[data-theme="light"]{
   color-scheme:light;
-  --bg:#f5f8fb;--s1:#ffffff;--s2:#f0f5f7;--s3:#e5edf1;
-  --bd:#cfdae0;--tx:#102029;--mu:#5c6d77;--mu2:#8697a0;
-  --ac:#087f5b;--ac2:#0b9f6c;--ac-dim:rgba(8,127,91,0.09);--ac-glow:rgba(8,127,91,0.22);
-  --am:#b76b00;--re:#c92a3b;--bl:#1c6ed3;
+  --bg-0:#f5f8fb; --bg-1:#ffffff; --bg-2:#f0f5f7;
+  --bg-glass:rgba(255,255,255,0.75);
+  --tx-0:#0a1419; --tx-1:#1a2932; --tx-2:#4a5a64; --tx-3:#8697a0;
+  --bd:rgba(0,0,0,0.08); --bd-bright:rgba(0,0,0,0.16);
+  --ac:#087f5b; --ac-2:#0b9f6c; --ac-3:#1c6ed3;
+  --am:#b76b00; --re:#c92a3b;
 }
-html[data-theme="light"] body{background:#f5f8fb;color:#102029}
-html[data-theme="light"] header{background:rgba(255,255,255,0.92);border-bottom-color:#cfdae0}
-html[data-theme="light"] .hero{background:linear-gradient(135deg,#ffffff,#f0f5f7);border-bottom-color:#cfdae0}
-html[data-theme="light"] .card,html[data-theme="light"] .calc-card,html[data-theme="light"] .mc,html[data-theme="light"] .roadmap,html[data-theme="light"] .sanity-box,html[data-theme="light"] .ow-card,html[data-theme="light"] .fc-card{background:#ffffff !important;border-color:#cfdae0}
-html[data-theme="light"] .live-strip{background:linear-gradient(135deg,#ffffff 0%,rgba(8,127,91,0.04) 100%);border-bottom-color:rgba(8,127,91,0.2)}
-html[data-theme="light"] .ops-card{background:#ffffff;border-color:#cfdae0}
-html[data-theme="light"] .hero-stat{background:#ffffff}
-html[data-theme="light"] .hero-advisory{background:rgba(255,255,255,0.92)}
-html[data-theme="light"] .insight{background:rgba(8,127,91,0.06);border-color:rgba(8,127,91,0.22)}
-html[data-theme="light"] .tab-bar{background:rgba(255,255,255,0.92);border-bottom-color:#cfdae0}
-html[data-theme="light"] .tab.active{background:rgba(8,127,91,0.12);color:#087f5b}
-html[data-theme="light"] .fml{background:#f0f5f7;border-color:#cfdae0;color:#102029}
-html[data-theme="light"] .field-input,html[data-theme="light"] .state-select{background:#ffffff;color:#102029;border-color:#cfdae0}
-html[data-theme="light"] table{background:#ffffff}
-html[data-theme="light"] .acc-tbl td:first-child,html[data-theme="light"] .ef td.z{color:#0b9f6c}
 
-/* ═══════════════════════════════════════════════════════════════════════
-   LIGHT-MODE CONTRAST FIXES — covers all 7 tabs + hero + dispatch + exec
-   AAA contrast on primary text, AA on secondary
-   ═══════════════════════════════════════════════════════════════════════ */
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg-0);color:var(--tx-1);
+  font-family:var(--body);font-size:14px;line-height:1.55;
+  min-height:100vh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
 
-/* Primary text (titles, big numbers, body strong) — near-black */
-html[data-theme="light"] .hero-number,
-html[data-theme="light"] .hs-value,
-html[data-theme="light"] .ops-title,
-html[data-theme="light"] .section-title,
-html[data-theme="light"] .kkv,
-html[data-theme="light"] .rc-val,
-html[data-theme="light"] .ii-mv,
-html[data-theme="light"] .fc-v,
-html[data-theme="light"] .ow-val,
-html[data-theme="light"] .sanity-num,
-html[data-theme="light"] h1,
-html[data-theme="light"] h2,
-html[data-theme="light"] h3{color:#0a1419 !important}
+/* ─── Aurora background ───────────────────────────────────────────── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(900px circle at 8% 8%, rgba(0,229,160,0.20), transparent 45%),
+    radial-gradient(900px circle at 92% 50%, rgba(157,108,255,0.16), transparent 45%),
+    radial-gradient(700px circle at 50% 95%, rgba(0,184,217,0.13), transparent 45%);
+  animation:auroraDrift 24s ease-in-out infinite alternate;
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse at center,rgba(0,0,0,0.55) 0%,transparent 72%);
+  mask-image:radial-gradient(ellipse at center,rgba(0,0,0,0.55) 0%,transparent 72%);
+}
+html[data-theme="light"] body::before{
+  background:
+    radial-gradient(900px circle at 8% 8%, rgba(8,127,91,0.10), transparent 45%),
+    radial-gradient(900px circle at 92% 50%, rgba(28,110,211,0.08), transparent 45%),
+    radial-gradient(700px circle at 50% 95%, rgba(0,184,217,0.06), transparent 45%);
+}
+html[data-theme="light"] body::after{
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);
+}
+@keyframes auroraDrift{
+  0%   { transform:translate(0,0) scale(1); }
+  50%  { transform:translate(50px,-40px) scale(1.06); }
+  100% { transform:translate(-40px,50px) scale(0.94); }
+}
+@keyframes pulse{
+  0%,100% { opacity:1; transform:scale(1); }
+  50%     { opacity:0.6; transform:scale(1.4); }
+}
+header,.hero,.live-strip,.tab-bar,main,footer{position:relative;z-index:1}
 
-/* Body text (paragraphs, table cells, insight bars) — dark grey */
-html[data-theme="light"] body,
-html[data-theme="light"] .insight,
-html[data-theme="light"] .live-note,
-html[data-theme="light"] .ops-body,
-html[data-theme="light"] .advisory-copy,
-html[data-theme="light"] .mb,
-html[data-theme="light"] .acc-tbl td,
-html[data-theme="light"] .ef td,
-html[data-theme="light"] .rm-text,
-html[data-theme="light"] .sanity-text,
-html[data-theme="light"] td,
-html[data-theme="light"] p{color:#1a2932 !important}
-
-/* Strong/bold inside body text — full primary */
-html[data-theme="light"] .insight strong,
-html[data-theme="light"] .live-note strong,
-html[data-theme="light"] .ops-body strong,
-html[data-theme="light"] .advisory-copy strong,
-html[data-theme="light"] .mb strong,
-html[data-theme="light"] .sanity-text strong{color:#0a1419 !important}
-
-/* Labels (uppercase eyebrows, table headers, field labels) — medium grey */
-html[data-theme="light"] .hero-label,
-html[data-theme="light"] .hs-label,
-html[data-theme="light"] .kkl,
-html[data-theme="light"] .ops-eyebrow,
-html[data-theme="light"] .live-kpi-label,
-html[data-theme="light"] .live-spark-label,
-html[data-theme="light"] .fc-h,
-html[data-theme="light"] .fc-u,
-html[data-theme="light"] .fc-t,
-html[data-theme="light"] .ow-tag,
-html[data-theme="light"] .field-label,
-html[data-theme="light"] .rc-label,
-html[data-theme="light"] .ii-ml,
-html[data-theme="light"] .roadmap-title,
-html[data-theme="light"] .ii-best-label,
-html[data-theme="light"] .mt,
-html[data-theme="light"] .acc-tbl th,
-html[data-theme="light"] .ef th,
-html[data-theme="light"] th{color:#3a4a52 !important}
-
-/* Sublabels (small descriptive text under values) — slightly lighter */
-html[data-theme="light"] .hs-sub,
-html[data-theme="light"] .kks,
-html[data-theme="light"] .live-kpi-sub,
-html[data-theme="light"] .live-spark-sub,
-html[data-theme="light"] .ow-time,
-html[data-theme="light"] .ow-sub,
-html[data-theme="light"] .fc-r,
-html[data-theme="light"] .fc-delta,
-html[data-theme="light"] .field-hint,
-html[data-theme="light"] .section-sub,
-html[data-theme="light"] .forecast-meta,
-html[data-theme="light"] .rc-sub,
-html[data-theme="light"] .hero-meta,
-html[data-theme="light"] .hero-meta span,
-html[data-theme="light"] footer,
-html[data-theme="light"] footer div{color:#4a5a64 !important}
-
-/* Footer email link */
-html[data-theme="light"] footer a{color:#087f5b !important}
-
-/* Navigation: header links + tab buttons */
-html[data-theme="light"] .hlink{color:#3a4a52 !important}
-html[data-theme="light"] .hlink:hover{color:#0a1419 !important}
-html[data-theme="light"] .tab{color:#4a5a64 !important}
-html[data-theme="light"] .tab:hover{color:#0a1419 !important}
-html[data-theme="light"] .tab.active{color:#087f5b !important}
-
-/* Live pill (T-1 LIVE) */
+/* ─── HEADER / NAV ────────────────────────────────────────────────── */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(6,9,17,0.60);
+  backdrop-filter:blur(20px) saturate(150%);
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
+  border-bottom:1px solid var(--bd);
+  padding:0 28px;
+}
+html[data-theme="light"] header{
+  background:rgba(255,255,255,0.70);
+  border-bottom:1px solid rgba(0,0,0,0.08);
+}
+.header-inner{
+  max-width:1480px;margin:0 auto;height:64px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-name{
+  font-family:var(--display);font-weight:700;font-size:23px;
+  letter-spacing:-0.02em;
+  background:linear-gradient(135deg,var(--ac),var(--ac-2));
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.brand-sub{
+  font-family:var(--mono);font-size:10px;color:var(--tx-3);
+  letter-spacing:0.18em;text-transform:uppercase;
+}
+.live-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,229,160,0.10);
+  border:1px solid rgba(0,229,160,0.28);
+  border-radius:999px;padding:6px 12px;
+  font-family:var(--mono);font-size:10px;color:var(--ac);
+  letter-spacing:0.10em;text-transform:uppercase;
+}
 html[data-theme="light"] .live-pill{
-  color:#087f5b !important;
-  background:rgba(8,127,91,0.10) !important;
-  border-color:rgba(8,127,91,0.30) !important;
+  background:rgba(8,127,91,0.10);border-color:rgba(8,127,91,0.30);
 }
-
-/* Live tag (DISPATCH INTELLIGENCE label) */
-html[data-theme="light"] .live-tag{color:#087f5b !important}
-
-/* Insight bar background + border on white */
-html[data-theme="light"] .insight{
-  background:rgba(8,127,91,0.08) !important;
-  border-left-color:#087f5b !important;
+.pulse{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--ac);box-shadow:0 0 12px var(--ac);
+  animation:pulse 2s ease-in-out infinite;
 }
+.header-right{display:flex;align-items:center;gap:10px}
 
-/* Live note (Recommended action: line) */
-html[data-theme="light"] .live-note{
-  background:rgba(8,127,91,0.06) !important;
-  border-top-color:rgba(8,127,91,0.18) !important;
+.hlink{
+  font-family:var(--body);font-size:13px;font-weight:500;
+  color:var(--tx-2);text-decoration:none;
+  padding:8px 12px;border-radius:6px;cursor:pointer;
+  transition:color .15s,background .15s;
 }
+.hlink:hover{color:var(--tx-0);background:rgba(255,255,255,0.04)}
+html[data-theme="light"] .hlink:hover{background:rgba(0,0,0,0.04)}
 
-/* Form inputs — readable on white */
-html[data-theme="light"] .field-input,
-html[data-theme="light"] .state-select{
-  color:#0a1419 !important;
-  background:#ffffff !important;
-  border-color:#cfdae0 !important;
+/* REQUEST ACCESS — gradient pill via inline-style attribute selector */
+.hlink[href^="mailto"]{
+  background:linear-gradient(135deg,var(--ac),var(--ac-2)) !important;
+  color:#060911 !important;
+  font-weight:600;
+  border:1px solid rgba(0,229,160,0.4);
+  border-radius:8px !important;
+  padding:9px 18px !important;
+  box-shadow:0 4px 20px rgba(0,229,160,0.20);
+  transition:all .2s;
 }
-html[data-theme="light"] .field-input::placeholder{color:#8697a0 !important}
-
-/* Quick-set buttons (100 MWh, 500 MWh, etc.) */
-html[data-theme="light"] .qs-btn{
-  color:#3a4a52 !important;
-  background:#f0f5f7 !important;
-  border-color:#cfdae0 !important;
+.hlink[href^="mailto"]:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 28px rgba(0,229,160,0.34);
+  color:#060911 !important;
+  background:linear-gradient(135deg,var(--ac),var(--ac-2)) !important;
 }
-html[data-theme="light"] .qs-btn:hover{
-  color:#087f5b !important;
-  border-color:#087f5b !important;
-}
-
-/* Formula code block (.fml in methodology) */
-html[data-theme="light"] .fml{
-  background:#f0f5f7 !important;
-  color:#0a1419 !important;
-  border-color:#cfdae0 !important;
-}
-html[data-theme="light"] .fml .c{color:#5c6d77 !important}
-
-/* Roadmap rows */
-html[data-theme="light"] .rm-row{border-color:rgba(56,78,89,0.12) !important}
-
-/* Citation cell in DAILY FACTORS */
-html[data-theme="light"] .cc{color:#3a4a52 !important}
-
-/* Calc explanation paragraphs */
-html[data-theme="light"] .calc-exp{color:#1a2932 !important}
-html[data-theme="light"] .calc-exp strong{color:#0a1419 !important}
-
-/* Period selector hint */
-html[data-theme="light"] #kwh_period_hint{color:#4a5a64 !important}
-html[data-theme="light"] #cexp_period{color:#4a5a64 !important}
-html[data-theme="light"] #cexp_period strong{color:#0a1419 !important}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   LIGHT-MODE CARD BACKGROUND FIXES
-   These cards have hardcoded dark bg; force white in light mode
-   Fixes the PRICE+CARBON KPIs, IMPACT CALCULATOR results, LOAD SHIFT,
-   and STATE INTENSITY KPI strips.
-   ═══════════════════════════════════════════════════════════════════════ */
-
-/* PRICE+CARBON & STATE INTENSITY KPI strips */
-html[data-theme="light"] .kstrip,
-html[data-theme="light"] .ksk,
-html[data-theme="light"] .kk,
-html[data-theme="light"] .results-strip,
-html[data-theme="light"] .result-cell{
-  background:#ffffff !important;
-  border-color:#cfdae0 !important;
-}
-
-/* Load Shift Opportunity output card (right side of calculator) */
-html[data-theme="light"] .ii-out,
-html[data-theme="light"] .ii-card,
-html[data-theme="light"] .ii-metric,
-html[data-theme="light"] .ii-best-bar,
-html[data-theme="light"] .ii-best-row{
-  background:#ffffff !important;
-  border-color:#cfdae0 !important;
-}
-
-/* Header/banner inside Load Shift output */
-html[data-theme="light"] .ii-hdr,
-html[data-theme="light"] #iihdr{
-  background:linear-gradient(135deg,#087f5b,#0b9f6c) !important;
-  color:#ffffff !important;
-}
-
-/* Calculator explanation gray box */
-html[data-theme="light"] .calc-exp,
-html[data-theme="light"] #cexp,
-html[data-theme="light"] #cexp_period{
-  background:rgba(8,127,91,0.05) !important;
-  border:1px solid #cfdae0 !important;
-  color:#1a2932 !important;
-}
-
-/* Forecast cards (FORECAST tab) */
-html[data-theme="light"] .fc-card,
-html[data-theme="light"] .ow-card{
-  background:#ffffff !important;
-  border-color:#cfdae0 !important;
-}
-html[data-theme="light"] .ow-best{border-color:rgba(8,127,91,0.35) !important}
-html[data-theme="light"] .ow-gap{border-color:rgba(183,107,0,0.35) !important}
-html[data-theme="light"] .ow-worst{border-color:rgba(201,42,59,0.35) !important}
-
-/* Hero stat cards (FY MEAN, CEA, etc.) */
-html[data-theme="light"] .hero-right,
-html[data-theme="light"] .hero-stat{
-  background:#ffffff !important;
-}
-html[data-theme="light"] .hero-right{border:1px solid #cfdae0 !important}
-
-/* Methodology cards */
-html[data-theme="light"] .mc{
-  background:#ffffff !important;
-  border-color:#cfdae0 !important;
-}
-
-/* Best/worst block tables */
-html[data-theme="light"] .worst3,
-html[data-theme="light"] .best3{
-  background:#ffffff !important;
-  border:1px solid #cfdae0 !important;
-}
-
-/* Roadmap card */
-html[data-theme="light"] .roadmap{
-  background:#ffffff !important;
-  border-color:#cfdae0 !important;
-}
-
-/* Daily Factors download button */
-html[data-theme="light"] .download-btn{
-  background:rgba(8,127,91,0.10) !important;
-  border-color:rgba(8,127,91,0.30) !important;
-  color:#087f5b !important;
-}
-html[data-theme="light"] .download-btn:hover{
-  background:rgba(8,127,91,0.18) !important;
-}
+html[data-theme="light"] .hlink[href^="mailto"]{color:#fff !important}
+html[data-theme="light"] .hlink[href^="mailto"]:hover{color:#fff !important}
 
 .theme-toggle{
-  width:54px;height:30px;border:1px solid var(--bd);border-radius:999px;
-  background:var(--s2);display:inline-flex;align-items:center;padding:3px;
-  cursor:pointer;transition:border-color .18s,background .18s,transform .18s;
-  flex:0 0 auto;margin-right:8px;
+  width:50px;height:28px;border-radius:999px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--bd);
+  display:inline-flex;align-items:center;padding:3px;
+  cursor:pointer;flex-shrink:0;
+  transition:border-color .18s;
 }
-.theme-toggle:hover{border-color:var(--ac-glow);transform:translateY(-1px)}
+.theme-toggle:hover{border-color:rgba(0,229,160,0.3)}
 .theme-track{position:relative;width:100%;height:100%;display:block}
 .theme-knob{
-  position:absolute;top:0;left:0;width:22px;height:22px;border-radius:999px;
-  background:var(--tx);box-shadow:0 4px 10px rgba(0,0,0,0.3);
-  transition:transform .22s ease,background .18s;
+  position:absolute;top:0;left:0;width:20px;height:20px;
+  border-radius:999px;background:var(--tx-1);
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  transition:transform .22s ease;
 }
 html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(--ac)}
+
+/* ─── HERO ─────────────────────────────────────────────────────────── */
+.hero{padding:54px 28px 44px;border-bottom:1px solid var(--bd)}
+.hero-inner{
+  max-width:1480px;margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,500px);
+  gap:40px;align-items:center;
+}
+.hero-label{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;
+  background:rgba(0,229,160,0.08);
+  border:1px solid rgba(0,229,160,0.22);
+  border-radius:999px;
+  font-family:var(--mono);font-size:11px;color:var(--ac);
+  letter-spacing:0.10em;text-transform:uppercase;margin-bottom:18px;
+}
+.hero-number{
+  font-family:var(--display);font-weight:700;
+  font-size:108px;line-height:1;letter-spacing:-0.025em;
+  background:linear-gradient(135deg,#ffffff 0%,#a8b3c4 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+html[data-theme="light"] .hero-number{
+  background:linear-gradient(135deg,#0a1419,#3a4a52);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero-number .unit{
+  font-family:var(--body);font-size:18px;font-weight:500;
+  color:var(--tx-2);
+  -webkit-text-fill-color:var(--tx-2);
+  background:none;margin-left:10px;letter-spacing:0;
+}
+.hero-meta{
+  display:flex;gap:14px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;color:var(--tx-2);
+  margin-top:14px;
+}
+.hero-meta span{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--bd);
+  border-radius:999px;padding:6px 12px;
+}
+html[data-theme="light"] .hero-meta span{background:rgba(0,0,0,0.04)}
+.hero-meta .dot{width:5px;height:5px;border-radius:50%;display:inline-block}
 
 .hero-advisory{
   display:flex;gap:14px;align-items:flex-start;
   margin-top:20px;padding:14px 18px;
-  background:rgba(13,17,23,0.65);border:1px solid var(--bd);border-radius:10px;
+  background:var(--bg-glass);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--bd);border-radius:12px;
   max-width:520px;
 }
 .advisory-tag{
-  flex:0 0 auto;font-family:var(--mono);font-size:9px;letter-spacing:0.10em;
-  color:var(--am);background:rgba(240,165,0,0.10);
-  border:1px solid rgba(240,165,0,0.30);border-radius:4px;
-  padding:5px 10px;text-transform:uppercase;
+  flex:0 0 auto;
+  font-family:var(--mono);font-size:9px;letter-spacing:0.10em;
+  color:var(--am);
+  background:rgba(240,165,0,0.10);
+  border:1px solid rgba(240,165,0,0.30);
+  border-radius:4px;padding:5px 10px;text-transform:uppercase;
 }
-.advisory-copy{font-size:13px;line-height:1.55;color:var(--tx)}
+.advisory-copy{font-size:13px;line-height:1.55;color:var(--tx-1)}
 .advisory-copy strong{color:var(--am)}
 
-.decision-strip{
-  background:linear-gradient(135deg,#0d1117 0%,rgba(0,229,160,0.04) 100%);
+.hero-right{
+  background:var(--bg-glass);
+  backdrop-filter:blur(20px) saturate(150%);
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
+  border:1px solid var(--bd);
+  border-radius:16px;overflow:hidden;
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+}
+.hero-stat{
+  background:transparent;padding:18px 22px;
+  transition:background .2s;
+}
+.hero-stat:hover{background:rgba(255,255,255,0.03)}
+html[data-theme="light"] .hero-stat:hover{background:rgba(0,0,0,0.03)}
+.hs-label{
+  font-family:var(--mono);font-size:10px;color:var(--tx-2);
+  letter-spacing:0.10em;text-transform:uppercase;margin-bottom:6px;
+}
+.hs-value{
+  font-family:var(--display);font-weight:700;
+  font-size:32px;letter-spacing:-0.01em;color:var(--ac);
+}
+.hs-value.n{color:var(--tx-0)}
+.hs-value.am{color:var(--am)}
+.hs-sub{font-family:var(--mono);font-size:10px;color:var(--tx-2);margin-top:4px}
+
+/* ─── DISPATCH INTELLIGENCE STRIP ─────────────────────────────────── */
+.live-strip,.decision-strip{
+  background:linear-gradient(135deg,rgba(13,17,23,0.6),rgba(0,229,160,0.04));
   border-bottom:1px solid var(--bd);
 }
-.decision-strip .live-inner{padding:18px 32px;align-items:flex-start}
-.decision-strip .live-tag{margin-bottom:14px}
-.decision-strip .live-kpi-val{font-size:24px}
-.decision-strip .live-right{width:280px}
+html[data-theme="light"] .live-strip,
+html[data-theme="light"] .decision-strip{
+  background:linear-gradient(135deg,rgba(255,255,255,0.7),rgba(8,127,91,0.04));
+}
+.live-inner{
+  max-width:1480px;margin:0 auto;padding:18px 28px;
+  display:flex;align-items:flex-start;gap:32px;
+}
+.live-left{flex:1}
+.live-tag{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;color:var(--ac);
+  letter-spacing:0.10em;text-transform:uppercase;margin-bottom:14px;
+}
+.live-kpis{display:flex;align-items:center}
+.live-kpi{padding:0 18px;text-align:center}
+.live-kpi:first-child{padding-left:0}
+.live-kpi-label{
+  font-family:var(--mono);font-size:9px;color:var(--tx-2);
+  letter-spacing:0.10em;text-transform:uppercase;margin-bottom:4px;
+}
+.live-kpi-val{
+  font-family:var(--display);font-weight:700;font-size:24px;
+  letter-spacing:-0.01em;line-height:1;
+}
+.live-kpi-sub{font-family:var(--mono);font-size:9px;color:var(--tx-2);margin-top:4px}
+.live-sep{width:1px;height:32px;background:var(--bd);flex-shrink:0}
+.live-right{width:280px;flex-shrink:0}
+.live-spark-label{
+  font-family:var(--mono);font-size:9px;color:var(--tx-2);
+  letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;
+}
 .live-spark{display:flex;align-items:flex-end;gap:2px;height:48px;margin-top:4px}
 .live-spark span{
-  flex:1;background:linear-gradient(180deg,var(--am),var(--ac));
+  flex:1;
+  background:linear-gradient(180deg,var(--am),var(--ac));
   border-radius:2px 2px 0 0;min-height:2px;
 }
-.live-spark-label{
-  font-family:var(--mono);font-size:9px;color:var(--mu);
-  letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;
-}
-.live-spark-sub{
-  font-family:var(--mono);font-size:9px;color:var(--mu);margin-top:6px;
-}
+.live-spark-sub{font-family:var(--mono);font-size:9px;color:var(--tx-2);margin-top:6px}
 .live-note{
-  font-family:var(--mono);font-size:11px;color:var(--mu);
-  padding:10px 32px;border-top:1px solid rgba(48,54,61,0.4);
+  font-family:var(--mono);font-size:11px;color:var(--tx-2);
+  padding:10px 28px;border-top:1px solid var(--bd);
   background:rgba(13,17,23,0.4);
 }
+html[data-theme="light"] .live-note{background:rgba(0,0,0,0.02)}
 .live-note strong{color:var(--ac)}
 
+/* ─── TAB BAR (visible pill buttons) ─────────────────────────────── */
+.tab-bar{
+  position:sticky;top:64px;z-index:99;
+  background:rgba(6,9,17,0.85);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--bd);
+}
+html[data-theme="light"] .tab-bar{
+  background:rgba(255,255,255,0.85);
+  border-bottom:1px solid rgba(0,0,0,0.08);
+}
+.tab-bar-inner{
+  max-width:1480px;margin:0 auto;
+  display:flex;flex-wrap:wrap;gap:6px;
+  padding:10px 28px;overflow-x:auto;scrollbar-width:thin;
+}
+.tab{
+  display:inline-flex;align-items:center;
+  font-family:var(--body);font-size:11px;font-weight:600;
+  letter-spacing:0.04em;text-transform:uppercase;
+  color:var(--tx-1);
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--bd);
+  border-radius:8px;padding:9px 14px;
+  cursor:pointer;white-space:nowrap;margin:0;
+  transition:all .15s;
+}
+html[data-theme="light"] .tab{
+  color:#3a4a52;
+  background:rgba(255,255,255,0.7);
+  border-color:rgba(0,0,0,0.10);
+}
+.tab:hover:not(.active){
+  background:rgba(255,255,255,0.08);
+  border-color:rgba(0,229,160,0.30);
+  color:var(--tx-0);
+}
+html[data-theme="light"] .tab:hover:not(.active){
+  background:rgba(0,0,0,0.04);
+  border-color:var(--ac);color:var(--tx-0);
+}
+.tab.active{
+  color:#060911;
+  background:linear-gradient(135deg,var(--ac),var(--ac-2));
+  border-color:transparent;font-weight:700;
+  box-shadow:0 4px 16px rgba(0,229,160,0.20);
+}
+html[data-theme="light"] .tab.active{
+  color:#fff;
+  background:linear-gradient(135deg,var(--ac),var(--ac-2));
+}
+.tab-badge{
+  display:inline-block;
+  background:rgba(0,0,0,0.20);color:#060911;
+  font-size:8px;padding:2px 6px;border-radius:999px;
+  margin-left:6px;font-weight:700;
+}
+
+.panel{display:none}
+.panel.active{display:block}
+
+/* ─── MAIN CONTENT ─────────────────────────────────────────────────── */
+main{max-width:1480px;margin:0 auto;padding:32px 28px 52px}
+.section{margin-bottom:30px}
+.section-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:18px;margin-bottom:14px;
+}
+.section-title{
+  font-family:var(--display);font-weight:700;
+  font-size:22px;letter-spacing:-0.02em;color:var(--tx-0);
+}
+.section-sub{font-family:var(--mono);font-size:11px;color:var(--tx-2);text-align:right}
+
+/* Cards */
+.card,.calc-card,.mc,.fc-card,.ow-card,.ops-card,.roadmap,.sanity-box{
+  background:var(--bg-glass);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--bd);border-radius:12px;
+  box-shadow:var(--shadow-1);
+  transition:transform .25s,border-color .25s,box-shadow .25s;
+  position:relative;overflow:hidden;
+}
+.card{padding:22px}
+.card:hover,.calc-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(0,229,160,0.22);
+  box-shadow:var(--shadow-2);
+}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cw{position:relative}
+.cw canvas{border-radius:6px}
+
+/* Insight bars */
+.insight{
+  background:linear-gradient(90deg,rgba(0,229,160,0.10),rgba(0,184,217,0.04));
+  border:1px solid rgba(0,229,160,0.20);
+  border-left:3px solid var(--ac);
+  border-radius:8px;
+  padding:13px 16px;margin-top:14px;
+  font-family:var(--body);font-size:13px;color:var(--tx-1);
+  line-height:1.65;
+}
+.insight strong{color:var(--tx-0)}
+.insight .highlight{color:var(--ac);font-weight:600}
+
+/* OPS summary */
 .ops-summary{
   display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:14px;
   margin-bottom:28px;
 }
-.ops-card{
-  background:#0d1117;border:1px solid var(--bd);border-radius:10px;
-  padding:18px 20px;position:relative;overflow:hidden;
-  transition:transform .18s,border-color .18s;
-}
-.ops-card:hover{transform:translateY(-2px);border-color:var(--ac-glow)}
+.ops-card{padding:18px 20px}
 .ops-card::before{
   content:"";position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--bd);
+  background:var(--ac);
 }
 .ops-card.risk::before{background:linear-gradient(90deg,var(--re),var(--am))}
 .ops-card.warn::before{background:var(--am)}
-.ops-card.info::before{background:#58a6ff}
-.ops-card:not(.risk):not(.warn):not(.info)::before{background:var(--ac)}
+.ops-card.info::before{background:var(--bl)}
 .ops-eyebrow{
-  font-family:var(--mono);font-size:9px;letter-spacing:0.12em;
-  color:var(--mu);text-transform:uppercase;margin-bottom:8px;
+  font-family:var(--mono);font-size:9px;color:var(--tx-2);
+  letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;
 }
 .ops-title{
-  font-family:var(--display);font-size:18px;line-height:1.25;
-  color:var(--tx);margin-bottom:8px;letter-spacing:-0.01em;
+  font-family:var(--display);font-weight:700;
+  font-size:18px;line-height:1.25;letter-spacing:-0.01em;
+  color:var(--tx-0);margin-bottom:8px;
 }
 .ops-title.small{font-size:14px;line-height:1.35}
-.ops-body{font-size:12px;line-height:1.55;color:var(--mu)}
-.ops-body strong{color:var(--tx)}
+.ops-body{font-size:12px;line-height:1.55;color:var(--tx-2)}
+.ops-body strong{color:var(--tx-0)}
 .ops-pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .ops-pill{
   font-family:var(--mono);font-size:9px;letter-spacing:0.08em;
-  color:var(--ac);background:var(--ac-dim);
-  border:1px solid var(--ac-glow);border-radius:4px;
-  padding:3px 8px;text-transform:uppercase;
+  color:var(--ac);
+  background:rgba(0,229,160,0.10);
+  border:1px solid rgba(0,229,160,0.24);
+  border-radius:999px;padding:3px 8px;text-transform:uppercase;
 }
-@media(max-width:1100px){.ops-summary{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.ops-summary{grid-template-columns:1fr}.ops-title{font-size:16px}}
+
+/* KPI strips */
+.kstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.ksk,.result-cell{
+  background:var(--bg-glass);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--bd);
+  border-radius:10px;padding:18px 20px;
+}
+.kkl,.rc-label{
+  font-family:var(--mono);font-size:10px;color:var(--tx-2);
+  letter-spacing:0.10em;text-transform:uppercase;margin-bottom:8px;
+}
+.kkv,.rc-val{
+  font-family:var(--display);font-weight:700;font-size:30px;
+  letter-spacing:-0.01em;color:var(--ac);
+}
+.rc-val.am{color:var(--am)}
+.kks,.rc-sub{
+  font-family:var(--mono);font-size:10px;color:var(--tx-2);
+  margin-top:4px;line-height:1.5;
+}
+.results-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.result-cell{padding:20px 18px}
+
+/* Tables */
+.tbl,.rt,.acc-tbl,.ef{width:100%;border-collapse:collapse;font-family:var(--body);font-size:13px}
+.rt,.acc-tbl{margin-top:14px}
+.tbl th,.rt th,.acc-tbl th,.ef th{
+  text-align:left;
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.10em;text-transform:uppercase;
+  color:var(--tx-2);padding:10px 14px;
+  border-bottom:1px solid var(--bd);
+  background:rgba(255,255,255,0.04);
+}
+html[data-theme="light"] .tbl th,
+html[data-theme="light"] .rt th,
+html[data-theme="light"] .acc-tbl th,
+html[data-theme="light"] .ef th{background:rgba(0,0,0,0.04)}
+.tbl td,.rt td,.acc-tbl td,.ef td{
+  padding:10px 14px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  color:var(--tx-1);
+}
+html[data-theme="light"] .tbl td,
+html[data-theme="light"] .rt td,
+html[data-theme="light"] .acc-tbl td,
+html[data-theme="light"] .ef td{border-bottom:1px solid rgba(0,0,0,0.06)}
+.tbl tr:last-child td,.rt tr:last-child td{border-bottom:none}
+.tbl tr:hover td,.rt tr:hover td{background:rgba(255,255,255,0.03)}
+html[data-theme="light"] .tbl tr:hover td,
+html[data-theme="light"] .rt tr:hover td{background:rgba(0,0,0,0.03)}
+.vc{color:var(--ac);font-family:var(--mono);font-weight:500}
+.cc{color:var(--tx-3);font-size:11px;font-family:var(--mono)}
+.acc-tbl td:first-child{font-weight:600;color:var(--ac)}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--body);font-weight:600;font-size:13px;
+  background:linear-gradient(135deg,var(--ac),var(--ac-2));
+  color:#060911;
+  border:1px solid rgba(0,229,160,0.4);
+  border-radius:8px;padding:11px 20px;
+  box-shadow:0 4px 20px rgba(0,229,160,0.18);
+  cursor:pointer;letter-spacing:0;
+  transition:all .2s;
+}
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 28px rgba(0,229,160,0.32);
+}
+html[data-theme="light"] .btn{color:#fff}
+
+/* Inputs */
+.field-label{
+  font-family:var(--mono);font-size:10px;color:var(--tx-2);
+  letter-spacing:0.10em;text-transform:uppercase;margin-bottom:8px;
+}
+.field-input,.state-select{
+  width:100%;
+  background:rgba(7,11,18,0.72);
+  border:1px solid var(--bd);
+  border-radius:8px;
+  color:var(--tx-1);
+  font-family:var(--mono);font-size:14px;
+  padding:12px 16px;outline:none;
+  transition:border-color .15s,box-shadow .15s;
+}
+html[data-theme="light"] .field-input,
+html[data-theme="light"] .state-select{
+  background:#fff;color:#0a1419;border-color:#cfdae0;
+}
+.field-input:focus,.state-select:focus{
+  border-color:rgba(0,229,160,0.55);
+  box-shadow:0 0 0 3px rgba(0,229,160,0.14);
+}
+.field-input::placeholder{color:var(--tx-3)}
+.field-hint{font-family:var(--mono);font-size:11px;color:var(--tx-2);margin-top:6px}
+
+/* Calculator */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px}
+.calc-card{padding:28px}
+.calc-exp{
+  font-family:var(--mono);font-size:12px;color:var(--tx-2);
+  margin-top:16px;padding:16px 20px;
+  background:rgba(7,11,18,0.5);
+  border:1px solid var(--bd);
+  border-radius:8px;line-height:1.7;
+}
+html[data-theme="light"] .calc-exp{background:rgba(0,0,0,0.03)}
+.calc-exp strong{color:var(--tx-0)}
+
+.ii-out{display:none;margin-top:20px}
+.ii-out-header{
+  background:linear-gradient(135deg,var(--ac),var(--ac-2));
+  color:#060911;
+  padding:14px 20px;border-radius:8px 8px 0 0;
+  font-family:var(--display);font-weight:700;font-size:16px;
+  letter-spacing:-0.01em;
+}
+html[data-theme="light"] .ii-out-header{color:#fff}
+.ii-out-body{
+  background:var(--bg-glass);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--bd);border-top:none;
+  border-radius:0 0 8px 8px;
+}
+.ii-metric{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+html[data-theme="light"] .ii-metric{border-bottom-color:rgba(0,0,0,0.06)}
+.ii-metric:last-child{border-bottom:none}
+.ii-ml{font-size:13px;color:var(--tx-2)}
+.ii-mv{
+  font-family:var(--display);font-weight:700;
+  font-size:22px;color:var(--ac);letter-spacing:-0.01em;
+}
+.ii-mv.am{color:var(--am)}
+.ii-best-bar{
+  background:rgba(7,11,18,0.5);
+  border-top:1px solid var(--bd);padding:16px 20px;
+  border-radius:0 0 8px 8px;
+}
+.ii-best-label{
+  font-family:var(--mono);font-size:10px;color:var(--tx-2);
+  letter-spacing:0.10em;text-transform:uppercase;margin-bottom:10px;
+}
+.ii-best-row{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;padding:4px 0;
+}
+.badge{
+  display:inline-block;
+  font-family:var(--mono);font-size:9px;
+  padding:2px 7px;border-radius:999px;
+  letter-spacing:0.05em;font-weight:600;
+}
+.badge.g{background:rgba(0,229,160,0.15);color:var(--ac)}
+.badge.r{background:rgba(248,81,73,0.15);color:var(--re)}
+
+/* Forecast */
+.forecast-meta{
+  font-family:var(--mono);font-size:11px;color:var(--tx-2);
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--bd);
+  border-radius:8px;padding:14px 16px;margin-bottom:22px;
+}
+html[data-theme="light"] .forecast-meta{background:rgba(0,0,0,0.04)}
+
+.ow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 16px}
+.ow-card{padding:24px;text-align:center}
+.ow-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+.ow-best::before{background:var(--ac)}
+.ow-gap::before{background:var(--am)}
+.ow-worst::before{background:var(--re)}
+.ow-tag{
+  font-family:var(--mono);font-size:10px;color:var(--tx-2);
+  letter-spacing:0.10em;text-transform:uppercase;margin-bottom:8px;
+}
+.ow-time{font-family:var(--mono);font-size:13px;color:var(--tx-1);margin-bottom:12px}
+.ow-val{
+  font-family:var(--display);font-weight:700;
+  font-size:38px;line-height:1;letter-spacing:-0.01em;margin-bottom:10px;
+}
+.ow-sub{font-family:var(--mono);font-size:11px;color:var(--tx-2)}
+
+.fc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:20px 0 16px}
+.fc-card{padding:18px 16px;text-align:center}
+.fc-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(0,229,160,0.42);
+}
+.fc-h{
+  font-family:var(--mono);font-size:10px;color:var(--tx-2);
+  letter-spacing:0.10em;text-transform:uppercase;margin-bottom:10px;
+}
+.fc-v{
+  font-family:var(--display);font-weight:700;
+  font-size:36px;line-height:1;letter-spacing:-0.01em;margin-bottom:4px;
+}
+.fc-u{font-family:var(--mono);font-size:10px;color:var(--tx-2);margin-bottom:10px}
+.fc-r{font-family:var(--mono);font-size:11px;color:var(--tx-1);margin-bottom:8px}
+.fc-t{font-family:var(--mono);font-size:10px;color:var(--tx-2);margin-bottom:10px}
+.fc-delta{font-family:var(--mono);font-size:10px;margin-bottom:6px;letter-spacing:0.05em}
+.fc-lbl{
+  display:inline-block;
+  font-family:var(--mono);font-size:9px;letter-spacing:0.10em;
+  padding:3px 8px;border-radius:999px;
+}
+.fc-lbl.low{background:rgba(0,229,160,0.15);color:var(--ac);border:1px solid rgba(0,229,160,0.3)}
+.fc-lbl.normal{background:rgba(88,166,255,0.15);color:var(--bl);border:1px solid rgba(88,166,255,0.3)}
+.fc-lbl.elevated{background:rgba(240,165,0,0.12);color:var(--am);border:1px solid rgba(240,165,0,0.25)}
+.fc-lbl.high{background:rgba(248,81,73,0.12);color:var(--re);border:1px solid rgba(248,81,73,0.25)}
+
+/* Methodology */
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.mc{padding:22px 24px}
+.mt{
+  font-family:var(--mono);font-size:10px;color:var(--tx-2);
+  letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;
+}
+.mb{font-size:13px;line-height:1.7;color:var(--tx-1)}
+.mb strong{color:var(--tx-0)}
+.fml{
+  background:rgba(7,11,18,0.7);
+  border:1px solid var(--bd);
+  border-radius:8px;padding:18px 20px;
+  font-family:var(--mono);font-size:12px;color:var(--ac);
+  line-height:2;margin:10px 0;
+}
+html[data-theme="light"] .fml{
+  background:#f0f5f7;color:var(--ac);border-color:#cfdae0;
+}
+.fml .c{color:var(--tx-2)}
+.z{color:var(--ac)}
+
+/* Roadmap */
+.roadmap{padding:20px 24px;margin-top:16px}
+.roadmap-title{
+  font-family:var(--mono);font-size:10px;color:var(--tx-2);
+  letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;
+}
+.rm-row{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);
+}
+html[data-theme="light"] .rm-row{border-bottom-color:rgba(0,0,0,0.06)}
+.rm-row:last-child{border-bottom:none}
+.rm-tag{
+  font-family:var(--mono);font-size:10px;
+  padding:3px 9px;border-radius:999px;
+  white-space:nowrap;margin-top:2px;
+  letter-spacing:0.04em;font-weight:700;
+}
+.rm-live{background:var(--ac);color:#060911}
+.rm-next{background:var(--am);color:#060911}
+.rm-plan{background:var(--bd-bright);color:var(--tx-2)}
+.rm-text{font-size:13px;line-height:1.6;color:var(--tx-1)}
+
+/* Sanity box */
+.sanity-box{
+  padding:20px 24px;
+  display:flex;align-items:flex-start;gap:24px;margin-top:16px;
+}
+.sanity-num{
+  font-family:var(--display);font-weight:700;
+  font-size:48px;color:var(--ac);line-height:1;
+  white-space:nowrap;letter-spacing:-0.01em;
+}
+.sanity-text{font-size:13px;line-height:1.7;color:var(--tx-1)}
+.sanity-text strong{color:var(--tx-0)}
+
+/* Footer */
+footer{
+  background:rgba(6,9,17,0.70);
+  backdrop-filter:blur(8px);
+  border-top:1px solid var(--bd);
+  padding:36px 28px 28px;margin-top:60px;
+  font-family:var(--mono);font-size:11px;color:var(--tx-2);
+  display:flex;justify-content:space-between;
+}
+html[data-theme="light"] footer{
+  background:rgba(255,255,255,0.70);color:var(--tx-2);
+}
+footer a{color:var(--ac);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* Responsive */
+@media(max-width:1100px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-right{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .two,.calc-grid,.method-grid{grid-template-columns:1fr}
+  .ops-summary{grid-template-columns:repeat(2,1fr)}
+  .fc-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:760px){
+  header{padding:0 16px}
+  .header-inner{height:auto;min-height:60px;flex-wrap:wrap;padding:10px 0;gap:10px}
+  .hero{padding:32px 16px 28px}
+  .hero-number{font-size:68px}
+  .hero-number .unit{display:block;margin-left:0;margin-top:6px}
+  .hero-right,.kstrip,.results-strip,.ow-grid,.fc-grid,.ops-summary{
+    grid-template-columns:1fr;
+  }
+  .tab-bar{top:0}
+  .tab-bar-inner{padding:8px 16px}
+  main{padding:24px 16px 40px}
+  .section-header{align-items:flex-start;flex-direction:column;gap:4px}
+  .section-sub{text-align:left}
+  .card,.calc-card,.mc{padding:18px}
+  footer{display:block;padding:28px 16px}
+  footer div+div{margin-top:8px}
+  .live-inner{flex-direction:column;gap:18px;padding:18px 16px}
+  .live-right{width:100%}
+  .live-kpis{flex-wrap:wrap}
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   v0.4 ADD-ONS — print, hover-only, mobile dispatch, loading
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* #21: hover lift only on devices with real hover (desktops with mouse) */
+@media (hover: none) {
+  .card:hover, .calc-card:hover, .fc-card:hover {
+    transform: none !important;
+    border-color: var(--bd) !important;
+    box-shadow: var(--shadow-1) !important;
+  }
+  .hlink[href^="mailto"]:hover, .btn:hover {
+    transform: none !important;
+  }
+}
+
+/* #27: mobile dispatch strip — KPIs wrap with proper spacing */
+@media (max-width: 760px) {
+  .live-kpis { flex-wrap: wrap; gap: 10px 0; }
+  .live-kpi { flex: 1 0 50%; padding: 6px 8px !important; text-align: left; }
+  .live-kpi:first-child { padding-left: 0 !important; }
+  .live-sep { display: none; }
+  .live-kpi-val { font-size: 20px; }
+}
+
+/* #25: "last updated" pill in header */
+.last-updated-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 10px; color: var(--tx-2);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--bd);
+  margin-left: 10px;
+}
+html[data-theme="light"] .last-updated-pill {
+  background: rgba(0,0,0,0.03);
+}
+
+/* #28: skeleton loader for charts (shown until canvas paints) */
+.cw[data-loading="true"]::before {
+  content: "Loading\2026";
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 11px; color: var(--tx-3);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: rgba(14,20,34,0.30); border-radius: 6px;
+  z-index: 1;
+}
+
+/* #29: empty state for state intensity panel */
+.empty-state {
+  padding: 60px 24px; text-align: center;
+  color: var(--tx-2); font-family: var(--body); font-size: 14px;
+  border: 1px dashed var(--bd); border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+}
+.empty-state-title {
+  font-family: var(--display); font-weight: 600; font-size: 18px;
+  color: var(--tx-1); margin-bottom: 8px;
+}
+
+/* #14: visible focus state for keyboard users */
+.tab:focus-visible, .hlink:focus-visible, .btn:focus-visible,
+.theme-toggle:focus-visible, .field-input:focus-visible,
+.state-select:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+/* #26: print stylesheet */
+@media print {
+  body::before, body::after { display: none !important; }
+  body { background: white !important; color: black !important; }
+  header, .tab-bar, footer { display: none !important; }
+  .panel { display: block !important; page-break-after: always; }
+  .panel.active { page-break-after: auto; }
+  .card, .calc-card, .mc, .fc-card, .ow-card, .ops-card {
+    background: white !important;
+    border: 1px solid #999 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+  .hero-number, .brand-name, .section-title {
+    color: black !important;
+    -webkit-text-fill-color: black !important;
+    background: none !important;
+  }
+  .insight, .hero-advisory {
+    background: #f8f8f8 !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+  }
+  a { color: black !important; text-decoration: underline; }
+  .ops-pill, .live-pill, .hero-label, .advisory-tag {
+    background: #f0f0f0 !important; color: black !important;
+    border: 1px solid #999 !important;
+  }
+  .btn, .hlink[href^="mailto"] { display: none !important; }
+}
+
+/* PATCH_V0_4_APPLIED — marker so this patch script knows it's already run */
 
 </style>
 </head>
 <body>
+<div class="aurora-1"></div>
+<div class="aurora-2"></div>
+<div class="aurora-3"></div>
 <header>
   <div class="header-inner">
     <div class="brand">
-      <div><div class="brand-name">ZEUS</div><div class="brand-sub">India Grid Carbon Intelligence</div></div>
-      <div class="live-pill"><div class="pulse"></div>T-1 LIVE</div>
+      <div><div class="brand-name">ZEUS</div><div class="brand-sub">India Grid Intelligence</div></div>
+      <div class="live-pill" title="T-1 = yesterday-verified data, standard for regulator filings"><div class="pulse"></div>T-1 LIVE</div>
+      <span class="last-updated-pill" title="Latest data block date">Updated: 2026-05-07</span>
     </div>
     <div class="header-right">
       <a class="hlink" onclick="switchTab('factors')">DAILY FACTORS</a>
@@ -842,9 +925,9 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
       <div class="hero-label">Current Grid Carbon Intensity &mdash; All India</div>
       <div class="hero-number">903<span class="unit">g CO&#x2082;/kWh</span></div>
       <div class="hero-meta">
-        <span><span class="dot" style="background:var(--mu)"></span>2026-05-07 &middot; T-1 latest block</span>
+        <span title="T-1 means yesterday-verified data. Standard for energy regulators."><span class="dot" style="background:var(--mu)"></span>Latest verified block: 2026-05-07</span>
         <span><span class="dot" style="background:var(--ac)"></span>17.8% zero-carbon</span>
-        <span><span class="dot" style="background:var(--am)"></span>Source: GRID-INDIA PSP</span>
+        <span title="Power System Operation Corporation Ltd — India's national grid operator"><span class="dot" style="background:var(--am)"></span>Source: <a href="https://posoco.in/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.2)">GRID-INDIA PSP</a></span>
       </div>
       <div class="hero-advisory">
         <div class="advisory-tag">GRID SIGNAL</div>
@@ -852,9 +935,9 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-stat"><div class="hs-label">FY 2025-26 Mean</div><div class="hs-value n">757.0</div><div class="hs-sub">g CO&#x2082;/kWh &middot; 399 days</div></div>
-      <div class="hero-stat"><div class="hs-label">CEA Reference</div><div class="hs-value">712</div><div class="hs-sub">g/kWh &middot; FY 2024-25</div></div>
-      <div class="hero-stat"><div class="hs-label">Price&ndash;Carbon Corr.</div><div class="hs-value n">0.684</div><div class="hs-sub">r &middot; last 30 days</div></div>
+      <div class="hero-stat" title="Strict FY 2025-26 mean (Apr 1, 2025 — Mar 31, 2026). Computed from complete-coverage days within the fiscal year only."><div class="hs-label">FY 2025-26 Mean</div><div class="hs-value n">755.1</div><div class="hs-sub">g CO&#x2082;/kWh &middot; 362 days complete</div></div>
+      <div class="hero-stat"><div class="hs-label">CEA Reference</div><div class="hs-value">712</div><div class="hs-sub">g CO&#x2082;/kWh &middot; FY 2024-25</div></div>
+      <div class="hero-stat" title="Pearson correlation: positive r means carbon and price tend to move together. r > 0.5 = strong, 0.3-0.5 = moderate, < 0.3 = weak."><div class="hs-label">Price&ndash;Carbon Corr.</div><div class="hs-value n">0.684</div><div class="hs-sub">r &middot; last 30 days &middot; strong positive</div></div>
       <div class="hero-stat"><div class="hs-label">Optimal Load Window</div><div class="hs-value" style="font-size:20px;padding-top:6px">13:00 IST</div><div class="hs-sub">lowest price + carbon</div></div>
     </div>
   </div>
@@ -877,50 +960,51 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
     <div class="live-right">
       <div class="live-spark-label">24h Carbon Shape</div>
       <div class="live-spark" aria-hidden="true"><span style="height:20%"></span><span style="height:34%"></span><span style="height:30%"></span><span style="height:32%"></span><span style="height:34%"></span><span style="height:41%"></span><span style="height:45%"></span><span style="height:50%"></span><span style="height:52%"></span><span style="height:59%"></span><span style="height:60%"></span><span style="height:64%"></span><span style="height:67%"></span><span style="height:73%"></span><span style="height:73%"></span><span style="height:77%"></span><span style="height:78%"></span><span style="height:81%"></span><span style="height:84%"></span><span style="height:87%"></span><span style="height:87%"></span><span style="height:90%"></span><span style="height:88%"></span><span style="height:80%"></span></div>
-      <div class="live-spark-sub">daily solar trough, evening thermal ramp</div>
+      <div class="live-spark-axis" style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;color:var(--tx-3);letter-spacing:0.08em;margin-top:2px"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+                <div class="live-spark-sub">IST &middot; daily solar trough + evening thermal ramp</div>
     </div>
   </div>
   <div class="live-note"><strong>Recommended action:</strong> use the forecast and price overlay together; the same midday block is both cleaner and cheaper for flexible industrial demand, EV charging, pumping, cooling, and BESS dispatch.</div>
 </div>
 
 <div class="tab-bar">
-  <div class="tab-bar-inner">
-    <button class="tab active" onclick="switchTab('charts')">CHARTS</button>
-    <button class="tab" onclick="switchTab('overlay')">PRICE + CARBON</button>
-    <button class="tab" onclick="switchTab('forecast')">FORECAST <span class="tab-badge">NEW</span></button>
-    <button class="tab" onclick="switchTab('states')">STATE INTENSITY</button>
-    <button class="tab" onclick="switchTab('factors')">DAILY FACTORS</button>
-    <button class="tab" onclick="switchTab('calculator')">IMPACT CALCULATOR</button>
-    <button class="tab" onclick="switchTab('methodology')">METHODOLOGY</button>
+  <div class="tab-bar-inner" role="tablist" aria-label="Dashboard sections">
+    <button role="tab" aria-selected="true" aria-controls="panel-charts" tabindex="0" class="tab active" onclick="switchTab('charts')">CHARTS</button>
+    <button role="tab" aria-selected="false" aria-controls="panel-overlay" tabindex="0" class="tab" onclick="switchTab('overlay')">PRICE + CARBON</button>
+    <button role="tab" aria-selected="false" aria-controls="panel-forecast" tabindex="0" class="tab" onclick="switchTab('forecast')">FORECAST <span class="tab-badge">NEW</span></button>
+    <button role="tab" aria-selected="false" aria-controls="panel-states" tabindex="0" class="tab" onclick="switchTab('states')">STATE INTENSITY</button>
+    <button role="tab" aria-selected="false" aria-controls="panel-factors" tabindex="0" class="tab" onclick="switchTab('factors')">DAILY FACTORS</button>
+    <button role="tab" aria-selected="false" aria-controls="panel-calculator" tabindex="0" class="tab" onclick="switchTab('calculator')">IMPACT CALCULATOR</button>
+    <button role="tab" aria-selected="false" aria-controls="panel-methodology" tabindex="0" class="tab" onclick="switchTab('methodology')">METHODOLOGY</button>
   </div>
 </div>
 
 <main>
+
+<div id="panel-charts" class="panel active" role="tabpanel" aria-labelledby="tab-charts" tabindex="0">
 <section class="ops-summary" aria-label="Executive grid signal">
   <article class="ops-card risk">
     <div class="ops-eyebrow">Executive Read</div>
     <div class="ops-title">High-intensity grid, but a clear midday abatement window.</div>
-    <div class="ops-body">Current intensity is 903 g/kWh (+146 vs FY mean). The operating play: shift elastic demand into the solar trough, preserve output, and reduce both Scope 2 and DAM exposure.</div>
-    <div class="ops-pill-row"><span class="ops-pill">BRSR ready</span><span class="ops-pill">CCTS aligned</span><span class="ops-pill">T-1 data</span></div>
+    <div class="ops-body">Current intensity is 903 g/kWh (+146 vs FY mean). The operating play: shift flexible load into the solar trough, preserve output, and reduce both Scope 2 and DAM exposure.</div>
+    <div class="ops-pill-row"><span class="ops-pill" title="Business Responsibility and Sustainability Report — SEBI-mandated for top 1000 listed entities">BRSR ready</span><span class="ops-pill" title="Carbon Credit Trading Scheme — India's national carbon market launching 2026">CCTS aligned</span><span class="ops-pill" title="T-1 = yesterday-verified data, standard for regulator filings">T-1 data</span></div>
   </article>
   <article class="ops-card">
-    <div class="ops-eyebrow">Best Window</div>
+    <div class="ops-eyebrow">Best Window <span title="Standard solar trough — typical Indian Time-of-Use schedule" style="color:var(--tx-3);font-weight:400;text-transform:none;letter-spacing:0">· standard ToU</span></div>
     <div class="ops-title">10:00&ndash;14:00 IST</div>
-    <div class="ops-body"><strong>Cheapest + cleanest.</strong> Prioritize EV charging, chillers, pumping, electrolysers, and BESS charging here.</div>
+    <div class="ops-body"><strong>Solar trough.</strong> Typically the cleanest and cheapest 4-hour window. Prioritize EV charging, chillers, pumping, electrolysers, and BESS charging here.</div>
   </article>
   <article class="ops-card warn">
-    <div class="ops-eyebrow">Risk Window</div>
+    <div class="ops-eyebrow">Risk Window <span title="Standard evening peak — typical Indian Time-of-Use schedule" style="color:var(--tx-3);font-weight:400;text-transform:none;letter-spacing:0">· standard ToU</span></div>
     <div class="ops-title">18:00&ndash;22:00 IST</div>
-    <div class="ops-body"><strong>Thermal ramp zone.</strong> Carbon and price move together; defer flexible load where operations allow.</div>
+    <div class="ops-body"><strong>Thermal ramp zone.</strong> Carbon and price typically move together; defer flexible load where operations allow.</div>
   </article>
   <article class="ops-card info">
     <div class="ops-eyebrow">Model Trust</div>
     <div class="ops-title small">P90 forecast bands + monsoon-validated.</div>
-    <div class="ops-body">2.84&ndash;3.87% MAPE on truly unseen monsoon 2025 data. Use forecast tab for next-48h planning before dispatch commitments.</div>
+    <div class="ops-body">2.84–3.87% MAPE on truly unseen monsoon 2025 data. Use forecast tab for next-48h planning before dispatch commitments.</div>
   </article>
 </section>
-
-<div id="panel-charts" class="panel active">
   <div class="section">
     <div class="section-header"><div class="section-title">Last 30 Days</div><div class="section-sub">Hourly &middot; g CO&#x2082;/kWh &middot; GRID-INDIA PSP &middot; 2025-04-01 &rarr; 2026-05-07</div></div>
     <div class="card"><div class="cw" style="height:220px"><canvas id="c30"></canvas></div></div>
@@ -940,7 +1024,7 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
   </div>
 </div>
 
-<div id="panel-overlay" class="panel">
+<div id="panel-overlay" class="panel" role="tabpanel" aria-labelledby="tab-overlay" tabindex="0">
   <div class="kstrip">
     <div class="ksk"><div class="kkl">Price&ndash;Carbon Correlation</div><div class="kkv">0.684</div><div class="kks">DAM vs intensity &middot; 30 days</div></div>
     <div class="ksk"><div class="kkl">Avg DAM Price</div><div class="kkv" style="color:var(--am)">&#x20b9;5,038</div><div class="kks">per MWh &middot; last 30 days</div></div>
@@ -966,15 +1050,15 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
   <div class="insight" style="margin-top:16px"><strong>Score</strong> = Price &times; Intensity &divide; 1000. Lower = better. Use to rank procurement windows.</div>
 </div>
 
-<div id="panel-forecast" class="panel"><div class="forecast-meta"><span style="color:var(--ac)">&bull;</span> Forecast anchor: <strong style="color:var(--tx)">May 07, 23:00 IST</strong> &middot; Generated: 2026-05-08T13:22:16 &middot; Model: production &middot; Reference: current intensity <strong style="color:var(--tx)">885 g/kWh</strong></div><div class="section"><div class="section-header"><div class="section-title">Forecast Timeline &mdash; Next 48 Hours</div><div class="section-sub">XGBoost predictions with conformal P90 intervals &middot; Hover anywhere to see values</div></div><div class="card"><div class="cw" style="height:280px"><canvas id="cFC"></canvas></div></div><div class="insight"><strong>How to read:</strong> Solid green line is the predicted intensity. Light shaded band is the 90% confidence range &mdash; the actual value lands inside this band 90% of the time. Dashed grey line is the FY25-26 average (757 g/kWh).</div></div><div class="section"><div class="section-header"><div class="section-title">Optimal Windows for Load Shifting</div><div class="section-sub">Plan flexible loads using these recommendations</div></div><div class="ow-grid"><div class="ow-card ow-best"><div class="ow-tag">CLEANEST WINDOW</div><div class="ow-time">May 09, 23:00 IST</div><div class="ow-val" style="color:var(--ac)">835 g/kWh</div><div class="ow-sub">-50 vs current &middot; Best of next 48h</div></div><div class="ow-card ow-gap"><div class="ow-tag">CARBON GAP</div><div class="ow-time">Best vs Worst</div><div class="ow-val" style="color:var(--am)">69 g/kWh</div><div class="ow-sub">Shifting 1 MWh saves 69 kg CO&#x2082;</div></div><div class="ow-card ow-worst"><div class="ow-tag">AVOID WINDOW</div><div class="ow-time">May 08, 05:00 IST</div><div class="ow-val" style="color:var(--re)">904 g/kWh</div><div class="ow-sub">Highest of next 48h &middot; Defer non-critical loads</div></div></div></div><div class="section"><div class="section-header"><div class="section-title">Key Horizons &mdash; Quick Reference</div><div class="section-sub">Predicted intensity at each forecast horizon with delta from current</div></div><div class="fc-grid"><div class="fc-card"><div class="fc-h">+1 hour</div><div class="fc-v" style="color:var(--re)">883</div><div class="fc-u">g CO&#x2082;/kWh</div><div class="fc-delta" style="color:var(--mu)">-2 vs current</div><div class="fc-r">&plusmn;28 (P90)</div><div class="fc-t">May 08, 00:00 IST</div><div class="fc-lbl high">HIGH</div></div><div class="fc-card"><div class="fc-h">+6 hours</div><div class="fc-v" style="color:var(--re)">904</div><div class="fc-u">g CO&#x2082;/kWh</div><div class="fc-delta" style="color:var(--mu)">+19 vs current</div><div class="fc-r">&plusmn;44 (P90)</div><div class="fc-t">May 08, 05:00 IST</div><div class="fc-lbl high">HIGH</div></div><div class="fc-card"><div class="fc-h">+12 hours</div><div class="fc-v" style="color:var(--re)">849</div><div class="fc-u">g CO&#x2082;/kWh</div><div class="fc-delta" style="color:var(--ac)">-36 vs current</div><div class="fc-r">&plusmn;33 (P90)</div><div class="fc-t">May 08, 11:00 IST</div><div class="fc-lbl high">HIGH</div></div><div class="fc-card"><div class="fc-h">+24 hours</div><div class="fc-v" style="color:var(--re)">843</div><div class="fc-u">g CO&#x2082;/kWh</div><div class="fc-delta" style="color:var(--ac)">-42 vs current</div><div class="fc-r">&plusmn;34 (P90)</div><div class="fc-t">May 08, 23:00 IST</div><div class="fc-lbl high">HIGH</div></div><div class="fc-card"><div class="fc-h">+48 hours</div><div class="fc-v" style="color:var(--am)">835</div><div class="fc-u">g CO&#x2082;/kWh</div><div class="fc-delta" style="color:var(--ac)">-50 vs current</div><div class="fc-r">&plusmn;39 (P90)</div><div class="fc-t">May 09, 23:00 IST</div><div class="fc-lbl elevated">ELEVATED</div></div></div></div><div class="section"><div class="section-header"><div class="section-title">Published Accuracy</div><div class="section-sub">Mean Absolute Percentage Error &middot; Validated on truly unseen data</div></div><div class="card" style="padding:24px"><table class="acc-tbl"><thead><tr><th>Horizon</th><th>Monsoon 2025<br><span style="font-weight:400;color:var(--mu)">(MODEL DID NOT SEE)</span></th><th>April 2026<br><span style="font-weight:400;color:var(--mu)">(easy holdout)</span></th><th>Industry Benchmark</th></tr></thead><tbody><tr><td>1h</td><td><strong style="color:var(--ac)">2.84%</strong></td><td>2.08%</td><td>WattTime US: 3-4%</td></tr><tr><td>6h</td><td><strong style="color:var(--ac)">3.64%</strong></td><td>3.46%</td><td>ENTSOE EU: 5-7%</td></tr><tr><td>12h</td><td><strong style="color:var(--ac)">3.25%</strong></td><td>1.69%</td><td>WattTime US: 5-6%</td></tr><tr><td>24h</td><td><strong style="color:var(--ac)">3.82%</strong></td><td>2.35%</td><td>WattTime US: 4-6%</td></tr><tr><td>48h</td><td><strong style="color:var(--ac)">3.87%</strong></td><td>2.75%</td><td>ENTSOE EU: 8-10%</td></tr></tbody></table><div class="insight" style="margin-top:18px"><strong>Why monsoon matters:</strong> Monsoon 2025 was completely held out during training &mdash; the model was trained on Apr-Jun 2025 + Oct 2025-Apr 2026 and tested only on Jul-Sep 2025. This includes the Bay of Bengal cyclone formation event (Sept 20-22, 2025). <span class="highlight">All horizons stay under 4% MAPE on truly unseen monsoon data &mdash; better than any published global benchmark.</span></div></div></div><script id="fc_chart_data" type="application/json">{"labels": ["2026-05-08T00:00", "2026-05-08T05:00", "2026-05-08T11:00", "2026-05-08T23:00", "2026-05-09T23:00"], "horizons": [1, 6, 12, 24, 48], "preds": [883.36, 904.42, 849.19, 843.15, 834.94], "p50_lo": [872.62, 885.11, 837.68, 829.49, 819.35], "p50_hi": [894.1, 923.73, 860.69, 856.81, 850.54], "p90_lo": [854.93, 860.15, 816.15, 809.26, 796.07], "p90_hi": [911.78, 948.69, 882.22, 877.04, 873.82], "current": 885.25, "annual_mean": 757.0, "anchor": "2026-05-07T23:00"}</script></div>
+<div id="panel-forecast" class="panel" role="tabpanel" aria-labelledby="tab-forecast" tabindex="0"><div class="forecast-meta"><span style="color:var(--ac)">&bull;</span> Forecast anchor: <strong style="color:var(--tx)">May 07, 23:00 IST</strong> &middot; Generated: 2026-05-08T13:22:16 &middot; Model: production &middot; Reference: current intensity <strong style="color:var(--tx)">885 g/kWh</strong></div><div class="section"><div class="section-header"><div class="section-title">Forecast Timeline &mdash; Next 48 Hours</div><div class="section-sub">XGBoost predictions with conformal P90 intervals &middot; Hover anywhere to see values</div></div><div class="card"><div class="cw" style="height:280px"><canvas id="cFC"></canvas></div></div><div class="insight"><strong>How to read:</strong> Solid green line is the predicted intensity. Light shaded band is the 90% confidence range &mdash; the actual value lands inside this band 90% of the time. Dashed grey line is the FY25-26 average (757 g/kWh).</div></div><div class="section"><div class="section-header"><div class="section-title">Optimal Windows for Load Shifting</div><div class="section-sub">Plan flexible loads using these recommendations</div></div><div class="ow-grid"><div class="ow-card ow-best"><div class="ow-tag">CLEANEST WINDOW</div><div class="ow-time">May 09, 23:00 IST</div><div class="ow-val" style="color:var(--ac)">835 g/kWh</div><div class="ow-sub">-50 vs current &middot; Best of next 48h</div></div><div class="ow-card ow-gap"><div class="ow-tag">CARBON GAP</div><div class="ow-time">Best vs Worst</div><div class="ow-val" style="color:var(--am)">69 g/kWh</div><div class="ow-sub">Shifting 1 MWh saves 69 kg CO&#x2082;</div></div><div class="ow-card ow-worst"><div class="ow-tag">AVOID WINDOW</div><div class="ow-time">May 08, 05:00 IST</div><div class="ow-val" style="color:var(--re)">904 g/kWh</div><div class="ow-sub">Highest of next 48h &middot; Defer non-critical loads</div></div></div></div><div class="section"><div class="section-header"><div class="section-title">Key Horizons &mdash; Quick Reference</div><div class="section-sub">Predicted intensity at each forecast horizon with delta from current</div></div><div class="fc-grid"><div class="fc-card"><div class="fc-h">+1 hour</div><div class="fc-v" style="color:var(--re)">883</div><div class="fc-u">g CO&#x2082;/kWh</div><div class="fc-delta" style="color:var(--mu)">-2 vs current</div><div class="fc-r">&plusmn;28 (P90)</div><div class="fc-t">May 08, 00:00 IST</div><div class="fc-lbl high">HIGH</div></div><div class="fc-card"><div class="fc-h">+6 hours</div><div class="fc-v" style="color:var(--re)">904</div><div class="fc-u">g CO&#x2082;/kWh</div><div class="fc-delta" style="color:var(--mu)">+19 vs current</div><div class="fc-r">&plusmn;44 (P90)</div><div class="fc-t">May 08, 05:00 IST</div><div class="fc-lbl high">HIGH</div></div><div class="fc-card"><div class="fc-h">+12 hours</div><div class="fc-v" style="color:var(--re)">849</div><div class="fc-u">g CO&#x2082;/kWh</div><div class="fc-delta" style="color:var(--ac)">-36 vs current</div><div class="fc-r">&plusmn;33 (P90)</div><div class="fc-t">May 08, 11:00 IST</div><div class="fc-lbl high">HIGH</div></div><div class="fc-card"><div class="fc-h">+24 hours</div><div class="fc-v" style="color:var(--re)">843</div><div class="fc-u">g CO&#x2082;/kWh</div><div class="fc-delta" style="color:var(--ac)">-42 vs current</div><div class="fc-r">&plusmn;34 (P90)</div><div class="fc-t">May 08, 23:00 IST</div><div class="fc-lbl high">HIGH</div></div><div class="fc-card"><div class="fc-h">+48 hours</div><div class="fc-v" style="color:var(--am)">835</div><div class="fc-u">g CO&#x2082;/kWh</div><div class="fc-delta" style="color:var(--ac)">-50 vs current</div><div class="fc-r">&plusmn;39 (P90)</div><div class="fc-t">May 09, 23:00 IST</div><div class="fc-lbl elevated">ELEVATED</div></div></div></div><div class="section"><div class="section-header"><div class="section-title">Published Accuracy</div><div class="section-sub">Mean Absolute Percentage Error &middot; Validated on truly unseen data</div></div><div class="card" style="padding:24px"><table class="acc-tbl"><thead><tr><th>Horizon</th><th>Monsoon 2025<br><span style="font-weight:400;color:var(--mu)">(MODEL DID NOT SEE)</span></th><th>April 2026<br><span style="font-weight:400;color:var(--mu)">(easy holdout)</span></th><th>Industry Benchmark</th></tr></thead><tbody><tr><td>1h</td><td><strong style="color:var(--ac)">2.84%</strong></td><td>2.08%</td><td>WattTime US: 3-4%</td></tr><tr><td>6h</td><td><strong style="color:var(--ac)">3.64%</strong></td><td>3.46%</td><td>ENTSOE EU: 5-7%</td></tr><tr><td>12h</td><td><strong style="color:var(--ac)">3.25%</strong></td><td>1.69%</td><td>WattTime US: 5-6%</td></tr><tr><td>24h</td><td><strong style="color:var(--ac)">3.82%</strong></td><td>2.35%</td><td>WattTime US: 4-6%</td></tr><tr><td>48h</td><td><strong style="color:var(--ac)">3.87%</strong></td><td>2.75%</td><td>ENTSOE EU: 8-10%</td></tr></tbody></table><div class="insight" style="margin-top:18px"><strong>Why monsoon matters:</strong> Monsoon 2025 was completely held out during training &mdash; the model was trained on Apr-Jun 2025 + Oct 2025-Apr 2026 and tested only on Jul-Sep 2025. This includes the Bay of Bengal cyclone formation event (Sept 20-22, 2025). <span class="highlight">All horizons stay under 4% MAPE on truly unseen monsoon data &mdash; better than any published global benchmark.</span></div></div></div><script id="fc_chart_data" type="application/json">{"labels": ["2026-05-08T00:00", "2026-05-08T05:00", "2026-05-08T11:00", "2026-05-08T23:00", "2026-05-09T23:00"], "horizons": [1, 6, 12, 24, 48], "preds": [883.36, 904.42, 849.19, 843.15, 834.94], "p50_lo": [872.62, 885.11, 837.68, 829.49, 819.35], "p50_hi": [894.1, 923.73, 860.69, 856.81, 850.54], "p90_lo": [854.93, 860.15, 816.15, 809.26, 796.07], "p90_hi": [911.78, 948.69, 882.22, 877.04, 873.82], "current": 885.25, "annual_mean": 757.0, "anchor": "2026-05-07T23:00"}</script></div>
 
-<div id="panel-states" class="panel">
+<div id="panel-states" class="panel" role="tabpanel" aria-labelledby="tab-states" tabindex="0">
   <div class="insight" style="margin-bottom:20px"><strong>Methodology (v0.1):</strong> State RE generation = exact REMC actuals. State thermal = estimated from CEA March 2025 capacity weights. Hydro not modelled (conservative). Daily granularity.</div>
   <div class="section">
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
         <div><div class="section-title" id="stitle">Select a state</div><div style="font-family:var(--mono);font-size:11px;color:var(--mu);margin-top:4px">Daily g CO&#x2082;/kWh vs national average</div></div>
-        <select id="ssel" class="state-select" onchange="updateState()"><option value="">-- Select state --</option><option value="Andhra Pradesh">Andhra Pradesh</option>
+        <select id="ssel" class="state-select" onchange="updateState()" aria-label="Select Indian state for intensity comparison"><option value="">-- Select a state to compare --</option><option value="Andhra Pradesh">Andhra Pradesh</option>
 <option value="Gujarat">Gujarat</option>
 <option value="Karnataka">Karnataka</option>
 <option value="Madhya Pradesh">Madhya Pradesh</option>
@@ -1007,7 +1091,7 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
   <div class="insight"><strong>Why this matters:</strong> Telangana (~920 g/kWh) faces 51% higher Scope 2 than Karnataka (~610 g/kWh). <span class="highlight">First published state-level grid intensity for India.</span></div>
 </div>
 
-<div id="panel-factors" class="panel">
+<div id="panel-factors" class="panel" role="tabpanel" aria-labelledby="tab-factors" tabindex="0">
   <div class="section">
     <div class="section-header"><div class="section-title">Daily Emission Factors</div><div class="section-sub">Last 30 days &middot; Scope 2 &middot; BRSR &middot; CCTS &middot; GHG Protocol</div></div>
     <div class="card">
@@ -1048,7 +1132,7 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
   </div>
 </div>
 
-<div id="panel-calculator" class="panel">
+<div id="panel-calculator" class="panel" role="tabpanel" aria-labelledby="tab-calculator" tabindex="0">
   <div class="calc-grid">
     <div class="calc-card">
       <div class="section-title" style="margin-bottom:4px">Scope 2 Calculator</div>
@@ -1064,8 +1148,8 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
       <div class="field-hint" id="kwh_period_hint">Defaults to FY 2025-26 annual mean. Period coverage shown after entering consumption.</div>
 
       <div class="field-label" style="margin-top:18px">Monthly electricity consumption</div>
-      <input class="field-input" id="kwh" type="number" min="0" placeholder="e.g. 500000" oninput="calc()">
-      <div class="field-hint">Enter kWh/month (DISCOM/utility billed). Annual total = monthly &times; 12.</div>
+      <input class="field-input" id="kwh" type="number" min="1" max="9999999999" step="any" placeholder="e.g. 500000" oninput="calc()" aria-describedby="kwh_hint">
+      <div class="field-hint" id="kwh_hint">Enter kWh/month (DISCOM/utility billed). Annual total = monthly &times; 12.</div>
 
       <div id="cres" style="display:none;margin-top:20px">
         <div class="results-strip">
@@ -1105,7 +1189,7 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
   </div>
 </div>
 
-<div id="panel-methodology" class="panel">
+<div id="panel-methodology" class="panel" role="tabpanel" aria-labelledby="tab-methodology" tabindex="0">
   <div class="insight" style="margin-bottom:20px;font-size:13px"><strong>In plain terms:</strong> Every time you use electricity in India, some CO&#x2082; is emitted. The mix of coal, gas, hydro, wind, and solar changes every 15 minutes &mdash; so the carbon footprint changes too. ZEUS measures that footprint in real time and forecasts it 48 hours ahead, so you can report it accurately and reduce it practically.</div>
 
   <div class="method-grid">
@@ -1113,7 +1197,7 @@ html[data-theme="light"] .theme-knob{transform:translateX(22px);background:var(-
       <strong>GRID-INDIA PSP TimeSeries</strong> (intensity)<br>
       Publisher: Grid Controller of India Ltd<br>
       Granularity: 15-min (96/day), all-India<br>
-      Publication: T-1, ~14:00 IST<br>
+      Forecast generated daily at ~14:00 IST (T-1)<br>
       Coverage: 2025-04-01 &rarr; 2026-05-07<br>
       (399 days &middot; 38,264 blocks)<br><br>
       <strong>REMC Daily Reports</strong> (state RE generation)<br>
@@ -1301,7 +1385,7 @@ I_solar = 614 g/kWh (10&ndash;14h avg, 30 days)</div>
         <div>
           <div style="font-size:10px;letter-spacing:.10em;text-transform:uppercase;color:var(--mu);margin-bottom:6px">Build Information</div>
           <strong style="color:var(--tx)">Version:</strong> ZEUS v0.2<br>
-          <strong style="color:var(--tx)">Built at:</strong> 2026-05-08 18:28:36 IST<br>
+          <strong style="color:var(--tx)">Built at:</strong> 2026-05-09 01:29:26 IST<br>
           <strong style="color:var(--tx)">Methodology:</strong> v0.2 (this document)
         </div>
 
@@ -1351,8 +1435,8 @@ I_solar = 614 g/kWh (10&ndash;14h avg, 30 days)</div>
 </main>
 
 <footer>
-  <div>ZEUS &mdash; India Grid Carbon Intelligence &middot; GRID-INDIA PSP + CEA Baseline v21.0 (&plusmn;5%) &middot; Methodology v0.2</div>
-  <div>2025-04-01 &rarr; 2026-05-07 &middot; 38,264 data points &middot; Built 2026-05-08 18:28:36 IST &middot; <a href="mailto:hello@zeusgrid.in" style="color:var(--mu)">hello@zeusgrid.in</a></div>
+  <div>&copy;<span id="copyYear">2026</span> ZEUS &middot; A Zeus Grid Intelligence product &middot; GRID-INDIA PSP + CEA Baseline v21.0 (&plusmn;5%) &middot; Methodology v0.2</div>
+  <div>2025-04-01 &rarr; 2026-05-07 &middot; 38,264 data points &middot; Built 2026-05-09 01:29:26 IST &middot; <a href="mailto:hello@zeusgrid.in" style="color:var(--mu)">hello@zeusgrid.in</a></div>
 </footer>
 
 <script>
@@ -1416,16 +1500,36 @@ function switchTab(n){
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   const p=document.getElementById("panel-"+n);if(p)p.classList.add("active");
   document.querySelectorAll(".tab").forEach(t=>{if(t.textContent.trim().startsWith(TMAP[n]))t.classList.add("active");});
+  // v0.4.1 FIX: scroll to top of new panel by walking offsetParent chain
+  // (previous version anchored to .tab-bar which is sticky-pinned \u2014 gave zero-movement bug)
+  if(p){
+    const headerH = document.querySelector("header") ? document.querySelector("header").offsetHeight : 64;
+    const tabBar = document.querySelector(".tab-bar");
+    const tabBarH = tabBar ? tabBar.offsetHeight : 50;
+    let panelY = 0; let el = p;
+    while(el){ panelY += el.offsetTop; el = el.offsetParent; }
+    const targetY = Math.max(0, panelY - headerH - tabBarH - 8);
+    window.scrollTo({top: targetY, behavior: "smooth"});
+  }
+  // v0.4: update browser tab title so multiple ZEUS tabs are distinguishable
+  try{
+    const labels = {charts:"Charts", overlay:"Price+Carbon", forecast:"Forecast", states:"State Intensity", factors:"Daily Factors", calculator:"Impact Calculator", methodology:"Methodology"};
+    document.title = "ZEUS \u2014 " + (labels[n] || "Dashboard");
+  }catch(e){}
+  // v0.4: update aria-selected on tabs for screen readers
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected", t.classList.contains("active") ? "true" : "false"));
 }
 
 window.addEventListener("load",function(){
+  // v0.4: auto-roll footer year
+  try{ const y=document.getElementById("copyYear"); if(y) y.textContent=new Date().getFullYear(); }catch(e){}
   const GC="rgba(148,163,184,0.13)";
   const TK={color:"#8a94a6",maxRotation:0,font:{family:"'JetBrains Mono'",size:10}};
   const TT={backgroundColor:"#0f1722",borderColor:"#263241",borderWidth:1,titleColor:"#f2f6fb",padding:12,titleFont:{family:"'JetBrains Mono'",size:11},bodyFont:{family:"'JetBrains Mono'",size:11}};
   const NA={duration:0,active:{duration:0},resize:{duration:0}};
   const MO={responsive:true,maintainAspectRatio:false};
 
-  function ic(id,cfg){try{const el=document.getElementById(id);if(!el)return null;return new Chart(el.getContext("2d"),cfg);}catch(e){console.error(id,e);return null;}}
+  function ic(id,cfg){try{const el=document.getElementById(id);if(!el)return null;const ch=new Chart(el.getContext("2d"),cfg);const w=el.closest(".cw");if(w)w.removeAttribute("data-loading");return ch;}catch(e){console.error(id,e);return null;}}
   function gr(id,h,c1,c2){try{const el=document.getElementById(id);if(!el)return"transparent";const g=el.getContext("2d").createLinearGradient(0,0,0,h);g.addColorStop(0,c1);g.addColorStop(1,c2);return g;}catch(e){return"transparent";}}
 
   ic("c30",{type:"line",data:{labels:L30,datasets:[{data:L30V,borderColor:"#2dd4bf",borderWidth:2,pointRadius:0,fill:true,backgroundColor:gr("c30",220,"rgba(45,212,191,0.18)","rgba(45,212,191,0)"),tension:0.32}]},
@@ -1616,6 +1720,8 @@ function calc(){
 
   if(!kwh||kwh<=0){res.style.display="none";return;}
   res.style.display="block";
+  // v0.4 #15: scroll the result into view so user knows the calc completed
+  setTimeout(()=>{ try{ res.scrollIntoView({behavior:"smooth", block:"nearest"}); }catch(e){} }, 60);
 
   const factor = period.mean;             // period-restricted emission factor
   const co2 = kwh*factor/1e6;             // tCO2/month for this period
